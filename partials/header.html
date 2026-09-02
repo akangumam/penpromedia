@@ -1,0 +1,130 @@
+    
+    <style>
+        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        html { overflow-x: hidden; }
+        
+        /* Vertical Text for Sidebar */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        /* Custom Masonry-like Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        @media (min-width: 768px) {
+            .portfolio-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .portfolio-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+        .item-tall { grid-row: span 2; }
+        .item-wide { grid-column: span 2; }
+        .item-large { grid-column: span 2; grid-row: span 2; }
+        
+        .price-card {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover .overlay {
+            opacity: 0.7;
+        }
+
+        /* Header glassmorphism on scroll */
+        #main-header {
+            transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+        }
+        #main-header.scrolled {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Continuous Marquee Slider */
+        .marquee-container {
+            display: flex;
+            width: fit-content;
+            animation: marquee 30s linear infinite;
+        }
+        
+        .marquee-container:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
+
+    <!-- Left Vertical Social Bar -->
+    <aside class="fixed left-0 top-0 h-full w-12 border-r border-white/10 hidden md:flex flex-col items-center justify-center py-8 z-50 bg-dark-bg/50 backdrop-blur-sm">
+        <!-- Hamburger at top -->
+        <button @click="sidebarOpen = true" class="absolute top-8 text-white/50 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+
+        <!-- Social Icons + Labels — single row rotated -90deg -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); display: flex; flex-direction: row; align-items: center; gap: 16px; white-space: nowrap;">
+
+            <a href="https://www.instagram.com/penpromedia/" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="./instagram.svg" alt="Instagram" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">Instagram</span>
+            </a>
+
+            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #cfa670; flex-shrink: 0; display: inline-block;"></span>
+
+            <a href="https://www.tiktok.com/@penpromedia" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="./tiktok.svg" alt="TikTok" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">TikTok</span>
+            </a>
+
+            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #cfa670; flex-shrink: 0; display: inline-block;"></span>
+
+            <a href="https://www.facebook.com/penpro.media" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="./facebook.svg" alt="Facebook" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">Facebook</span>
+            </a>
+
+        </div>
+    </aside>
+
+    <!-- 1. Header / Navbar (Fixed, full viewport width) -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-40 px-6 md:pl-18 lg:pl-24 py-8 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="./penpromedia_logo.png" alt="Penpro Media Logo" class="h-12">
+            </a>
+            
+            <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold tracking-widest uppercase text-white/70">
+                <a href="#" class="text-gold border-b-2 border-gold pb-1">Beranda</a>
+                <a href="#about" class="hover:text-white transition-colors">Tentang</a>
+                <a href="#portfolio" class="hover:text-white transition-colors">Galeri</a>
+                <a href="#services" class="hover:text-white transition-colors">Layanan</a>
+                <a href="#contacts" class="hover:text-white transition-colors">Kontak</a>
+                <a href="https://wa.me/6285155256594" target="_blank" class="hover:text-white transition-colors">Pemesanan</a>
+                
+                <div class="flex items-center space-x-4 pl-4 border-l border-white/20">
+                    <button class="hover:text-gold transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    </button>
+                    <button class="hover:text-gold transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                </div>
+            </nav>
+
+            <button @click="sidebarOpen = true" class="lg:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+    </header>

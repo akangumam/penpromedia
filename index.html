@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penpro Media | Fotografi & Undangan Digital</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./penpromedia_favicon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#cfa670', // Matching the muted gold/copper from image
+                            hover: '#b58f5c',
+                        },
+                        dark: {
+                            bg: '#0a0a0a',
+                            surface: '#141414',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Jost', 'sans-serif'], // A clean, modern sans-serif like the image
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        html { overflow-x: hidden; }
+        
+        /* Vertical Text for Sidebar */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        /* Custom Masonry-like Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        @media (min-width: 768px) {
+            .portfolio-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .portfolio-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+        .item-tall { grid-row: span 2; }
+        .item-wide { grid-column: span 2; }
+        .item-large { grid-column: span 2; grid-row: span 2; }
+        
+        .price-card {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover .overlay {
+            opacity: 0.7;
+        }
+
+        /* Header glassmorphism on scroll */
+        #main-header {
+            transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+        }
+        #main-header.scrolled {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Continuous Marquee Slider */
+        .marquee-container {
+            display: flex;
+            width: fit-content;
+            animation: marquee 30s linear infinite;
+        }
+        
+        .marquee-container:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
+    {{> sidebar }}
+
+    {{> header }}
+
+    {{> hero }}
+
+    <!-- Main Content Wrapper (offset for sidebar) -->
+    <div class="md:ml-12">
+        {{> about }}
+        {{> portfolio }}
+        {{> services }}
+        {{> marquee }}
+        {{> footer }}
+    </div>
+
+    {{> offcanvas }}
+

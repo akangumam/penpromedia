@@ -1,0 +1,71 @@
+    <!-- 7. Off-canvas Vertical Sidebar Navigation -->
+    <div x-show="sidebarOpen" 
+         class="fixed inset-0 z-[60]"
+         style="display: none;">
+        
+        <!-- Backdrop -->
+        <div x-show="sidebarOpen"
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="sidebarOpen = false"
+             class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+        <!-- Sidebar Panel -->
+        <div x-show="sidebarOpen"
+             x-transition:enter="transition ease-in-out duration-300 transform"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in-out duration-300 transform" 
+             x-transition:leave-start="translate-x-0" 
+             x-transition:leave-end="-translate-x-full" 
+             class="absolute inset-y-0 left-0 max-w-md w-[85vw] md:w-full bg-dark-bg border-r border-white/10 shadow-2xl flex flex-col p-6 md:p-12 overflow-y-auto">
+            
+            <!-- Close Button -->
+            <button @click="sidebarOpen = false" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="mt-8 flex-1">
+                <!-- Brand / Logo -->
+                <img src="./penpromedia_logo.png" alt="Penpro Media" class="h-10 w-auto mb-12">
+
+                <!-- Navigation Links -->
+                <nav class="flex flex-col space-y-6 mb-16">
+                    <a href="#about" @click="sidebarOpen = false" class="text-2xl font-bold hover:text-gold transition-colors">Tentang Kami</a>
+                    <a href="#services" @click="sidebarOpen = false" class="text-2xl font-bold hover:text-gold transition-colors">Layanan</a>
+                    <a href="#portfolio" @click="sidebarOpen = false" class="text-2xl font-bold hover:text-gold transition-colors">Portofolio</a>
+                </nav>
+
+                <!-- Concept text -->
+                <div class="mb-12">
+                    <p class="text-white/50 text-sm leading-relaxed border-l-2 border-gold pl-4">
+                        Penpro Media bukan sekadar agensi dokumentasi. Kami adalah barisan orang-orang di balik lensa dan layar yang memastikan kenangan Anda tidak usang oleh zaman.
+                    </p>
+                </div>
+
+                <!-- Small Grid Photos -->
+                <div class="grid grid-cols-2 gap-2 mb-12">
+                    <img src="./slider_02_javanese_wedding.jpg" alt="Insta" class="w-full h-24 object-cover opacity-60 hover:opacity-100 transition-opacity rounded-sm">
+                    <img src="./slider_03_sundanese_wedding.jpg" alt="Insta" class="w-full h-24 object-cover opacity-60 hover:opacity-100 transition-opacity rounded-sm">
+                </div>
+            </div>
+
+            <!-- Bottom Contact / Social -->
+            <div class="pt-8 border-t border-white/10 mt-auto">
+                <a href="https://wa.me/6281234567890" target="_blank" class="block w-full py-4 text-center bg-gold hover:bg-gold-hover text-white text-xs font-bold tracking-widest uppercase transition-colors rounded-sm mb-6">
+                    Hubungi via WhatsApp
+                </a>
+                
+                <div class="flex justify-between items-center text-[10px] md:text-xs">
+                    <a href="https://www.instagram.com/penpromedia/" target="_blank" class="text-white/50 hover:text-gold transition-colors tracking-widest uppercase">IG</a>
+                    <a href="https://www.facebook.com/penpro.media" target="_blank" class="text-white/50 hover:text-gold transition-colors tracking-widest uppercase">FB</a>
+                    <a href="https://www.tiktok.com/@penpromedia" target="_blank" class="text-white/50 hover:text-gold transition-colors tracking-widest uppercase">TK</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
