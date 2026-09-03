@@ -1,143 +1,258 @@
 ---
 const { title } = Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="id" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
-    
+
     <!-- SEO & Open Graph Meta Tags -->
-    <meta name="description" content="Jasa fotografi & videografi profesional untuk pernikahan, pra-nikah, wisuda, dan undangan digital.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Penpro Media">
-    <meta property="og:url" content="https://penpromedia.web.id/">
-    <meta property="og:title" content="Penpromedia | Fotografi & Undangan Digital">
-    <meta property="og:description" content="Jasa fotografi & videografi profesional untuk pernikahan, pra-nikah, wisuda, dan undangan digital.">
-    <meta property="og:image" content="https://penpromedia.web.id/assets/img/og_share.jpg">
-    <meta property="og:image:type" content="image/jpeg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://penpromedia.web.id/">
-    <meta property="twitter:title" content="Penpromedia | Fotografi & Undangan Digital">
-    <meta property="twitter:description" content="Jasa fotografi & videografi profesional untuk pernikahan, pra-nikah, wisuda, dan undangan digital.">
-    <meta property="twitter:image" content="https://penpromedia.web.id/assets/img/og_share.jpg">
-    <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta
+      name="description"
+      content="Jasa fotografi & videografi profesional untuk pernikahan, pra-nikah, wisuda, dan undangan digital."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Penpro Media" />
+    <meta property="og:url" content="https://penpromedia.web.id/" />
+    <meta
+      property="og:title"
+      content="Penpromedia | Fotografi & Undangan Digital"
+    />
+    <meta
+      property="og:description"
+      content="Jasa fotografi & videografi profesional untuk pernikahan, pra-nikah, wisuda, dan undangan digital."
+    />
+    <meta
+      property="og:image"
+      content="https://penpromedia.web.id/assets/img/og_share.jpg"
+    />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://penpromedia.web.id/" />
+    <meta
+      property="twitter:title"
+      content="Penpromedia | Fotografi & Undangan Digital"
+    />
+    <meta
+      property="twitter:description"
+      content="Jasa fotografi & videografi profesional untuk pernikahan, pra-nikah, wisuda, dan undangan digital."
+    />
+    <meta
+      property="twitter:image"
+      content="https://penpromedia.web.id/assets/img/og_share.jpg"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/assets/img/penpromedia_favicon.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
     <script is:inline>
-        tailwind.config = { theme: { extend: { colors: { gold: { DEFAULT: '#cfa670', hover: '#b58f5c' }, dark: { bg: '#0a0a0a', surface: '#141414' } }, fontFamily: { sans: ['Jost', 'sans-serif'] } } } }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gold: { DEFAULT: "#cfa670", hover: "#b58f5c" },
+              dark: { bg: "#0a0a0a", surface: "#141414" },
+            },
+            fontFamily: { sans: ["Jost", "sans-serif"] },
+          },
+        },
+      };
     </script>
     <style>
-        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
-        html { overflow-x: hidden; }
-        .vertical-text { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        @media (min-width: 768px) { .portfolio-grid { grid-template-columns: repeat(4, 1fr); } }
-        @media (min-width: 1024px) { .portfolio-grid { grid-template-columns: repeat(5, 1fr); } }
-        .item-tall { grid-row: span 2; }
-        .item-wide { grid-column: span 2; }
-        .item-large { grid-column: span 2; grid-row: span 2; }
-        .price-card { transition: all 0.3s ease; }
-        .price-card:hover .overlay { opacity: 0.7; }
-        #main-header { transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease; }
-        #main-header.scrolled { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
-        .marquee-container { display: flex; width: fit-content; animation: marquee 30s linear infinite; }
-        .marquee-container:hover { animation-play-state: paused; }
-        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+      body {
+        background-color: #0a0a0a;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+      html {
+        overflow-x: hidden;
+      }
+      .vertical-text {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+      }
+      .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      @media (min-width: 768px) {
+        .portfolio-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      @media (min-width: 1024px) {
+        .portfolio-grid {
+          grid-template-columns: repeat(5, 1fr);
+        }
+      }
+      .item-tall {
+        grid-row: span 2;
+      }
+      .item-wide {
+        grid-column: span 2;
+      }
+      .item-large {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      .price-card {
+        transition: all 0.3s ease;
+      }
+      .price-card:hover .overlay {
+        opacity: 0.7;
+      }
+      #main-header {
+        transition:
+          background 0.4s ease,
+          backdrop-filter 0.4s ease,
+          border-color 0.4s ease;
+      }
+      #main-header.scrolled {
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .marquee-container {
+        display: flex;
+        width: fit-content;
+        animation: marquee 30s linear infinite;
+      }
+      .marquee-container:hover {
+        animation-play-state: paused;
+      }
+      @keyframes marquee {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
     </style>
-</head>
-<body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
+  </head>
+  <body
+    class="font-sans antialiased relative"
+    x-data="{ sidebarOpen: false }"
+    :class="{ 'overflow-hidden': sidebarOpen }"
+  >
     <slot />
 
     <!-- Back to Top Button -->
-    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 bg-gold text-dark-bg p-3 rounded-full opacity-0 pointer-events-none transition-opacity duration-300 z-50 shadow-[0_0_15px_rgba(207,166,112,0.4)] hover:bg-gold-hover">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    <button
+      id="backToTop"
+      onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+      class="fixed bottom-8 right-8 bg-gold text-dark-bg p-3 rounded-full opacity-0 pointer-events-none transition-opacity duration-300 z-50 shadow-[0_0_15px_rgba(207,166,112,0.4)] hover:bg-gold-hover"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        ><path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg
+      >
     </button>
 
     <script is:inline>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('section[id], footer[id]');
-            const navLinks = document.querySelectorAll('.nav-item');
-            const backToTop = document.getElementById('backToTop');
+      document.addEventListener("DOMContentLoaded", function () {
+        const sections = document.querySelectorAll("section[id], footer[id]");
+        const navLinks = document.querySelectorAll(".nav-item");
+        const backToTop = document.getElementById("backToTop");
 
-            const onScroll = () => {
-                let current = '';
-                const scrollY = window.scrollY;
+        const onScroll = () => {
+          let current = "";
+          const scrollY = window.scrollY;
 
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (scrollY >= sectionTop - 250) {
-                        current = section.getAttribute('id');
-                    }
-                });
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            if (scrollY >= sectionTop - 250) {
+              current = section.getAttribute("id");
+            }
+          });
 
-                // Jika sudah scroll sampai ujung paling bawah, aktifkan Kontak (footer)
-                if ((window.innerHeight + scrollY) >= document.body.offsetHeight - 50) {
-                    current = 'contacts';
-                }
+          // Jika sudah scroll sampai ujung paling bawah, aktifkan Kontak (footer)
+          if (window.innerHeight + scrollY >= document.body.offsetHeight - 50) {
+            current = "contacts";
+          }
 
-                if (scrollY < 300) {
-                    current = 'hero';
-                }
+          if (scrollY < 300) {
+            current = "hero";
+          }
 
-                if (scrollY > 500) {
-                    backToTop.classList.remove('opacity-0', 'pointer-events-none');
-                    backToTop.classList.add('opacity-100', 'pointer-events-auto');
-                } else {
-                    backToTop.classList.add('opacity-0', 'pointer-events-none');
-                    backToTop.classList.remove('opacity-100', 'pointer-events-auto');
-                }
+          if (scrollY > 500) {
+            backToTop.classList.remove("opacity-0", "pointer-events-none");
+            backToTop.classList.add("opacity-100", "pointer-events-auto");
+          } else {
+            backToTop.classList.add("opacity-0", "pointer-events-none");
+            backToTop.classList.remove("opacity-100", "pointer-events-auto");
+          }
 
-                navLinks.forEach(link => {
-                    link.classList.remove('text-gold', 'border-gold');
-                    link.classList.add('text-white/70', 'border-transparent');
-                    
-                    const href = link.getAttribute('href');
-                    if (href === '#' + current || (current === 'hero' && href === '#')) {
-                        link.classList.add('text-gold', 'border-gold');
-                        link.classList.remove('text-white/70', 'border-transparent');
-                    }
-                });
-            };
+          navLinks.forEach((link) => {
+            link.classList.remove("text-gold", "border-gold");
+            link.classList.add("text-white/70", "border-transparent");
 
-            window.addEventListener('scroll', onScroll, { passive: true });
-            // Initialize on load in case the page is already scrolled
-            onScroll();
+            const href = link.getAttribute("href");
+            if (
+              href === "#" + current ||
+              (current === "hero" && href === "#")
+            ) {
+              link.classList.add("text-gold", "border-gold");
+              link.classList.remove("text-white/70", "border-transparent");
+            }
+          });
+        };
 
-            // Intercept anchor clicks to prevent hash in URL
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const targetId = this.getAttribute('href');
-                    
-                    if (targetId === '#') {
-                        e.preventDefault();
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
-                        });
-                        history.replaceState(null, null, window.location.pathname);
-                        return;
-                    }
-                    
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        e.preventDefault();
-                        window.scrollTo({
-                            top: target.offsetTop,
-                            behavior: 'smooth'
-                        });
-                        // Hapus hash dari URL tanpa reload
-                        history.replaceState(null, null, window.location.pathname);
-                    }
-                });
-            });
+        window.addEventListener("scroll", onScroll, { passive: true });
+        // Initialize on load in case the page is already scrolled
+        onScroll();
+
+        // Intercept anchor clicks to prevent hash in URL
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            const targetId = this.getAttribute("href");
+
+            if (targetId === "#") {
+              e.preventDefault();
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+              history.replaceState(null, null, window.location.pathname);
+              return;
+            }
+
+            const target = document.querySelector(targetId);
+            if (target) {
+              e.preventDefault();
+              window.scrollTo({
+                top: target.offsetTop,
+                behavior: "smooth",
+              });
+              // Hapus hash dari URL tanpa reload
+              history.replaceState(null, null, window.location.pathname);
+            }
+          });
         });
+      });
     </script>
-</body>
+  </body>
 </html>
