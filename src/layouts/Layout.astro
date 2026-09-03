@@ -1,0 +1,41 @@
+---
+const { title } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { gold: { DEFAULT: '#cfa670', hover: '#b58f5c' }, dark: { bg: '#0a0a0a', surface: '#141414' } }, fontFamily: { sans: ['Jost', 'sans-serif'] } } } }
+    </script>
+    <style>
+        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        html { overflow-x: hidden; }
+        .vertical-text { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        @media (min-width: 768px) { .portfolio-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1024px) { .portfolio-grid { grid-template-columns: repeat(5, 1fr); } }
+        .item-tall { grid-row: span 2; }
+        .item-wide { grid-column: span 2; }
+        .item-large { grid-column: span 2; grid-row: span 2; }
+        .price-card { transition: all 0.3s ease; }
+        .price-card:hover .overlay { opacity: 0.7; }
+        #main-header { transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease; }
+        #main-header.scrolled { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+        .marquee-container { display: flex; width: fit-content; animation: marquee 30s linear infinite; }
+        .marquee-container:hover { animation-play-state: paused; }
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+    </style>
+</head>
+<body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
+    <slot />
+</body>
+</html>

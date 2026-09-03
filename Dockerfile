@@ -8,9 +8,7 @@ RUN npm install
 
 # Copy source files and build
 COPY . .
-# Compile Tailwind CSS
-RUN npm run build:css
-# Build HTML with Vite
+# Build HTML static files with Astro
 RUN npm run build
 
 # Stage 2: Serve the site using Nginx Alpine
