@@ -785,17 +785,8 @@
 })();
 </script>
 
-<!-- Off-Canvas Sidebar Menu -->
-    <div x-show="sidebarOpen" class="fixed inset-0 z-50 overflow-hidden" style="display: none;">
-        <!-- Backdrop -->
-        <div x-show="sidebarOpen" 
-             x-transition:enter="transition-opacity ease-linear duration-300" 
-             x-transition:enter-start="opacity-0" 
-
-    </div>
-
-        <!-- 7. Off-canvas Vertical Sidebar Navigation -->
-    <div x-show="sidebarOpen" 
+<!-- 7. Off-canvas Vertical Sidebar Navigation -->
+    <div x-show="sidebarOpen"
          class="fixed inset-0 z-[60]"
          style="display: none;">
         
@@ -880,20 +871,22 @@
             const navLinks = document.querySelectorAll('.nav-item');
             const backToTop = document.getElementById('backToTop');
 
-            window.addEventListener('scroll', () => {
+            const onScroll = () => {
                 let current = '';
+                const scrollY = window.scrollY;
+
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 250) {
+                    if (scrollY >= sectionTop - 250) {
                         current = section.getAttribute('id');
                     }
                 });
 
-                if (pageYOffset < 300) {
+                if (scrollY < 300) {
                     current = 'hero';
                 }
 
-                if (pageYOffset > 500) {
+                if (scrollY > 500) {
                     backToTop.classList.remove('opacity-0', 'pointer-events-none');
                     backToTop.classList.add('opacity-100', 'pointer-events-auto');
                 } else {
@@ -911,7 +904,11 @@
                         link.classList.remove('text-white/70', 'border-transparent');
                     }
                 });
-            });
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            // Initialize on load in case the page is already scrolled
+            onScroll();
         });
     </script>
 </body>
