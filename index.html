@@ -468,6 +468,10 @@
                     <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Pernikahan</p>
                     <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Foto & Video Pernikahan</h3>
                     <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Mulai Rp 1.500.000</p>
+<div class="mt-8 flex items-center text-[10px] text-white/40 font-semibold tracking-widest uppercase lg:hidden animate-pulse">
+    <span>Ketuk untuk detail</span>
+    <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+</div>
                 </div>
 
                 <!-- Hover Details -->
@@ -508,7 +512,7 @@
                         </ul>
                     </div>
                     
-                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Hubungi Sekarang</button>
+                    <a href="https://wa.me/6285155256594" target="_blank" class="mt-auto block text-center bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Hubungi Sekarang</a>
                 </div>
             </div>
 
@@ -522,6 +526,10 @@
                     <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Pra-Nikah</p>
                     <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Fotografi</h3>
                     <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Rp 1.700.000</p>
+<div class="mt-8 flex items-center text-[10px] text-white/40 font-semibold tracking-widest uppercase lg:hidden animate-pulse">
+    <span>Ketuk untuk detail</span>
+    <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+</div>
                 </div>
 
                 <!-- Hover Details -->
@@ -542,7 +550,7 @@
                         </ul>
                     </div>
                     
-                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Hubungi Kami</button>
+                    <a href="https://wa.me/6285155256594" target="_blank" class="mt-auto block text-center bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Hubungi Kami</a>
                 </div>
             </div>
 
@@ -556,6 +564,10 @@
                     <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Wisuda</p>
                     <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Sesi Foto</h3>
                     <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Mulai Rp 350.000</p>
+<div class="mt-8 flex items-center text-[10px] text-white/40 font-semibold tracking-widest uppercase lg:hidden animate-pulse">
+    <span>Ketuk untuk detail</span>
+    <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+</div>
                 </div>
 
                 <!-- Hover Details -->
@@ -571,7 +583,7 @@
                         </ul>
                     </div>
                     
-                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Informasi Booking</button>
+                    <a href="https://wa.me/6285155256594" target="_blank" class="mt-auto block text-center bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Informasi Booking</a>
                 </div>
             </div>
 
@@ -585,6 +597,10 @@
                     <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Website</p>
                     <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Undangan Digital</h3>
                     <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Mulai Rp 100.000</p>
+<div class="mt-8 flex items-center text-[10px] text-white/40 font-semibold tracking-widest uppercase lg:hidden animate-pulse">
+    <span>Ketuk untuk detail</span>
+    <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+</div>
                 </div>
 
                 <!-- Hover Details -->
@@ -609,7 +625,7 @@
                         </ul>
                     </div>
                     
-                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Buat Undangan</button>
+                    <a href="https://wa.me/6285155256594" target="_blank" class="mt-auto block text-center bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Buat Undangan</a>
                 </div>
             </div>
         </section>
@@ -881,6 +897,11 @@
                         current = section.getAttribute('id');
                     }
                 });
+
+                // Jika scroll sudah sampai mentok ke bawah, aktifkan Kontak (footer)
+                if ((window.innerHeight + scrollY) >= document.body.offsetHeight - 50) {
+                    current = 'contacts';
+                }
 
                 if (scrollY < 300) {
                     current = 'hero';
