@@ -251,13 +251,13 @@
                 <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia Logo" class="h-12">
             </a>
             
-            <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold tracking-widest uppercase text-white/70">
-                <a href="#" class="text-gold border-b-2 border-gold pb-1">Beranda</a>
-                <a href="#about" class="hover:text-white transition-colors">Tentang</a>
-                <a href="#portfolio" class="hover:text-white transition-colors">Galeri</a>
-                <a href="#services" class="hover:text-white transition-colors">Layanan</a>
-                <a href="#contacts" class="hover:text-white transition-colors">Kontak</a>
-                <a href="https://wa.me/6285155256594" target="_blank" class="hover:text-white transition-colors">Pemesanan</a>
+            <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold tracking-widest uppercase">
+                <a href="#" class="nav-item text-gold border-b-2 border-gold pb-1 transition-colors">Beranda</a>
+                <a href="#about" class="nav-item text-white/70 hover:text-white border-b-2 border-transparent pb-1 transition-colors">Tentang</a>
+                <a href="#portfolio" class="nav-item text-white/70 hover:text-white border-b-2 border-transparent pb-1 transition-colors">Galeri</a>
+                <a href="#services" class="nav-item text-white/70 hover:text-white border-b-2 border-transparent pb-1 transition-colors">Layanan</a>
+                <a href="#footer" class="nav-item text-white/70 hover:text-white border-b-2 border-transparent pb-1 transition-colors">Kontak</a>
+                <a href="https://wa.me/6285155256594" target="_blank" class="text-white/70 hover:text-white border-b-2 border-transparent pb-1 transition-colors">Pemesanan</a>
                 
                 <div class="flex items-center space-x-4 pl-4 border-l border-white/20">
                     <button class="hover:text-gold transition-colors">
@@ -917,3 +917,52 @@
     </div>
 
 
+
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 bg-gold text-dark-bg p-3 rounded-full opacity-0 pointer-events-none transition-opacity duration-300 z-50 shadow-[0_0_15px_rgba(207,166,112,0.4)] hover:bg-gold-hover">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-item');
+            const backToTop = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 250) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                if (pageYOffset < 300) {
+                    current = 'hero';
+                }
+
+                if (pageYOffset > 500) {
+                    backToTop.classList.remove('opacity-0', 'pointer-events-none');
+                    backToTop.classList.add('opacity-100', 'pointer-events-auto');
+                } else {
+                    backToTop.classList.add('opacity-0', 'pointer-events-none');
+                    backToTop.classList.remove('opacity-100', 'pointer-events-auto');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('text-gold', 'border-gold');
+                    link.classList.add('text-white/70', 'border-transparent');
+                    
+                    const href = link.getAttribute('href');
+                    if (href === '#' + current || (current === 'hero' && href === '#')) {
+                        link.classList.add('text-gold', 'border-gold');
+                        link.classList.remove('text-white/70', 'border-transparent');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
