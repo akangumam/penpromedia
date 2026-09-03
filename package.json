@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
     "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
-    "build": "vite build"
+    "build": "astro build"
   },
   "keywords": [],
   "author": "",
