@@ -1,3 +1,4 @@
+
 # Stage 1: Build the site using Node.js
 FROM node:22-alpine AS builder
 WORKDIR /app
@@ -17,10 +18,10 @@ FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # VERY IMPORTANT: Copy the assets folder so images don't 404 in production!
-COPY --from=builder /app/assets /usr/share/nginx/html/assets
 
 # Expose port 80
 EXPOSE 80
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
