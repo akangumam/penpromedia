@@ -16,6 +16,9 @@ FROM nginx:alpine
 # Copy the compiled output from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+# VERY IMPORTANT: Copy the assets folder so images don't 404 in production!
+COPY --from=builder /app/assets /usr/share/nginx/html/assets
+
 # Expose port 80
 EXPOSE 80
 
