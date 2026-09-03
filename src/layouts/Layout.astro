@@ -60,6 +60,11 @@ const { title } = Astro.props;
                     }
                 });
 
+                // Jika sudah scroll sampai ujung paling bawah, aktifkan Kontak (footer)
+                if ((window.innerHeight + scrollY) >= document.body.offsetHeight - 50) {
+                    current = 'contacts';
+                }
+
                 if (scrollY < 300) {
                     current = 'hero';
                 }
