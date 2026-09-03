@@ -13,7 +13,7 @@ const { title } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script>
+    <script is:inline>
         tailwind.config = { theme: { extend: { colors: { gold: { DEFAULT: '#cfa670', hover: '#b58f5c' }, dark: { bg: '#0a0a0a', surface: '#141414' } }, fontFamily: { sans: ['Jost', 'sans-serif'] } } } }
     </script>
     <style>
@@ -43,7 +43,7 @@ const { title } = Astro.props;
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
     </button>
 
-    <script>
+    <script is:inline>
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('section[id], footer[id]');
             const navLinks = document.querySelectorAll('.nav-item');
