@@ -37,5 +37,57 @@ const { title } = Astro.props;
 </head>
 <body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
     <slot />
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 bg-gold text-dark-bg p-3 rounded-full opacity-0 pointer-events-none transition-opacity duration-300 z-50 shadow-[0_0_15px_rgba(207,166,112,0.4)] hover:bg-gold-hover">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section[id], footer[id]');
+            const navLinks = document.querySelectorAll('.nav-item');
+            const backToTop = document.getElementById('backToTop');
+
+            const onScroll = () => {
+                let current = '';
+                const scrollY = window.scrollY;
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 250) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                if (scrollY < 300) {
+                    current = 'hero';
+                }
+
+                if (scrollY > 500) {
+                    backToTop.classList.remove('opacity-0', 'pointer-events-none');
+                    backToTop.classList.add('opacity-100', 'pointer-events-auto');
+                } else {
+                    backToTop.classList.add('opacity-0', 'pointer-events-none');
+                    backToTop.classList.remove('opacity-100', 'pointer-events-auto');
+                }
+
+                navLinks.forEach(link => {
+                    link.classList.remove('text-gold', 'border-gold');
+                    link.classList.add('text-white/70', 'border-transparent');
+                    
+                    const href = link.getAttribute('href');
+                    if (href === '#' + current || (current === 'hero' && href === '#')) {
+                        link.classList.add('text-gold', 'border-gold');
+                        link.classList.remove('text-white/70', 'border-transparent');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            // Initialize on load in case the page is already scrolled
+            onScroll();
+        });
+    </script>
 </body>
 </html>
