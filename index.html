@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penpromedia | Fotografi & Undangan Digital</title>
     
+    <!-- SEO & Open Graph Meta Tags -->
+    <meta name="description" content="Penpro Media menawarkan jasa fotografi dan videografi profesional untuk pernikahan, pra-nikah, sesi foto wisuda, dan pembuatan undangan digital.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://penpromedia.web.id/">
+    <meta property="og:title" content="Penpromedia | Fotografi & Undangan Digital">
+    <meta property="og:description" content="Jasa fotografi dan videografi profesional untuk momen terbaik Anda. Mulai dari pernikahan, pra-nikah, wisuda, hingga undangan digital.">
+    <meta property="og:image" content="https://penpromedia.web.id/assets/img/slider_02_javanese_wedding.jpg">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://penpromedia.web.id/">
+    <meta property="twitter:title" content="Penpromedia | Fotografi & Undangan Digital">
+    <meta property="twitter:description" content="Jasa fotografi dan videografi profesional untuk momen terbaik Anda. Mulai dari pernikahan, pra-nikah, wisuda, hingga undangan digital.">
+    <meta property="twitter:image" content="https://penpromedia.web.id/assets/img/slider_02_javanese_wedding.jpg">
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png">
     
@@ -930,6 +943,34 @@
             window.addEventListener('scroll', onScroll, { passive: true });
             // Initialize on load in case the page is already scrolled
             onScroll();
+
+            // Intercept anchor clicks to prevent hash in URL
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    
+                    if (targetId === '#') {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                        history.replaceState(null, null, window.location.pathname);
+                        return;
+                    }
+                    
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: target.offsetTop,
+                            behavior: 'smooth'
+                        });
+                        // Hapus hash dari URL tanpa reload
+                        history.replaceState(null, null, window.location.pathname);
+                    }
+                });
+            });
         });
     </script>
 </body>
