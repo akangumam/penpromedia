@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penpro Media | Fotografi & Undangan Digital</title>
+    <title>Penpromedia | Fotografi & Undangan Digital</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png">
@@ -109,20 +109,811 @@
     </style>
 </head>
 <body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
-    {{> sidebar }}
+    <!-- Left Vertical Social Bar -->
+    <aside class="fixed left-0 top-0 h-full w-12 border-r border-white/10 hidden md:flex flex-col items-center justify-center py-8 z-50 bg-dark-bg/50 backdrop-blur-sm">
+        <!-- Hamburger at top -->
+        <button @click="sidebarOpen = true" class="absolute top-8 text-white/50 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
 
-    {{> header }}
+        <!-- Social Icons + Labels — single row rotated -90deg -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); display: flex; flex-direction: row; align-items: center; gap: 16px; white-space: nowrap;">
 
-    {{> hero }}
+            <a href="https://www.instagram.com/penpromedia/" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="/assets/img/instagram.svg" alt="Instagram" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">Instagram</span>
+            </a>
+
+            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #cfa670; flex-shrink: 0; display: inline-block;"></span>
+
+            <a href="https://www.tiktok.com/@penpromedia" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="/assets/img/tiktok.svg" alt="TikTok" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">TikTok</span>
+            </a>
+
+            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #cfa670; flex-shrink: 0; display: inline-block;"></span>
+
+            <a href="https://www.facebook.com/penpro.media" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="/assets/img/facebook.svg" alt="Facebook" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">Facebook</span>
+            </a>
+
+        </div>
+    </aside>
+
+    
+
+        
+    <style>
+        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        html { overflow-x: hidden; }
+        
+        /* Vertical Text for Sidebar */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        /* Custom Masonry-like Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        @media (min-width: 768px) {
+            .portfolio-grid { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            .portfolio-grid { grid-template-columns: repeat(5, 1fr); }
+        }
+        .item-tall { grid-row: span 2; }
+        .item-wide { grid-column: span 2; }
+        .item-large { grid-column: span 2; grid-row: span 2; }
+        
+        .price-card {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover .overlay {
+            opacity: 0.7;
+        }
+
+        /* Header glassmorphism on scroll */
+        #main-header {
+            transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+        }
+        #main-header.scrolled {
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Continuous Marquee Slider */
+        .marquee-container {
+            display: flex;
+            width: fit-content;
+            animation: marquee 30s linear infinite;
+        }
+        
+        .marquee-container:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+    </style>
+</head>
+<body class="font-sans antialiased relative" x-data="{ sidebarOpen: false }" :class="{ 'overflow-hidden': sidebarOpen }">
+
+    <!-- Left Vertical Social Bar -->
+    <aside class="fixed left-0 top-0 h-full w-12 border-r border-white/10 hidden md:flex flex-col items-center justify-center py-8 z-50 bg-dark-bg/50 backdrop-blur-sm">
+        <!-- Hamburger at top -->
+        <button @click="sidebarOpen = true" class="absolute top-8 text-white/50 hover:text-white transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+
+        <!-- Social Icons + Labels — single row rotated -90deg -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg); display: flex; flex-direction: row; align-items: center; gap: 16px; white-space: nowrap;">
+
+            <a href="https://www.instagram.com/penpromedia/" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="/assets/img/instagram.svg" alt="Instagram" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">Instagram</span>
+            </a>
+
+            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #cfa670; flex-shrink: 0; display: inline-block;"></span>
+
+            <a href="https://www.tiktok.com/@penpromedia" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="/assets/img/tiktok.svg" alt="TikTok" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">TikTok</span>
+            </a>
+
+            <span style="width: 4px; height: 4px; border-radius: 50%; background-color: #cfa670; flex-shrink: 0; display: inline-block;"></span>
+
+            <a href="https://www.facebook.com/penpro.media" target="_blank" class="group flex flex-row items-center gap-[5px] opacity-40 hover:opacity-100 transition-opacity">
+                <img src="/assets/img/facebook.svg" alt="Facebook" style="width: 13px; height: 13px; filter: invert(1) brightness(2);">
+                <span class="text-[9px] tracking-[0.18em] text-white/70 group-hover:text-white uppercase font-medium transition-colors">Facebook</span>
+            </a>
+
+        </div>
+    </aside>
+
+    <!-- 1. Header / Navbar (Fixed, full viewport width) -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-40 px-6 md:pl-18 lg:pl-24 py-8 flex justify-between items-center">
+            <a href="#" class="flex items-center">
+                <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia Logo" class="h-12">
+            </a>
+            
+            <nav class="hidden lg:flex items-center space-x-8 text-xs font-semibold tracking-widest uppercase text-white/70">
+                <a href="#" class="text-gold border-b-2 border-gold pb-1">Beranda</a>
+                <a href="#about" class="hover:text-white transition-colors">Tentang</a>
+                <a href="#portfolio" class="hover:text-white transition-colors">Galeri</a>
+                <a href="#services" class="hover:text-white transition-colors">Layanan</a>
+                <a href="#contacts" class="hover:text-white transition-colors">Kontak</a>
+                <a href="https://wa.me/6285155256594" target="_blank" class="hover:text-white transition-colors">Pemesanan</a>
+                
+                <div class="flex items-center space-x-4 pl-4 border-l border-white/20">
+                    <button class="hover:text-gold transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    </button>
+                    <button class="hover:text-gold transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </button>
+                </div>
+            </nav>
+
+            <button @click="sidebarOpen = true" class="lg:hidden text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+    </header>
+
+
+        <!-- 2. Hero Section / Slider — true fullscreen, outside any offset wrapper -->
+    <section id="hero" class="relative h-screen w-full bg-black overflow-hidden">
+
+            <!-- Slides -->
+            <div id="slider-track" class="relative w-full h-full">
+
+                <!-- Slide 1 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-100" data-index="0">
+                    <img src="/assets/img/penromedia_herosection.avif" alt="Fotografer" class="w-full h-full object-cover object-[93%_center] md:object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0" data-index="1">
+                    <img src="/assets/img/slider_02_javanese_wedding.jpg" alt="Pernikahan Adat Jawa" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0" data-index="2">
+                    <img src="/assets/img/slider_03_sundanese_wedding.jpg" alt="Pernikahan Adat Sunda" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Slide 4 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0" data-index="3">
+                    <img src="/assets/img/slider_04_city_lights.jpg" alt="City Lights Photography" class="w-full h-full object-cover object-[65%_center] md:object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                </div>
+
+                <!-- Slide 5 -->
+                <div class="slide absolute inset-0 transition-opacity duration-1000 opacity-0" data-index="4">
+                    <img src="/assets/img/slider_05_strobist.jpg" alt="Strobist Photography" class="w-full h-full object-cover object-center">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/30 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                </div>
+
+            </div>
+
+            <!-- Content Overlay -->
+            <div class="absolute inset-0 flex items-end pb-24 md:pb-32 z-10">
+                <div class="px-6 md:pl-20 lg:pl-28 w-full">
+
+                    <!-- Slide Texts -->
+                    <div id="slide-texts" class="mb-8 min-h-[120px]">
+                        <div class="slide-text block" data-index="0">
+                            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight leading-tight">Kami Merekam Apa<br>yang Tak Bisa Diulang</h1>
+                            <p class="text-white/60 max-w-sm text-sm leading-relaxed">Dari sesi prewedding hingga undangan digital — setiap detail dirancang dengan niat, bukan sekadar dikerjakan.</p>
+                        </div>
+                        <div class="slide-text hidden" data-index="1">
+                            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight leading-tight">Sakralnya Adat Jawa,<br>Abadi dalam Lensa Kami</h1>
+                            <p class="text-white/60 max-w-sm text-sm leading-relaxed">Setiap detail kebaya dan beskap terekam utuh — karena momen seperti ini tak datang dua kali.</p>
+                        </div>
+                        <div class="slide-text hidden" data-index="2">
+                            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight leading-tight">Keanggunan Sunda,<br>Terasa dalam Setiap Frame</h1>
+                            <p class="text-white/60 max-w-sm text-sm leading-relaxed">Dari siger hingga senyum tulus — kami hadir bukan hanya sebagai fotografer, tapi saksi hari terbaik Anda.</p>
+                        </div>
+                        <div class="slide-text hidden" data-index="3">
+                            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight leading-tight">Gemerlap Lampu Kota,<br>Menyala Dalam Gelap</h1>
+                            <p class="text-white/60 max-w-sm text-sm leading-relaxed">Bermain dengan cahaya dan bayangan — menangkap harmoni sempurna antara subjek dan keindahan lanskap malam.</p>
+                        </div>
+                        <div class="slide-text hidden" data-index="4">
+                            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight leading-tight">Tajam dan Berkarakter<br>Lewat Teknik Strobist</h1>
+                            <p class="text-white/60 max-w-sm text-sm leading-relaxed">Bukan sekadar pencahayaan biasa. Kami mendesain cahaya untuk menciptakan dimensi dan mood sinematik di setiap jepretan.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center mb-14">
+                        <a href="#about" class="text-gold text-[10px] font-bold tracking-[0.2em] uppercase hover:text-white transition-all flex items-center">
+                            BACA LEBIH LANJUT <svg class="w-3 h-3 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+
+                    <!-- Slider Pagination with SVG Timer -->
+                    <div class="flex space-x-3 items-center" id="pagination">
+                    </div>
+
+                </div>
+            </div>
+    </section>
+
 
     <!-- Main Content Wrapper (offset for sidebar) -->
     <div class="md:ml-12">
-        {{> about }}
-        {{> portfolio }}
-        {{> services }}
-        {{> marquee }}
-        {{> footer }}
+                <!-- 3. About Section -->
+        <section id="about" class="py-24 px-6 lg:px-24 bg-dark-bg flex flex-col md:flex-row items-center gap-16">
+            <!-- Left: Circle Image -->
+            <div class="w-full md:w-1/2 flex justify-center relative">
+                <div class="w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden relative shadow-[0_0_50px_rgba(207,166,112,0.1)]">
+                    <img src="/assets/img/penpromedia_about.avif" alt="Photographer" class="w-full h-full object-cover object-top">
+                    <!-- Faint watermark text -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-7xl md:text-9xl font-bold text-white/10 tracking-tighter mix-blend-overlay">PENPRO</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Text Content -->
+            <div class="w-full md:w-1/2">
+                <p class="text-gold text-xs font-bold tracking-[0.2em] uppercase mb-4">Tentang Kami</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                    Lebih dari sekadar vendor,<br>kami adalah <span class="text-gold">teman cerita Anda.</span>
+                </h2>
+                <p class="text-white/60 text-sm leading-relaxed mb-10 max-w-lg">
+                    Bagi kami, pernikahan bukan sekadar proyek pekerjaan. Itu adalah hari bersejarah yang butuh dirasakan, sebelum akhirnya diabadikan. Penpromedia hadir untuk menemani langkah Anda—mulai dari merancang undangan digital yang berkesan, sampai mengamankan setiap tawa, tangis, dan pelukan di hari H. Kami ada di sana agar kelak, saat Anda melihat kembali foto-foto ini, rasanya persis hangatnya seperti hari itu.
+                </p>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 mb-10 border-t border-white/10 pt-8">
+                    <div>
+                        <p class="text-4xl text-gold font-light mb-2">140</p>
+                        <p class="text-xs text-white/50 font-semibold tracking-wider uppercase">Sesi Foto Selesai</p>
+                    </div>
+                    <div>
+                        <p class="text-4xl text-gold font-light mb-2">105</p>
+                        <p class="text-xs text-white/50 font-semibold tracking-wider uppercase">Undangan Dibuat</p>
+                    </div>
+                    <div>
+                        <p class="text-4xl text-gold font-light mb-2">230</p>
+                        <p class="text-xs text-white/50 font-semibold tracking-wider uppercase">Klien Bahagia</p>
+                    </div>
+                </div>
+                
+                <a href="#services" class="text-gold text-xs font-bold tracking-widest uppercase hover:text-white transition-all flex items-center">
+                    Layanan Kami <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </section>
+
+
+        <!-- 4. Latest Works / Portfolio -->
+        <section id="portfolio" class="py-20 bg-dark-bg border-t border-white/5">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-2">Karya <span class="text-gold">Terbaru</span></h2>
+                <div class="w-10 h-0.5 bg-gold mx-auto mb-8"></div>
+                
+                <!-- Filter -->
+                <style>
+                    .no-scrollbar::-webkit-scrollbar { display: none; }
+                    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+                </style>
+                <div class="flex overflow-x-auto md:flex-wrap justify-start md:justify-center gap-6 md:gap-6 text-[10px] md:text-xs font-bold tracking-widest uppercase text-white/50 px-6 md:px-0 whitespace-nowrap no-scrollbar snap-x snap-mandatory w-full max-w-full">
+                    <a href="#" class="text-gold border-b-2 border-gold pb-1 snap-start shrink-0">Semua</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1 snap-start shrink-0">Pernikahan</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1 snap-start shrink-0">Pra-Nikah</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1 snap-start shrink-0">Acara</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1 snap-start shrink-0">Undangan</a>
+                </div>
+            </div>
+
+            <!-- Dense Masonry Grid -->
+            <div class="px-2 md:px-6">
+                <div class="portfolio-grid">
+                    <!-- Column 1 -->
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/gallery_indo_1.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Detail Pernikahan Tradisional"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-tall"><img src="/assets/img/gallery_indo_2.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Pengantin Sunda Siger"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-large"><img src="/assets/img/gallery_indo_3.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Candi"></div>
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/slider_02_javanese_wedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Pernikahan Adat Jawa"></div>
+                    
+                    <!-- Column 2 -->
+                    <div class="relative group cursor-pointer overflow-hidden item-wide"><img src="/assets/img/slider_04_javanese_prewedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Jawa Klasik"></div>
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/gallery_indo_4.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Resepsi Malam Modern"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-tall"><img src="/assets/img/slider_05_sundanese_prewedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Sunda"></div>
+                    
+                    <!-- Column 3 -->
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/slider_04_city_lights.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="City Lights Couple"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-large"><img src="/assets/img/slider_05_strobist.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Strobist"></div>
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/slider_03_sundanese_wedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Sunda Wedding"></div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="text-gold text-xs font-bold tracking-widest uppercase hover:text-white transition-all flex items-center justify-center">
+                    Muat Lebih Banyak <svg class="w-4 h-4 ml-2 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </section>
+
+        
+                        <!-- Filter -->
+                <div class="flex flex-wrap justify-center gap-6 text-xs font-bold tracking-widest uppercase text-white/50">
+                    <a href="#" class="text-gold border-b-2 border-gold pb-1">Semua</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1">Pernikahan</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1">Pra-Nikah</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1">Acara</a>
+                    <a href="#" class="hover:text-white transition-colors pb-1">Undangan</a>
+                </div>
+            </div>
+
+            <!-- Dense Masonry Grid -->
+            <div class="px-2 md:px-6">
+                <div class="portfolio-grid">
+                    <!-- Column 1 -->
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/gallery_indo_1.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Detail Pernikahan Tradisional"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-tall"><img src="/assets/img/gallery_indo_2.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Pengantin Sunda Siger"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-large"><img src="/assets/img/gallery_indo_3.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Candi"></div>
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/slider_02_javanese_wedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Pernikahan Adat Jawa"></div>
+                    
+                    <!-- Column 2 -->
+                    <div class="relative group cursor-pointer overflow-hidden item-wide"><img src="/assets/img/slider_04_javanese_prewedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Jawa Klasik"></div>
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/gallery_indo_4.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Resepsi Malam Modern"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-tall"><img src="/assets/img/slider_05_sundanese_prewedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Sunda"></div>
+                    
+                    <!-- Column 3 -->
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/slider_04_city_lights.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="City Lights Couple"></div>
+                    <div class="relative group cursor-pointer overflow-hidden item-large"><img src="/assets/img/slider_05_strobist.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Prewedding Strobist"></div>
+                    <div class="relative group cursor-pointer overflow-hidden"><img src="/assets/img/slider_03_sundanese_wedding.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Sunda Wedding"></div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="text-gold text-xs font-bold tracking-widest uppercase hover:text-white transition-all flex items-center justify-center">
+                    Muat Lebih Banyak <svg class="w-4 h-4 ml-2 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- 5. Services / Pricing Cards -->
+        <!-- 5. Services / Pricing Cards -->
+        <section id="services" class="w-full flex flex-col lg:flex-row min-h-[600px] border-t border-white/10">
+            <!-- Card 1: WEDDING -->
+            <div class="relative w-full lg:w-1/4 min-h-[600px] lg:min-h-[700px] flex flex-col justify-center items-center p-6 lg:p-10 text-center price-card border-b lg:border-b-0 lg:border-r border-white/10 overflow-hidden cursor-pointer group">
+                <div class="absolute inset-0 bg-[url('/assets/img/slider_02_javanese_wedding.jpg')] bg-cover bg-center"></div>
+                <div class="absolute inset-0 bg-dark-bg/80 group-hover:bg-dark-bg/95 transition-colors duration-500"></div>
+                
+                <!-- Default State -->
+                <div class="relative z-10 flex flex-col items-center justify-center h-full w-full transform group-hover:opacity-0 group-hover:-translate-y-8 transition-all duration-500">
+                    <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Pernikahan</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Foto & Video Pernikahan</h3>
+                    <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Mulai Rp 1.500.000</p>
+                </div>
+
+                <!-- Hover Details -->
+                <div class="absolute inset-0 z-20 flex flex-col justify-center p-8 opacity-0 group-hover:opacity-100 transform translate-y-16 group-hover:translate-y-0 transition-all duration-700 text-left overflow-y-auto">
+                    
+                    <div class="mb-5 mt-32 lg:mt-48">
+                        <h4 class="text-gold font-bold mb-1 text-sm tracking-wider">PAKET SILVER <span class="text-white ml-2 text-xs">Rp 1.500.000</span></h4>
+                        <ul class="text-[11px] text-white/60 space-y-1 list-disc list-inside">
+                            <li>Liputan maksimal 8 jam</li>
+                            <li>Foto resolusi tinggi tanpa batas</li>
+                            <li>Galeri online (g.drive)</li>
+                            <li>50 foto digital yang diedit</li>
+                            <li>Album foto magnetik 10 sheet (22 hal)</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="text-gold font-bold mb-1 text-sm tracking-wider">PAKET MAGNETIK <span class="text-white ml-2 text-xs">Rp 2.500.000</span></h4>
+                        <ul class="text-[11px] text-white/60 space-y-1 list-disc list-inside">
+                            <li>Liputan foto & video max 10 jam</li>
+                            <li>1 fotografer & 1 videografer</li>
+                            <li>Video cinematik 2-4 menit</li>
+                            <li>100 foto digital yang diedit</li>
+                            <li>Album foto magnetik 10 sheet (22 hal)</li>
+                            <li>Free Flashdisk 8GB</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-5">
+                        <h4 class="text-gold font-bold mb-1 text-sm tracking-wider">PAKET KOLASE <span class="text-white ml-2 text-xs">Rp 3.500.000</span></h4>
+                        <ul class="text-[11px] text-white/60 space-y-1 list-disc list-inside">
+                            <li>Liputan foto & video max 10 jam</li>
+                            <li>1 fotografer & 1 videografer</li>
+                            <li>Video cinematik 2-4 menit</li>
+                            <li>200 foto digital yang diedit</li>
+                            <li>Album foto kolase full edit 10 sheet (22 hal)</li>
+                            <li>Free Flashdisk 8GB</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Hubungi Sekarang</button>
+                </div>
+            </div>
+
+            <!-- Card 2: PREWEDDING -->
+            <div class="relative w-full lg:w-1/4 min-h-[600px] lg:min-h-[700px] flex flex-col justify-center items-center p-6 lg:p-10 text-center price-card border-b lg:border-b-0 lg:border-r border-white/10 overflow-hidden cursor-pointer group">
+                <div class="absolute inset-0 bg-[url('/assets/img/slider_04_javanese_prewedding.jpg')] bg-cover bg-center"></div>
+                <div class="absolute inset-0 bg-dark-bg/80 group-hover:bg-dark-bg/95 transition-colors duration-500"></div>
+                
+                <!-- Default State -->
+                <div class="relative z-10 flex flex-col items-center justify-center h-full w-full transform group-hover:opacity-0 group-hover:-translate-y-8 transition-all duration-500">
+                    <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Pra-Nikah</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Fotografi</h3>
+                    <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Rp 1.700.000</p>
+                </div>
+
+                <!-- Hover Details -->
+                <div class="absolute inset-0 z-20 flex flex-col justify-center p-8 opacity-0 group-hover:opacity-100 transform translate-y-16 group-hover:translate-y-0 transition-all duration-700 text-left overflow-y-auto">
+                    
+                    <div class="mb-6 mt-32 lg:mt-48">
+                        <h4 class="text-gold font-bold mb-1 text-sm tracking-wider">HANYA FOTO</h4>
+                        <p class="text-white/40 text-[10px] mb-4 uppercase tracking-widest">Foto & Tata Rias (Mahsyaril Wedding)</p>
+                        <h5 class="text-white text-xs font-bold mb-2 tracking-widest uppercase">Termasuk:</h5>
+                        <ul class="text-xs text-white/60 space-y-2 list-disc list-inside">
+                            <li>3 jam sesi foto</li>
+                            <li>Set baju adat jawa / gaun</li>
+                            <li>Studio foto</li>
+                            <li>Foto resolusi tinggi tanpa batas</li>
+                            <li>50 foto digital yang diedit</li>
+                            <li>Galeri online (tautan g.drive)</li>
+                            <li>Cetak 40x60 = 2 + bingkai minimalis</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Hubungi Kami</button>
+                </div>
+            </div>
+
+            <!-- Card 3: GRADUATION -->
+            <div class="relative w-full lg:w-1/4 min-h-[600px] lg:min-h-[700px] flex flex-col justify-center items-center p-6 lg:p-10 text-center price-card border-b lg:border-b-0 lg:border-r border-white/10 overflow-hidden cursor-pointer group">
+                <div class="absolute inset-0 bg-[url('/assets/img/bg_graduation.png')] bg-cover bg-center"></div>
+                <div class="absolute inset-0 bg-dark-bg/80 group-hover:bg-dark-bg/95 transition-colors duration-500"></div>
+                
+                <!-- Default State -->
+                <div class="relative z-10 flex flex-col items-center justify-center h-full w-full transform group-hover:opacity-0 group-hover:-translate-y-8 transition-all duration-500">
+                    <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Wisuda</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Sesi Foto</h3>
+                    <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Mulai Rp 350.000</p>
+                </div>
+
+                <!-- Hover Details -->
+                <div class="absolute inset-0 z-20 flex flex-col justify-center p-8 opacity-0 group-hover:opacity-100 transform translate-y-16 group-hover:translate-y-0 transition-all duration-700 text-left overflow-y-auto">
+                    
+                    <div class="mb-6 mt-32 lg:mt-48">
+                        <h4 class="text-gold font-bold mb-4 text-sm tracking-wider">PAKET WISUDA</h4>
+                        <ul class="text-xs text-white/60 space-y-2 list-disc list-inside">
+                            <li>1 jam sesi foto</li>
+                            <li>File foto tanpa batas</li>
+                            <li>File digital via g.drive</li>
+                            <li>Gratis 50 foto editan</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="mt-auto bg-gold hover:bg-gold-hover text-white text-[10px] font-bold tracking-widest uppercase py-3 px-8 transition-colors w-full">Informasi Booking</button>
+                </div>
+            </div>
+
+            <!-- Card 4: UNDANGAN DIGITAL -->
+            <div class="relative w-full lg:w-1/4 min-h-[600px] lg:min-h-[700px] flex flex-col justify-center items-center p-6 lg:p-10 text-center price-card overflow-hidden cursor-pointer group">
+                <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')] bg-cover bg-center"></div>
+                <div class="absolute inset-0 bg-dark-bg/80 group-hover:bg-dark-bg/95 transition-colors duration-500"></div>
+                
+                <!-- Default State -->
+                <div class="relative z-10 flex flex-col items-center justify-center h-full w-full transform group-hover:opacity-0 group-hover:-translate-y-8 transition-all duration-500">
+                    <p class="text-xs font-bold tracking-[0.2em] uppercase text-white/70 mb-2">Website</p>
+                    <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">Undangan Digital</h3>
+                    <p class="text-gold text-sm tracking-widest font-semibold uppercase mt-4">Mulai Rp 100.000</p>
+                </div>
+
+                <!-- Hover Details -->
+                <div class="absolute inset-0 z-20 flex flex-col justify-center p-8 opacity-0 group-hover:opacity-100 transform translate-y-16 group-hover:translate-y-0 transition-all duration-700 text-left overflow-y-auto">
+                    
+                    <div class="mb-6 mt-32 lg:mt-48">
+                        <h4 class="text-gold font-bold mb-4 text-sm tracking-wider">PAKET UNDANGAN</h4>
+
+                                <img src="/assets/img/slider_02_javanese_wedding.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                        <div class="absolute inset-0 bg-dark-bg/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+                        <img src="/assets/img/gallery_indo_2.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+                        <img src="/assets/img/slider_04_city_lights.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+                        <img src="/assets/img/slider_04_javanese_prewedding.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+                        <img src="/assets/img/gallery_indo_4.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+
+                            </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+                        <img src="/assets/img/gallery_indo_3.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="h-full w-40 md:w-56 flex-shrink-0 relative group">
+                        <img src="/assets/img/slider_05_strobist.jpg" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Footer -->
+        <footer id="contacts" class="bg-dark-surface pt-16 pb-8 px-6 lg:px-24">
+            <!-- Top Social Links -->
+            <div class="flex justify-center space-x-8 border-b border-white/5 pb-10 mb-10 text-xs font-bold tracking-[0.2em] uppercase text-white/50">
+                <a href="https://www.facebook.com/penpro.media" target="_blank" class="hover:text-white transition-colors flex items-center">
+                    <img src="/assets/img/facebook.svg" class="w-4 h-4 mr-2" style="filter: invert(1) brightness(2);" alt="Facebook">
+                    Facebook
+                </a>
+                <a href="https://www.tiktok.com/@penpromedia" target="_blank" class="hover:text-white transition-colors flex items-center">
+                    <img src="/assets/img/tiktok.svg" class="w-4 h-4 mr-2" style="filter: invert(1) brightness(2);" alt="TikTok">
+                    TikTok
+                </a>
+                <a href="https://www.instagram.com/penpromedia/" target="_blank" class="hover:text-white transition-colors flex items-center">
+                    <img src="/assets/img/instagram.svg" class="w-4 h-4 mr-2" style="filter: invert(1) brightness(2);" alt="Instagram">
+                    Instagram
+                </a>
+            </div>
+
+            <!-- Footer Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Column 1 -->
+                <div>
+                    <!-- Logo Area -->
+                    <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia Logo" class="h-12 w-auto mb-6">
+                    
+                    <p class="text-white/60 text-sm leading-loose mb-8 max-w-sm">
+                        Lebih dari sekadar agensi visual. Kami hadir sebagai pendongeng untuk merekam momen sakral Anda melalui karya fotografi berkelas dan undangan digital yang elegan.
+                    </p>
+                    <button class="bg-[#d2a76f] hover:bg-gold-hover text-white text-xs font-bold tracking-widest uppercase py-3 px-8 transition-colors rounded-full">
+                        Mulai Sekarang
+                    </button>
+                </div>
+                
+                <!-- Column 2 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Foto Terbaru</h4>
+                    <div class="flex space-x-2">
+                        <img src="/assets/img/slider_02_javanese_wedding.jpg" alt="Thumb 1" class="w-20 h-20 object-cover cursor-pointer hover:opacity-80 transition-opacity">
+                        <img src="/assets/img/slider_04_city_lights.jpg" alt="Thumb 2" class="w-20 h-20 object-cover cursor-pointer hover:opacity-80 transition-opacity">
+                        <img src="/assets/img/slider_05_strobist.jpg" alt="Thumb 3" class="w-20 h-20 object-cover cursor-pointer hover:opacity-80 transition-opacity">
+                    </div>
+                </div>
+                
+                <!-- Column 3 -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Kontak</h4>
+                    <div class="space-y-2 text-sm text-white/70">
+                        <p><span class="text-white/40 uppercase text-xs tracking-wider">Telepon:</span> <a href="https://wa.me/6285155256594" target="_blank" class="hover:text-[#d2a76f] transition-colors">+62 85155256594</a></p>
+                        <p><span class="text-white/40 uppercase text-xs tracking-wider">Email:</span> <a href="mailto:hello@penpromedia.com" class="hover:text-[#d2a76f] transition-colors">hello@penpromedia.com</a></p>
+                    </div>
+                    <p class="text-xs text-white/30 mt-8">&copy; 2026 Penpromedia. Hak Cipta Dilindungi.</p>
+                </div>
+            </div>
+        </footer>
+
     </div>
 
-    {{> offcanvas }}
+<script>
+// ── Hero Slider with SVG Circular Timer ──────────────────────────────────────
+(function() {
+    const TOTAL    = 5;
+    const DURATION = 5000; // ms per slide
+    const CIRCUMFERENCE = 2 * Math.PI * 16; // r=16
+
+    let current   = 0;
+    let timer     = null;
+    let startTime = null;
+    let rafId     = null;
+
+    // Build pagination dots
+    const pag = document.getElementById('pagination');
+    for (let i = 0; i < TOTAL; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'relative w-10 h-10 flex items-center justify-center focus:outline-none';
+        btn.setAttribute('aria-label', 'Slide ' + (i + 1));
+        btn.innerHTML = `
+            <svg width="40" height="40" viewBox="0 0 40 40" class="absolute inset-0">
+                <circle cx="20" cy="20" r="16"
+                    fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                <circle cx="20" cy="20" r="16"
+                    fill="none" stroke="#cfa670" stroke-width="1.5"
+                    stroke-dasharray="${CIRCUMFERENCE}"
+                    stroke-dashoffset="${CIRCUMFERENCE}"
+                    stroke-linecap="round"
+                    transform="rotate(-90 20 20)"
+                    class="timer-ring"
+                    style="transition: none;"/>
+            </svg>
+            <span class="relative text-[9px] font-semibold tracking-wider"
+                  style="color: rgba(255,255,255,0.4)">${String(i+1).padStart(2,'0')}</span>
+        `;
+        btn.addEventListener('click', () => goTo(i));
+        pag.appendChild(btn);
+    }
+
+    const buttons = pag.querySelectorAll('button');
+    const slides  = document.querySelectorAll('.slide');
+    const texts   = document.querySelectorAll('.slide-text');
+
+    function setActive(idx) {
+        // Slides
+        slides.forEach((s, i) => {
+            s.style.opacity = i === idx ? '1' : '0';
+            s.style.zIndex  = i === idx ? '1' : '0';
+        });
+        // Texts
+        texts.forEach((t, i) => {
+            t.classList.toggle('hidden', i !== idx);
+            t.classList.toggle('block',  i === idx);
+        });
+        // Buttons
+        buttons.forEach((b, i) => {
+            const numEl = b.querySelector('span');
+            numEl.style.color = i === idx ? '#cfa670' : 'rgba(255,255,255,0.4)';
+        });
+    }
+
+    function getActiveRing() {
+        return buttons[current].querySelector('.timer-ring');
+    }
+
+    function startTimer() {
+        cancelAnimationFrame(rafId);
+        clearTimeout(timer);
+        startTime = performance.now();
+
+        // Reset all rings
+        buttons.forEach(b => {
+            b.querySelector('.timer-ring').style.strokeDashoffset = CIRCUMFERENCE;
+        });
+
+        function tick(now) {
+            const elapsed  = now - startTime;
+            const progress = Math.min(elapsed / DURATION, 1);
+            const offset   = CIRCUMFERENCE * (1 - progress);
+            getActiveRing().style.strokeDashoffset = offset;
+
+            if (progress < 1) {
+                rafId = requestAnimationFrame(tick);
+            } else {
+                goTo((current + 1) % TOTAL);
+            }
+        }
+        rafId = requestAnimationFrame(tick);
+    }
+
+    function goTo(idx) {
+        current = idx;
+        setActive(current);
+        startTimer();
+    }
+
+    // Init
+    goTo(0);
+})();
+</script>
+
+<script>
+// ── Header Glassmorphism on Scroll ───────────────────────────────────────────
+(function() {
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 80) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }, { passive: true });
+})();
+</script>
+
+<!-- Off-Canvas Sidebar Menu -->
+    <div x-show="sidebarOpen" class="fixed inset-0 z-50 overflow-hidden" style="display: none;">
+        <!-- Backdrop -->
+        <div x-show="sidebarOpen" 
+             x-transition:enter="transition-opacity ease-linear duration-300" 
+             x-transition:enter-start="opacity-0" 
+
+    </div>
+
+        <!-- 7. Off-canvas Vertical Sidebar Navigation -->
+    <div x-show="sidebarOpen" 
+         class="fixed inset-0 z-[60]"
+         style="display: none;">
+        
+        <!-- Backdrop -->
+        <div x-show="sidebarOpen"
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="sidebarOpen = false"
+             class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+
+        <!-- Sidebar Panel -->
+        <div x-show="sidebarOpen"
+             x-transition:enter="transition ease-in-out duration-300 transform"
+             x-transition:enter-start="-translate-x-full"
+             x-transition:enter-end="translate-x-0"
+             x-transition:leave="transition ease-in-out duration-300 transform" 
+             x-transition:leave-start="translate-x-0" 
+             x-transition:leave-end="-translate-x-full" 
+             class="absolute inset-y-0 left-0 max-w-md w-[85vw] md:w-full bg-dark-bg border-r border-white/10 shadow-2xl flex flex-col p-6 md:p-12 overflow-y-auto">
+            
+            <!-- Close Button -->
+            <button @click="sidebarOpen = false" class="absolute top-8 right-8 text-white/50 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="mt-8 flex-1">
+                <!-- Brand / Logo -->
+                <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia" class="h-10 w-auto mb-12">
+
+                <!-- Navigation Links -->
+                <nav class="flex flex-col space-y-6 mb-16">
+                    <a href="#about" @click="sidebarOpen = false" class="text-2xl font-bold hover:text-gold transition-colors">Tentang Kami</a>
+                    <a href="#services" @click="sidebarOpen = false" class="text-2xl font-bold hover:text-gold transition-colors">Layanan</a>
+                    <a href="#portfolio" @click="sidebarOpen = false" class="text-2xl font-bold hover:text-gold transition-colors">Portofolio</a>
+                </nav>
+
+                <!-- Concept text -->
+                <div class="mb-12">
+                    <p class="text-white/50 text-sm leading-relaxed border-l-2 border-gold pl-4">
+                        Penpromedia bukan sekadar agensi dokumentasi. Kami adalah barisan orang-orang di balik lensa dan layar yang memastikan kenangan Anda tidak usang oleh zaman.
+                    </p>
+                </div>
+
+                <!-- Small Grid Photos -->
+                <div class="grid grid-cols-2 gap-2 mb-12">
+                    <img src="/assets/img/slider_02_javanese_wedding.jpg" alt="Insta" class="w-full h-24 object-cover opacity-60 hover:opacity-100 transition-opacity rounded-sm">
+                    <img src="/assets/img/slider_03_sundanese_wedding.jpg" alt="Insta" class="w-full h-24 object-cover opacity-60 hover:opacity-100 transition-opacity rounded-sm">
+                </div>
+            </div>
+
+            <!-- Bottom Contact / Social -->
+            <div class="pt-8 border-t border-white/10 mt-auto">
+                <a href="https://wa.me/6281234567890" target="_blank" class="block w-full py-4 text-center bg-gold hover:bg-gold-hover text-white text-xs font-bold tracking-widest uppercase transition-colors rounded-sm mb-6">
+                    Hubungi via WhatsApp
+                </a>
+                
+                <div class="flex justify-between items-center text-[10px] md:text-xs">
+                    <a href="https://www.instagram.com/penpromedia/" target="_blank" class="text-white/50 hover:text-gold transition-colors tracking-widest uppercase">IG</a>
+                    <a href="https://www.facebook.com/penpro.media" target="_blank" class="text-white/50 hover:text-gold transition-colors tracking-widest uppercase">FB</a>
+                    <a href="https://www.tiktok.com/@penpromedia" target="_blank" class="text-white/50 hover:text-gold transition-colors tracking-widest uppercase">TK</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
