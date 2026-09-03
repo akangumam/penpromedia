@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "astro dev",
+    "build:astro": "astro build",
+    "preview": "astro preview",
     "build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
     "watch": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
     "build": "vite build"
@@ -12,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "astro": "^7.3.0",
     "tailwindcss": "^4.3.3",
     "vite": "^8.2.2"
   }
