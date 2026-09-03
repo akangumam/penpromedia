@@ -4,6 +4,9 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   // Static output (SSG) — default for Astro
   output: 'static',
+  build: {
+    format: 'file',
+  },
 
   // Dev server config
   server: {
