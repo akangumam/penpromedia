@@ -1,0 +1,446 @@
+---
+/**
+ * Admin Dashboard - Undangan Pernikahan
+ * Fitur: Lihat Ucapan & Hapus Ucapan
+ */
+---
+
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin RSVP - Risma & Azis</title>
+  <meta name="robots" content="noindex, nofollow" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com" is:inline></script>
+  <script is:inline>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            jawa: {
+              dark: '#2E2218',
+              darker: '#1F150F',
+              gold: '#D4AF37',
+              goldLight: '#E8C988',
+              cream: '#FDF6E3',
+              creamDark: '#EEDFCC'
+            }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            script: ['Great Vibes', 'cursive'],
+            sans: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <style is:inline>
+    body {
+      background-color: #2E2218;
+      color: #FDF6E3;
+    }
+    .vintage-box {
+      position: relative;
+      background: #FDF6E3;
+      border: 1px solid #D4AF37;
+    }
+    .vintage-box::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      pointer-events: none;
+    }
+    .btn-gold {
+      background: transparent;
+      border: 1px solid #D4AF37;
+      color: #D4AF37;
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      background: #D4AF37;
+      color: #2E2218;
+    }
+    .glass-panel {
+      background: rgba(46, 34, 24, 0.8);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.6); }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col relative overflow-x-hidden">
+
+  <!-- Background Pattern -->
+  <div class="fixed inset-0 z-[-1] opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0l30 30-30 30L0 30 30 0zm0 15L15 30l15 15 15-15-15-15zm0 10l5 5-5 5-5-5 5-5z\' fill=\'%23D4AF37\' fill-opacity=\'1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E');"></div>
+
+  <div class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex flex-col justify-center">
+    
+    <!-- HEADER -->
+    <div class="text-center mb-8 mt-4 sm:mb-10 sm:mt-8">
+      <h1 class="font-script text-4xl sm:text-5xl text-jawa-gold mb-1 sm:mb-2">Admin Dashboard</h1>
+      <p class="font-serif text-sm sm:text-lg text-jawa-cream/80 italic">Manajemen RSVP & Ucapan Tamu</p>
+    </div>
+
+    <!-- SECTION LOGIN -->
+    <div id="login-section" class="vintage-box max-w-md mx-auto w-full p-6 sm:p-10 shadow-2xl transition-all duration-500 transform">
+      <div class="text-center mb-8">
+        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-jawa-dark mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-jawa-dark">Akses Terkunci</h2>
+        <p class="font-sans text-[10px] sm:text-xs text-jawa-dark/60 mt-2 uppercase tracking-widest">Otorisasi Diperlukan</p>
+      </div>
+
+      <div class="space-y-6 relative z-10">
+        <div>
+          <input 
+            type="password" 
+            id="admin-password" 
+            placeholder="Masukkan Kata Sandi" 
+            class="w-full bg-transparent border-b border-jawa-dark/30 px-2 py-3 text-jawa-dark font-sans text-center text-sm sm:text-base focus:outline-none focus:border-jawa-dark transition-colors placeholder:text-jawa-dark/40"
+          />
+        </div>
+        <button 
+          id="btn-login"
+          class="w-full bg-jawa-dark text-jawa-cream py-3 font-sans text-[10px] sm:text-xs font-bold tracking-widest uppercase hover:bg-jawa-gold hover:text-jawa-dark transition-all duration-300 rounded-sm"
+          onclick="login()"
+        >
+          Buka Kunci
+        </button>
+        <p id="login-error" class="text-red-600 text-[10px] sm:text-xs text-center font-semibold hidden opacity-0 transition-opacity duration-300">Kata sandi tidak valid!</p>
+      </div>
+    </div>
+
+    <!-- SECTION DASHBOARD -->
+    <div id="dashboard-section" class="hidden opacity-0 transition-opacity duration-700 w-full flex-1 flex flex-col">
+      
+      <!-- Top Action Bar -->
+      <div class="flex flex-row justify-between items-center mb-4 sm:mb-6 gap-2">
+        <a href="/risma-azis" class="inline-flex items-center gap-1 sm:gap-2 text-jawa-gold hover:text-jawa-goldLight transition-colors font-sans text-[10px] sm:text-sm uppercase tracking-wider">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          Ke Undangan
+        </a>
+        
+        <button onclick="loadData()" class="btn-gold px-4 py-2 sm:px-6 sm:py-2 rounded-full font-sans text-[10px] sm:text-xs font-bold tracking-widest uppercase flex items-center gap-2 hover:scale-105">
+          <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          <span class="hidden sm:inline">Segarkan</span> Data
+        </button>
+      </div>
+
+      <!-- Table Container -->
+      <div class="glass-panel rounded-xl overflow-hidden shadow-2xl flex-1 flex flex-col relative border border-jawa-gold/20">
+        
+        <!-- Loading Overlay -->
+        <div id="loading" class="absolute inset-0 z-10 bg-jawa-darker/80 backdrop-blur-sm flex flex-col items-center justify-center hidden">
+          <svg class="w-8 h-8 sm:w-10 sm:h-10 text-jawa-gold animate-spin mb-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <p class="font-sans text-jawa-gold text-[10px] sm:text-xs tracking-widest uppercase">Memuat Data...</p>
+        </div>
+
+        <div class="overflow-x-auto flex-1">
+          <table class="w-full text-left border-collapse min-w-[600px]">
+            <thead>
+              <tr class="bg-jawa-darker/90 border-b border-jawa-gold/30">
+                <th class="p-4 sm:p-5 font-serif text-jawa-gold tracking-wider text-xs sm:text-sm font-medium w-1/4 whitespace-nowrap">Nama Tamu</th>
+                <th class="p-4 sm:p-5 font-serif text-jawa-gold tracking-wider text-xs sm:text-sm font-medium w-1/6 whitespace-nowrap">Kehadiran</th>
+                <th class="p-4 sm:p-5 font-serif text-jawa-gold tracking-wider text-xs sm:text-sm font-medium w-auto">Pesan & Do'a</th>
+                <th class="p-4 sm:p-5 font-serif text-jawa-gold tracking-wider text-xs sm:text-sm font-medium w-24 text-center whitespace-nowrap">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="table-body" class="divide-y divide-jawa-gold/10 bg-jawa-dark/50">
+              <!-- Data -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Custom Confirm Modal -->
+  <div id="confirm-modal" class="fixed inset-0 z-[9999] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-jawa-darker/80 backdrop-blur-sm transition-opacity" onclick="closeConfirmModal()"></div>
+    
+    <!-- Modal Content -->
+    <div id="confirm-modal-content" class="vintage-box relative z-10 w-[90%] max-w-sm p-6 sm:p-8 transform scale-95 transition-transform duration-300 shadow-2xl rounded-lg border-red-900/50">
+      <div class="text-center">
+        <div class="w-14 h-14 rounded-full bg-red-900/20 border border-red-500/30 flex items-center justify-center mx-auto mb-5 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+          <svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        </div>
+        <h3 class="font-serif text-xl text-jawa-dark font-bold mb-2">Hapus Ucapan?</h3>
+        <p class="font-sans text-xs text-jawa-dark/70 mb-8 leading-relaxed">Tindakan ini tidak dapat dibatalkan. Ucapan akan dihapus secara permanen dari daftar tamu.</p>
+        
+        <div class="flex items-center justify-center gap-4">
+          <button onclick="closeConfirmModal()" class="flex-1 px-4 py-3 rounded font-sans text-[10px] font-bold uppercase tracking-widest text-jawa-dark border border-jawa-dark/30 hover:bg-jawa-dark hover:text-jawa-cream transition-colors">
+            Batal
+          </button>
+          <button id="confirm-delete-btn" class="flex-1 px-4 py-3 rounded font-sans text-[10px] font-bold uppercase tracking-widest text-white bg-red-600 hover:bg-red-700 shadow-lg shadow-red-600/30 transition-colors">
+            Ya, Hapus
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 z-[9999] bg-jawa-darker text-jawa-gold border border-jawa-gold px-6 py-3 rounded-lg shadow-[0_10px_30px_rgba(0,0,0,0.5)] font-sans text-sm tracking-wide transition-all duration-300 opacity-0 -translate-y-5 pointer-events-none flex items-center gap-3">
+    <span id="toast-icon"></span>
+    <span id="toast-msg">Notifikasi</span>
+  </div>
+
+  <script is:inline>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5NE-CQaPFJhlSxb6CQEdyJBZxq-SLzQF5uiBG887X0EcdPqDMqG-DAgsqBlfZXBpOvw/exec';
+    let savedPassword = '';
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      const toastIcon = document.getElementById('toast-icon');
+      
+      toastMsg.textContent = message;
+      
+      if (type === 'error') {
+        toast.className = 'fixed top-10 left-1/2 -translate-x-1/2 z-[9999] bg-red-950/90 text-red-200 border border-red-500/50 px-6 py-3 rounded-lg shadow-2xl font-sans text-sm tracking-wide transition-all duration-300 pointer-events-none flex items-center gap-3 backdrop-blur-md';
+        toastIcon.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+      } else if (type === 'success') {
+        toast.className = 'fixed top-10 left-1/2 -translate-x-1/2 z-[9999] bg-emerald-950/90 text-emerald-200 border border-emerald-500/50 px-6 py-3 rounded-lg shadow-2xl font-sans text-sm tracking-wide transition-all duration-300 pointer-events-none flex items-center gap-3 backdrop-blur-md';
+        toastIcon.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+      } else {
+        toast.className = 'fixed top-10 left-1/2 -translate-x-1/2 z-[9999] bg-jawa-darker/95 text-jawa-gold border border-jawa-gold/50 px-6 py-3 rounded-lg shadow-2xl font-sans text-sm tracking-wide transition-all duration-300 pointer-events-none flex items-center gap-3 backdrop-blur-md';
+        toastIcon.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+      }
+
+      toast.classList.remove('opacity-0', '-translate-y-5');
+      setTimeout(() => toast.classList.add('opacity-0', '-translate-y-5'), 3000);
+    }
+
+    function formatDate(isoStr) {
+      if (!isoStr) return '';
+      const date = new Date(isoStr);
+      return date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ' - ' + 
+             date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    async function login() {
+      const passInput = document.getElementById('admin-password');
+      const pass = passInput.value;
+      const errorMsg = document.getElementById('login-error');
+      const btnLogin = document.getElementById('btn-login');
+      
+      if (!pass) {
+        errorMsg.textContent = 'Kata sandi tidak boleh kosong';
+        errorMsg.classList.remove('hidden');
+        setTimeout(() => errorMsg.classList.remove('opacity-0'), 10);
+        return;
+      }
+
+      // Tampilkan state loading
+      const originalBtnText = btnLogin.innerHTML;
+      btnLogin.innerHTML = '<svg class="w-4 h-4 animate-spin mx-auto" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+      btnLogin.disabled = true;
+      errorMsg.classList.add('opacity-0');
+      
+      try {
+        // Trik verifikasi password tanpa harus mengubah Apps Script:
+        // Kirim request delete dengan timestamp palsu. Jika password benar, server akan balas "Ucapan tidak ditemukan."
+        // Jika salah, server membalas "Password salah!"
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'delete',
+            timestamp: 'verify-only',
+            password: pass
+          })
+        });
+        
+        const json = await res.json();
+        
+        if (json.message === 'Password salah!') {
+          errorMsg.textContent = 'Kata sandi tidak valid!';
+          errorMsg.classList.remove('hidden');
+          setTimeout(() => errorMsg.classList.remove('opacity-0'), 10);
+          btnLogin.innerHTML = originalBtnText;
+          btnLogin.disabled = false;
+          passInput.value = ''; // Reset input
+          passInput.focus();
+          return;
+        }
+        
+        // Password benar
+        savedPassword = pass;
+        
+        // Transisi Halus
+        const loginSection = document.getElementById('login-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        
+        loginSection.classList.add('opacity-0', 'scale-95');
+        
+        setTimeout(() => {
+          loginSection.classList.add('hidden');
+          dashboardSection.classList.remove('hidden');
+          setTimeout(() => dashboardSection.classList.remove('opacity-0'), 50);
+          loadData();
+        }, 500);
+
+      } catch (err) {
+        errorMsg.textContent = 'Terjadi kesalahan jaringan.';
+        errorMsg.classList.remove('hidden');
+        setTimeout(() => errorMsg.classList.remove('opacity-0'), 10);
+      } finally {
+        btnLogin.innerHTML = originalBtnText;
+        btnLogin.disabled = false;
+      }
+    }
+
+    document.getElementById('admin-password').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') login();
+    });
+
+    async function loadData() {
+      const tbody = document.getElementById('table-body');
+      const loading = document.getElementById('loading');
+      
+      loading.classList.remove('hidden');
+
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=getAll`, { cache: 'no-store' });
+        const json = await res.json();
+        
+        tbody.innerHTML = '';
+
+        if (json.data && json.data.length > 0) {
+          json.data.forEach(entry => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-jawa-gold/5 transition-colors group';
+            
+            const isHadir = entry.kehadiran === 'Hadir';
+            const badgeClass = isHadir 
+              ? 'bg-emerald-900/40 text-emerald-400 border border-emerald-700/40' 
+              : 'bg-red-900/40 text-red-400 border border-red-800/40';
+            const badgeIcon = isHadir ? '✅' : '❌';
+
+            tr.innerHTML = `
+              <td class="p-4 sm:p-5 align-top">
+                <p class="font-sans font-semibold text-jawa-cream whitespace-nowrap">${entry.nama}</p>
+                <p class="font-sans text-[10px] text-jawa-cream/40 mt-1">${formatDate(entry.timestamp)}</p>
+              </td>
+              <td class="p-4 sm:p-5 align-top">
+                <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-sans font-semibold uppercase tracking-widest ${badgeClass} whitespace-nowrap">
+                  ${badgeIcon} ${entry.kehadiran}
+                </span>
+              </td>
+              <td class="p-4 sm:p-5 align-top">
+                <p class="font-sans text-xs sm:text-sm text-jawa-cream/80 leading-relaxed min-w-[200px]">${entry.ucapan}</p>
+              </td>
+              <td class="p-4 sm:p-5 align-top text-center">
+                <button 
+                  onclick="openConfirmModal('${entry.timestamp}')"
+                  class="text-red-400/70 hover:text-red-400 hover:bg-red-500/10 p-2 sm:p-2.5 rounded-full transition-all duration-300 opacity-70 sm:opacity-50 group-hover:opacity-100 focus:opacity-100"
+                  title="Hapus Ucapan"
+                >
+                  <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } else {
+          tbody.innerHTML = `<tr><td colspan="4" class="p-12 text-center text-jawa-gold/50 font-sans italic text-sm">Belum ada data ucapan tamu.</td></tr>`;
+        }
+
+      } catch (err) {
+        showToast('Gagal terhubung ke server', 'error');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+
+    let entryToDelete = null;
+
+    function openConfirmModal(timestamp) {
+      entryToDelete = timestamp;
+      const modal = document.getElementById('confirm-modal');
+      const content = document.getElementById('confirm-modal-content');
+      
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      content.classList.remove('scale-95');
+    }
+
+    function closeConfirmModal() {
+      entryToDelete = null;
+      const modal = document.getElementById('confirm-modal');
+      const content = document.getElementById('confirm-modal-content');
+      
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      content.classList.add('scale-95');
+    }
+
+    document.getElementById('confirm-delete-btn').addEventListener('click', () => {
+      if (entryToDelete) {
+        executeDelete(entryToDelete);
+        closeConfirmModal();
+      }
+    });
+
+    async function executeDelete(timestamp) {
+      const loading = document.getElementById('loading');
+      loading.classList.remove('hidden');
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            action: 'delete',
+            timestamp: timestamp,
+            password: savedPassword
+          })
+        });
+        
+        const json = await res.json();
+        
+        if (json.status === 'success') {
+          showToast('Ucapan berhasil dihapus!', 'success');
+          loadData(); 
+        } else {
+          showToast(json.message || 'Gagal menghapus', 'error');
+          // Jika salah password, keluarkan ke halaman login
+          if (json.message === 'Password salah!') {
+            document.getElementById('dashboard-section').classList.add('opacity-0');
+            setTimeout(() => {
+              document.getElementById('dashboard-section').classList.add('hidden');
+              document.getElementById('login-section').classList.remove('hidden');
+              setTimeout(() => {
+                document.getElementById('login-section').classList.remove('opacity-0', 'scale-95');
+                const errorMsg = document.getElementById('login-error');
+                errorMsg.textContent = 'Akses ditolak. Sesi Anda diakhiri.';
+                errorMsg.classList.remove('hidden');
+                setTimeout(() => errorMsg.classList.remove('opacity-0'), 10);
+              }, 50);
+            }, 500);
+          }
+        }
+      } catch (err) {
+        showToast('Terjadi kesalahan jaringan', 'error');
+      } finally {
+        loading.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

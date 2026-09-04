@@ -1,0 +1,394 @@
+---
+/**
+ * Global Link Generator - Penpromedia
+ * URL: /buku-tamu/?id=klien-id
+ */
+---
+<!doctype html>
+<html lang="id" class="bg-[#0a0a0a]">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Link Generator - Penpromedia</title>
+  
+  <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png" />
+
+  <!-- Google Fonts: Jost (Penpromedia Brand) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com" is:inline></script>
+  <script is:inline>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#cfa670',
+              goldHover: '#b58f5c',
+              bg: '#0a0a0a',
+              surface: '#141414',
+            }
+          },
+          fontFamily: {
+            sans: ['Jost', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <style is:inline>
+    /* Toast Animation */
+    .toast-enter { transform: translateY(0); opacity: 1; }
+    .toast-leave { transform: translateY(-20px); opacity: 0; }
+    
+    /* Custom Scrollbar for Textarea */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #cfa670; }
+  </style>
+</head>
+<body class="font-sans text-white/80 min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black">
+
+  <!-- Header -->
+  <header class="text-center py-12 border-b border-white/10 bg-brand-bg/50 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <!-- Logo -->
+        <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia Logo" class="h-10 sm:h-12 object-contain" />
+        
+        <!-- Divider -->
+        <div class="h-10 w-[1px] bg-white/20 hidden sm:block"></div>
+        
+        <div class="text-left hidden sm:block">
+          <h1 class="text-xl font-bold tracking-wider text-white uppercase">Link Generator</h1>
+          <p class="text-xs tracking-widest text-brand-gold uppercase mt-1">Sistem Penpromedia</p>
+        </div>
+      </div>
+      <div id="client-badge" class="hidden px-4 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-xs font-medium tracking-wide">
+        Client: <span id="display-client-id" class="font-bold ml-1"></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+    
+    <!-- State: Error ID Missing -->
+    <div id="error-state" class="hidden text-center py-20">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-900/20 text-red-500 mb-6 border border-red-900/50">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      </div>
+      <h2 class="text-2xl font-bold text-white mb-3">ID Klien Tidak Ditemukan</h2>
+      <p class="text-white/60 max-w-md mx-auto">Parameter ID klien pada URL diperlukan untuk men-generate link undangan. <br/><br/>Format yang benar:<br/><code class="bg-brand-surface px-3 py-1 rounded text-brand-gold border border-white/10 mt-2 inline-block">?id=nama-klien</code></p>
+    </div>
+
+    <!-- State: Main Generator -->
+    <div id="main-state" class="hidden">
+
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        
+        <!-- Sidebar / Guidelines -->
+        <aside class="w-full lg:w-1/3 bg-brand-surface rounded-xl border border-white/5 p-6 shadow-2xl">
+          <h3 class="font-semibold text-white text-lg mb-6 tracking-wide flex items-center gap-2">
+            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            Panduan Penggunaan
+          </h3>
+          
+          <div class="space-y-4">
+            <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+              <h4 class="text-sm font-medium text-brand-gold mb-2">1. Masukkan Nama Tamu</h4>
+              <p class="text-xs text-white/60 leading-relaxed">Ketik atau <i>copy-paste</i> nama tamu di kolom yang disediakan. Pastikan setiap nama berada di baris baru (dipisah dengan Enter).</p>
+            </div>
+            
+            <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+              <h4 class="text-sm font-medium text-brand-gold mb-2">2. Pilih Teks Pengantar</h4>
+              <p class="text-xs text-white/60 leading-relaxed">Pilih <i>template</i> pesan yang sesuai. Sistem akan otomatis mengganti tulisan <code class="text-white bg-black px-1 rounded">[nama-tamu]</code> dan <code class="text-white bg-black px-1 rounded">[link-undangan]</code>.</p>
+            </div>
+
+            <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+              <h4 class="text-sm font-medium text-brand-gold mb-2">3. Generate & Bagikan</h4>
+              <p class="text-xs text-white/60 leading-relaxed">Klik tombol Generate. Anda bisa langsung mengirim pesan ke tamu satu per satu menggunakan tombol WhatsApp yang tersedia.</p>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Form -->
+        <div class="w-full lg:w-2/3">
+          <div class="bg-brand-surface rounded-xl border border-white/5 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <!-- Decorative gradient -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 blur-[100px] pointer-events-none"></div>
+
+            <div class="mb-6 relative z-10">
+              <label class="block font-medium text-white text-sm mb-3">Daftar Nama Tamu</label>
+              <textarea 
+                id="guest-names-input" 
+                rows="6" 
+                class="w-full bg-black/50 border border-white/10 rounded-lg p-4 text-sm text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold resize-y transition-colors placeholder:text-white/20"
+                placeholder="Bapak Budi & Keluarga&#10;Siti Aisyah&#10;John Doe"
+              ></textarea>
+            </div>
+
+            <div class="mb-6 relative z-10">
+              <div class="flex items-center justify-between mb-3">
+                <label class="block font-medium text-white text-sm">Opsi Teks Pengantar</label>
+                <select id="template-selector" onchange="changeTemplate()" class="bg-black/50 border border-white/10 rounded-md py-1.5 px-3 text-xs text-white/80 focus:outline-none focus:border-brand-gold hover:border-white/30 transition-colors cursor-pointer">
+                  <option value="formal">Undangan Formal (Default)</option>
+                  <option value="santai">Undangan Santai / Akrab</option>
+                  <option value="tanpa_gelar">Undangan Tanpa Gelar</option>
+                </select>
+              </div>
+
+              <textarea 
+                id="message-template" 
+                rows="8" 
+                class="w-full bg-black/50 border border-white/10 rounded-lg p-4 text-sm text-white/80 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold resize-y transition-colors leading-relaxed"
+              ></textarea>
+            </div>
+
+            <div class="relative z-10 pt-2 border-t border-white/5">
+              <button 
+                type="button"
+                onclick="generateLinks()"
+                class="w-full sm:w-auto bg-brand-gold hover:bg-brand-goldHover text-black font-semibold py-3 px-8 rounded-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                Generate Link Tamu
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Generated Results Table -->
+          <div id="results-container" class="mt-8 bg-brand-surface rounded-xl border border-white/5 shadow-2xl overflow-hidden hidden">
+            <div class="bg-black/40 px-6 py-4 border-b border-white/5 flex items-center justify-between">
+              <h4 class="font-semibold text-white tracking-wide">Hasil Generate</h4>
+              <span id="total-guests" class="text-xs bg-brand-gold/10 text-brand-gold px-2 py-1 rounded border border-brand-gold/20">0 Tamu</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm whitespace-nowrap">
+                <thead>
+                  <tr class="bg-black/20 border-b border-white/5">
+                    <th class="p-4 font-medium text-white/40 w-12 text-center text-xs tracking-wider">#</th>
+                    <th class="p-4 font-medium text-white/60 text-xs tracking-wider">NAMA TAMU</th>
+                    <th class="p-4 font-medium text-white/60 text-right pr-6 text-xs tracking-wider">AKSI</th>
+                  </tr>
+                </thead>
+                <tbody id="results-tbody" class="divide-y divide-white/5">
+                  <!-- Generated rows will be here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-auto py-8 text-center border-t border-white/5 bg-brand-surface">
+    <p class="text-xs text-white/40 tracking-wider">COPYRIGHT &copy; 2026 PENPROMEDIA. ALL RIGHTS RESERVED.</p>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-brand-gold text-black px-6 py-3 rounded-full shadow-[0_0_20px_rgba(207,166,112,0.3)] text-sm font-semibold transition-all duration-300 toast-leave pointer-events-none flex items-center gap-2">
+    <span id="toast-msg">Copied!</span>
+  </div>
+
+  <script is:inline>
+    // State variables
+    let clientId = '';
+    let baseUrl = '';
+
+    const TEMPLATES = {
+      formal: `Bismillahirahmanirrahim.
+Assalamu'alaikum Warahmatullahi Wabarakatuh.
+
+Tanpa mengurangi rasa hormat, izinkan kami mengundang Bapak/Ibu/Saudara/i:
+
+*[nama-tamu]*
+
+Untuk hadir dan memberikan doa restu pada acara pernikahan kami.
+
+Detail acara dan informasi lengkap dapat dilihat melalui tautan undangan berikut:
+[link-undangan]
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir di hari bahagia kami.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh.`,
+
+      santai: `Halo *[nama-tamu]*! 👋
+
+Semoga kabarmu selalu baik ya. 
+Dengan penuh rasa syukur dan bahagia, kami bermaksud mengundang kamu untuk hadir di momen spesial pernikahan kami.
+
+Silakan buka link undangan di bawah ini untuk melihat detail acaranya:
+[link-undangan]
+
+Kehadiran dan doa restumu akan menjadi kado terindah bagi kami. Ditunggu kedatangannya ya! 😊`,
+
+      tanpa_gelar: `Bismillahirahmanirrahim.
+Assalamu'alaikum Warahmatullahi Wabarakatuh.
+
+Tanpa mengurangi rasa hormat, izinkan kami mengundang:
+
+*[nama-tamu]*
+
+Untuk hadir dan memberikan doa restu pada acara pernikahan kami.
+
+Informasi lengkap mengenai acara dapat dilihat melalui tautan undangan berikut:
+[link-undangan]
+
+Kehadiran Anda sangat berarti bagi kami. Terima kasih atas perhatian dan doa restunya.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Check URL for ?id=
+      const urlParams = new URLSearchParams(window.location.search);
+      clientId = urlParams.get('id');
+
+      if (!clientId) {
+        document.getElementById('error-state').classList.remove('hidden');
+      } else {
+        document.getElementById('main-state').classList.remove('hidden');
+        document.getElementById('client-badge').classList.remove('hidden');
+        document.getElementById('display-client-id').textContent = clientId;
+        
+        // Set Base URL dynamically based on origin and id
+        baseUrl = `${window.location.origin}/${clientId}`;
+        
+        // Initialize template
+        document.getElementById('message-template').value = TEMPLATES.formal;
+      }
+    });
+
+    // Template selection logic
+    function changeTemplate() {
+      const selector = document.getElementById('template-selector');
+      const textarea = document.getElementById('message-template');
+      textarea.value = TEMPLATES[selector.value];
+    }
+
+    // Generate logic
+    function generateLinks() {
+      const namesInput = document.getElementById('guest-names-input').value;
+      const template = document.getElementById('message-template').value;
+      const tbody = document.getElementById('results-tbody');
+      const container = document.getElementById('results-container');
+      const totalBadge = document.getElementById('total-guests');
+      
+      // Parse names (split by newline, remove empty lines)
+      const names = namesInput.split('\n').map(n => n.trim()).filter(n => n.length > 0);
+      
+      if (names.length === 0) {
+        showToast('Masukkan minimal satu nama tamu', true);
+        return;
+      }
+
+      tbody.innerHTML = '';
+
+      names.forEach((name, index) => {
+        // Generate link safely
+        const link = `${baseUrl}?to=${encodeURIComponent(name)}`;
+        
+        // Generate message
+        let message = template.replace(/\[nama-tamu\]/gi, name);
+        message = message.replace(/\[link-undangan\]/gi, link);
+        const waLink = `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-white/[0.02] transition-colors group';
+        tr.id = `row-${index}`;
+        
+        tr.dataset.rawLink = link;
+        tr.dataset.rawMessage = message;
+
+        tr.innerHTML = `
+          <td class="p-4 text-center text-white/30 text-xs font-mono">${index + 1}</td>
+          <td class="p-4 font-medium text-white/90">${name}</td>
+          <td class="p-4 text-right pr-6">
+            <div class="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+              <button type="button" onclick="window.open('${link}', '_blank')" class="w-8 h-8 rounded border border-white/10 text-white/70 flex items-center justify-center hover:bg-white/10 hover:text-white transition-colors" title="Buka Link">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </button>
+              <button type="button" onclick="copyData('link', ${index})" class="w-8 h-8 rounded border border-white/10 text-brand-gold flex items-center justify-center hover:bg-brand-gold/10 hover:border-brand-gold/30 transition-colors" title="Copy Link">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+              </button>
+              <button type="button" onclick="copyData('message', ${index})" class="w-8 h-8 rounded border border-white/10 text-white flex items-center justify-center hover:bg-white/10 hover:border-white/30 transition-colors" title="Copy Pesan Lengkap">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+              </button>
+              <button type="button" onclick="window.open('${waLink}', '_blank')" class="w-8 h-8 rounded border border-white/10 text-green-400 flex items-center justify-center hover:bg-green-400/10 hover:border-green-400/30 transition-colors" title="Kirim via WhatsApp">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </button>
+              <button type="button" onclick="removeRow(${index})" class="w-8 h-8 rounded border border-white/10 text-red-400 flex items-center justify-center hover:bg-red-400/10 hover:border-red-400/30 transition-colors" title="Hapus dari List">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              </button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      totalBadge.textContent = `${names.length} Tamu`;
+      container.classList.remove('hidden');
+      
+      // Scroll to results smoothly
+      setTimeout(() => {
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+      showToast('Tautan berhasil digenerate!');
+    }
+
+    // Helper functions
+    function removeRow(index) {
+      const row = document.getElementById(`row-${index}`);
+      if (row) row.remove();
+      
+      const tbody = document.getElementById('results-tbody');
+      const totalBadge = document.getElementById('total-guests');
+      const remaining = tbody.children.length;
+      
+      totalBadge.textContent = `${remaining} Tamu`;
+      
+      if (remaining === 0) {
+        document.getElementById('results-container').classList.add('hidden');
+      }
+    }
+
+    function copyData(type, index) {
+      const row = document.getElementById(`row-${index}`);
+      if(!row) return;
+
+      const dataToCopy = type === 'link' ? row.dataset.rawLink : row.dataset.rawMessage;
+      
+      navigator.clipboard.writeText(dataToCopy).then(() => {
+        showToast(type === 'link' ? 'Link berhasil disalin!' : 'Pesan berhasil disalin!');
+      }).catch(err => {
+        showToast('Gagal menyalin text', true);
+      });
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-msg');
+      
+      msg.textContent = message;
+      if (isError) {
+        toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-red-600 text-white px-6 py-3 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] text-sm font-semibold transition-all duration-300 pointer-events-none flex items-center gap-2 toast-enter';
+      } else {
+        toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-brand-gold text-black px-6 py-3 rounded-full shadow-[0_0_20px_rgba(207,166,112,0.3)] text-sm font-semibold transition-all duration-300 pointer-events-none flex items-center gap-2 toast-enter';
+      }
+
+      setTimeout(() => {
+        toast.classList.remove('toast-enter');
+        toast.classList.add('toast-leave');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
