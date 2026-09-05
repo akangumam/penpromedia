@@ -1,14 +1,18 @@
 {
-	"pid": 5952,
+	"pid": 27744,
 	"port": 3000,
 	"url": "http://localhost:3000",
 	"urls": {
 		"local": [
 			"http://localhost:3000/"
 		],
-		"network": [],
-		"networkInterfaceNames": []
+		"network": [
+			"http://192.168.1.14:3000/"
+		],
+		"networkInterfaceNames": [
+			"Wi-Fi"
+		]
 	},
 	"background": false,
-	"startedAt": "2026-09-04T01:57:03.059Z"
+	"startedAt": "2026-09-05T13:44:26.657Z"
 }

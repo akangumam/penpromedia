@@ -1,0 +1,950 @@
+---
+/**
+ * Katalog Desain Undangan Digital
+ * Penpromedia — selaras dengan desain web utama
+ */
+---
+
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Katalog Undangan Digital | Penpromedia</title>
+    <meta name="description" content="Pilih desain undangan digital pernikahan dari koleksi premium Penpromedia. Preview langsung dan pesan via WhatsApp." />
+    <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --gold:        #cfa670;
+        --gold-hover:  #b58f5c;
+        --dark-bg:     #0a0a0a;
+        --dark-surface:#141414;
+      }
+
+      html, body {
+        background-color: var(--dark-bg);
+        color: #ffffff;
+        font-family: 'Jost', sans-serif;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ───────── HEADER ───────── */
+      #main-header {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        z-index: 100;
+        padding: 28px 24px 28px 96px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+      }
+      #main-header.scrolled {
+        background: rgba(10,10,10,0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+      }
+      @media (max-width: 768px) {
+        #main-header { padding: 20px 16px; }
+      }
+      #main-header img { height: 44px; }
+      #main-header nav { display: flex; align-items: center; gap: 32px; }
+      #main-header nav a {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        padding-bottom: 4px;
+        transition: color 0.2s, border-color 0.2s;
+      }
+      #main-header nav a:hover { color: #fff; }
+      #main-header nav a.active { color: var(--gold); border-color: var(--gold); }
+      #main-header nav .btn-order {
+        color: rgba(255,255,255,0.7);
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      #main-header nav .btn-order:hover { color: #fff; }
+      
+      .mobile-menu-btn { display: none; background: none; border: none; color: #fff; cursor: pointer; }
+      @media (max-width: 768px) {
+        #main-header nav {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          background: rgba(10,10,10,0.95);
+          backdrop-filter: blur(10px);
+          flex-direction: column;
+          padding: 24px;
+          gap: 16px;
+          border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        #main-header nav.show { display: flex; }
+        .mobile-menu-btn { display: block; }
+      }
+
+      #main-header nav .nav-icons {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-left: 16px;
+        border-left: 1px solid rgba(255,255,255,0.2);
+        margin-left: -8px;
+      }
+      #main-header nav .nav-icons button {
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.7);
+        cursor: pointer;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      #main-header nav .nav-icons button:hover {
+        color: var(--gold);
+      }
+      /* Left sidebar bar */
+      .left-sidebar {
+        position: fixed;
+        left: 0; top: 0;
+        height: 100%;
+        width: 48px;
+        border-right: 1px solid rgba(255,255,255,0.08);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 90;
+        background: rgba(10,10,10,0.4);
+        backdrop-filter: blur(4px);
+      }
+      .left-sidebar .social-bar {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+        white-space: nowrap;
+      }
+      .left-sidebar a {
+        display: flex; align-items: center; gap: 5px;
+        opacity: 0.35;
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+      .left-sidebar a:hover { opacity: 1; }
+      .left-sidebar a img { width: 12px; height: 12px; filter: invert(1) brightness(2); }
+      .left-sidebar a span {
+        font-size: 8px;
+        letter-spacing: 0.18em;
+        color: rgba(255,255,255,0.7);
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+      .left-sidebar .dot {
+        width: 4px; height: 4px;
+        border-radius: 50%;
+        background: var(--gold);
+        flex-shrink: 0;
+        display: inline-block;
+      }
+      @media (max-width: 768px) {
+        .left-sidebar { display: none; }
+      }
+
+      /* ───────── PAGE WRAPPER ───────── */
+      .page-wrapper {
+        padding-left: 48px;
+      }
+      @media (max-width: 768px) {
+        .page-wrapper { padding-left: 0; }
+      }
+
+      /* ───────── HERO SECTION ───────── */
+      .catalog-hero {
+        padding: 160px 48px 72px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        position: relative;
+        overflow: hidden;
+      }
+      @media (max-width: 768px) {
+        .catalog-hero { padding: 120px 24px 56px; }
+      }
+      .catalog-hero::before {
+        content: '';
+        position: absolute;
+        top: -200px; right: -200px;
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(207,166,112,0.06) 0%, transparent 70%);
+        pointer-events: none;
+      }
+      .hero-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 16px;
+      }
+      .hero-title {
+        font-size: clamp(36px, 5vw, 60px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 20px;
+      }
+      .hero-title span { color: var(--gold); }
+      .hero-desc {
+        font-size: 13px;
+        color: rgba(255,255,255,0.55);
+        line-height: 1.8;
+        max-width: 480px;
+        margin-bottom: 40px;
+      }
+
+      /* ───────── FILTER TABS ───────── */
+      .filter-bar {
+        display: flex;
+        gap: 0;
+        overflow-x: auto;
+        padding: 0 48px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .filter-bar::-webkit-scrollbar { display: none; }
+      @media (max-width: 768px) {
+        .filter-bar { padding: 0 24px; }
+      }
+      .filter-tab {
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.4);
+        font-family: 'Jost', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 20px 20px;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        white-space: nowrap;
+        transition: color 0.2s, border-color 0.2s;
+        flex-shrink: 0;
+      }
+      .filter-tab:hover { color: rgba(255,255,255,0.8); }
+      .filter-tab.active {
+        color: var(--gold);
+        border-bottom-color: var(--gold);
+      }
+
+      /* ───────── CATALOG GRID ───────── */
+      .catalog-section {
+        padding: 56px 48px 80px;
+        background-color: var(--dark-bg);
+      }
+      @media (max-width: 768px) {
+        .catalog-section { padding: 40px 16px 60px; }
+      }
+      .catalog-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      @media (min-width: 640px) {
+        .catalog-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+      @media (min-width: 1024px) {
+        .catalog-grid { grid-template-columns: repeat(4, 1fr); }
+      }
+
+      /* ───────── CATALOG CARD ───────── */
+      .catalog-card {
+        background: var(--dark-surface);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 2px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      }
+      .catalog-card:hover {
+        border-color: rgba(207,166,112,0.4);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(207,166,112,0.07);
+      }
+
+      /* Phone thumbnail */
+      .card-thumb {
+        background: #0e0e0e;
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        min-height: 220px;
+      }
+      .card-thumb::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(207,166,112,0.05) 0%, transparent 70%);
+      }
+      .phone-mockup {
+        position: relative;
+        width: 100px;
+        z-index: 1;
+      }
+      .phone-shell {
+        width: 100%;
+        aspect-ratio: 9/18;
+        border-radius: 16px;
+        border: 2px solid rgba(255,255,255,0.15);
+        overflow: hidden;
+        background: #111;
+        box-shadow:
+          0 0 0 1px rgba(255,255,255,0.05),
+          0 20px 40px rgba(0,0,0,0.6),
+          inset 0 1px 0 rgba(255,255,255,0.1);
+        position: relative;
+      }
+      .phone-shell img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        display: block;
+      }
+      /* Notch */
+      .phone-shell::after {
+        content: '';
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 26px;
+        height: 5px;
+        background: rgba(255,255,255,0.12);
+        border-radius: 3px;
+        z-index: 10;
+      }
+      /* Screen sheen */
+      .phone-shell::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      /* Card body */
+      .card-body {
+        padding: 16px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+      .card-category {
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 4px;
+      }
+      .card-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .card-features {
+        list-style: none;
+        font-size: 10px;
+        color: rgba(255,255,255,0.45);
+        margin-bottom: 12px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .card-features li {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .card-features li::before {
+        content: '';
+        display: inline-block;
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cfa670' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") center/contain no-repeat;
+        flex-shrink: 0;
+      }
+      .card-pricing {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .card-price {
+        font-size: 18px;
+        font-weight: 300;
+        color: var(--gold);
+        letter-spacing: -0.01em;
+      }
+      .card-price-old {
+        font-size: 10px;
+        color: rgba(255,255,255,0.25);
+        text-decoration: line-through;
+      }
+      .card-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .btn-preview {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border: 1px solid rgba(207,166,112,0.4);
+        color: var(--gold);
+        background: transparent;
+        padding: 9px;
+        font-family: 'Jost', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .btn-preview:hover {
+        background: rgba(207,166,112,0.1);
+        border-color: var(--gold);
+        color: #fff;
+      }
+      .btn-order {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: var(--gold);
+        color: #0a0a0a;
+        padding: 9px;
+        font-family: 'Jost', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background 0.25s;
+      }
+      .btn-order:hover { background: var(--gold-hover); }
+
+      @media (max-width: 768px) {
+        .btn-preview, .btn-order {
+          font-size: 8px;
+          letter-spacing: 0.1em;
+          padding: 8px 4px;
+        }
+      }
+
+      /* ── Coming soon card ── */
+      .card-soon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 220px;
+        gap: 10px;
+        opacity: 0.25;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.5);
+      }
+
+      /* ───────── LOAD MORE ───────── */
+      .load-more-wrap {
+        text-align: center;
+        padding: 0 48px 64px;
+        background: var(--dark-bg);
+      }
+      .btn-load-more {
+        background: none;
+        border: 1px solid rgba(255,255,255,0.12);
+        color: rgba(255,255,255,0.5);
+        font-family: 'Jost', sans-serif;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 14px 40px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s;
+      }
+      .btn-load-more:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      /* ───────── ADD-ON SECTION ───────── */
+      .addon-section {
+        background: var(--dark-surface);
+        padding: 80px 48px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+      @media (max-width: 768px) {
+        .addon-section { padding: 60px 24px; }
+      }
+      .addon-inner {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .addon-header { text-align: center; margin-bottom: 48px; }
+      .addon-header .label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 12px;
+      }
+      .addon-header h2 {
+        font-size: clamp(28px, 4vw, 40px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+      }
+      .addon-header h2 span { color: var(--gold); }
+      .addon-divider {
+        width: 40px; height: 1px;
+        background: var(--gold);
+        margin: 16px auto 0;
+      }
+      .addon-list {
+        border-top: 1px solid rgba(255,255,255,0.06);
+      }
+      .addon-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        gap: 20px;
+      }
+      .addon-item-info {}
+      .addon-item-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.9);
+        margin-bottom: 3px;
+      }
+      .addon-item-desc {
+        font-size: 10px;
+        color: rgba(255,255,255,0.35);
+        letter-spacing: 0.04em;
+      }
+      .addon-item-price {
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--gold);
+        white-space: nowrap;
+      }
+      .addon-cta {
+        text-align: center;
+        margin-top: 40px;
+      }
+      .btn-wa {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gold);
+        color: #0a0a0a;
+        padding: 14px 40px;
+        font-family: 'Jost', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+      .btn-wa:hover {
+        background: var(--gold-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(207,166,112,0.25);
+      }
+
+      /* ───────── FOOTER ───────── */
+      .site-footer {
+        background: var(--dark-surface);
+        padding: 48px 48px 24px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+      }
+      @media (max-width: 768px) {
+        .site-footer { padding: 40px 24px 20px; }
+      }
+      .footer-socials {
+        display: flex;
+        justify-content: center;
+        gap: 32px;
+        margin-bottom: 32px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .footer-socials a {
+        display: flex; align-items: center; gap: 8px;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .footer-socials a:hover { color: var(--gold); }
+      .footer-socials img { width: 14px; height: 14px; filter: invert(1) brightness(2); }
+      .footer-copy {
+        text-align: center;
+        font-size: 10px;
+        color: rgba(255,255,255,0.2);
+        letter-spacing: 0.08em;
+      }
+
+      /* ───────── SCROLLBAR ───────── */
+      ::-webkit-scrollbar { width: 4px; }
+      ::-webkit-scrollbar-track { background: #0a0a0a; }
+      ::-webkit-scrollbar-thumb { background: rgba(207,166,112,0.3); border-radius: 2px; }
+    </style>
+  </head>
+  <body>
+
+    <!-- Left Sidebar -->
+    <aside class="left-sidebar">
+      <div class="social-bar">
+        <a href="https://www.instagram.com/penpromedia/" target="_blank">
+          <img src="/assets/img/instagram.svg" alt="Instagram" />
+          <span>Instagram</span>
+        </a>
+        <span class="dot"></span>
+        <a href="https://www.tiktok.com/@penpromedia" target="_blank">
+          <img src="/assets/img/tiktok.svg" alt="TikTok" />
+          <span>TikTok</span>
+        </a>
+        <span class="dot"></span>
+        <a href="https://www.facebook.com/penpro.media" target="_blank">
+          <img src="/assets/img/facebook.svg" alt="Facebook" />
+          <span>Facebook</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Header -->
+    <header id="main-header">
+      <a href="/">
+        <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia" />
+      </a>
+      <nav>
+        <a href="/">Beranda</a>
+        <a href="/#about">Tentang</a>
+        <a href="/#portfolio">Galeri</a>
+        <a href="/#services">Layanan</a>
+        <a href="/sampel-undangan" class="active">Sampel</a>
+        <a href="/#contacts">Kontak</a>
+        <a href="https://wa.me/6285155256594" target="_blank" class="btn-order">Pemesanan</a>
+        
+        <div class="nav-icons">
+          <button aria-label="Search">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+          </button>
+          <button aria-label="Cart">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </button>
+        </div>
+      </nav>
+      <button class="mobile-menu-btn" aria-label="Menu" id="mobileMenuBtn">
+        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      </button>
+    </header>
+
+    <!-- Page Wrapper -->
+    <div class="page-wrapper">
+
+      <!-- Hero -->
+      <section class="catalog-hero">
+        <p class="hero-label">Undangan Digital</p>
+        <h1 class="hero-title">Pilih <span>Desain</span><br>Undangan Anda</h1>
+        <p class="hero-desc">
+          Setiap desain dapat disesuaikan sepenuhnya — nama, tanggal, foto, dan musik latar.
+          Klik <strong style="color:var(--gold)">Preview</strong> untuk melihat demo langsung.
+        </p>
+        <a href="#catalog" style="display:inline-flex;align-items:center;gap:8px;color:var(--gold);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;text-decoration:none;transition:color 0.2s;">
+          Lihat Koleksi
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+      </section>
+
+      <!-- Filter Tabs -->
+      <div class="filter-bar" id="catalog">
+        <button class="filter-tab active" data-filter="all">Semua</button>
+        <button class="filter-tab" data-filter="premium">Premium</button>
+        <button class="filter-tab" data-filter="basic">Basic</button>
+        <button class="filter-tab" data-filter="elegant">Elegant</button>
+        <button class="filter-tab" data-filter="rustic">Rustic</button>
+        <button class="filter-tab" data-filter="minimalis">Minimalis</button>
+      </div>
+
+      <!-- Catalog Grid -->
+      <section class="catalog-section">
+        <div class="catalog-grid">
+
+          <!-- Card 1: Adat Jawa -->
+          <div class="catalog-card" data-category="premium elegant">
+            <div class="card-thumb">
+              <div class="phone-mockup">
+                <div class="phone-shell">
+                  <img src="/assets/img/risma-azis/photo-1.avif" alt="Tema Adat Jawa" />
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-category">Premium · Adat Jawa</p>
+              <h3 class="card-name">Risma & Azis — Klasik Jawa</h3>
+              <ul class="card-features">
+                <li>Ornamen wayang & batik</li>
+                <li>RSVP & Buku Tamu</li>
+                <li>Backsound musik tradisional</li>
+                <li>Revisi tanpa batas</li>
+              </ul>
+              <div class="card-pricing">
+                <span class="card-price">Rp 150.000</span>
+                <span class="card-price-old">Rp 250.000</span>
+              </div>
+              <div class="card-actions">
+                <a href="/risma-azis" class="btn-preview">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                  Preview
+                </a>
+                <a href="https://wa.me/6285155256594?text=Halo%2C%20saya%20tertarik%20undangan%20desain%20Premium%20Adat%20Jawa" target="_blank" class="btn-order">
+                  <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.711.927 3.151.927 3.178 0 5.767-2.587 5.769-5.766 0-3.181-2.588-5.769-5.771-5.769zM15.474 13.982c-.179.308-.857.57-1.189.605-.331.036-.617.078-1.52-.284-1.127-.45-1.925-1.393-2.613-2.247-.687-.854-.937-1.63-.895-2.285.042-.656.368-1.02.668-1.309.158-.152.339-.191.503-.191.163 0 .327 0 .474.007.132.007.311-.052.484.368.174.42.597 1.458.649 1.58.053.121.116.273.011.484-.105.21-.158.336-.316.526-.158.189-.336.4-.474.526-.147.137-.305.284-.137.574.168.289.747 1.233 1.605 1.999.905.811 1.705 1.107 2.01 1.264.305.158.484.137.668-.074.184-.21.789-.916 1.01-1.232.21-.316.421-.263.705-.158.284.105 1.789.842 2.094 1.053.305.21.516.316.589.495.074.179.074 1.02-.105 1.327z"></path></svg>
+                  Pesan Sekarang
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Parallax -->
+          <div class="catalog-card" data-category="premium">
+            <div class="card-thumb">
+              <div class="phone-mockup">
+                <div class="phone-shell">
+                  <img src="/assets/img/undangan1/couple-cover.jpg" alt="Motion Parallax" />
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="card-category">Premium · Modern</p>
+              <h3 class="card-name">Motion Parallax — Sinematik</h3>
+              <ul class="card-features">
+                <li>Efek parallax interaktif</li>
+                <li>RSVP & Buku Tamu</li>
+                <li>Loading screen animasi</li>
+                <li>Revisi tanpa batas</li>
+              </ul>
+              <div class="card-pricing">
+                <span class="card-price">Rp 150.000</span>
+                <span class="card-price-old">Rp 250.000</span>
+              </div>
+              <div class="card-actions">
+                <a href="/undangan1" class="btn-preview">
+                  <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                  Preview
+                </a>
+                <a href="https://wa.me/6285155256594?text=Halo%2C%20saya%20tertarik%20undangan%20desain%20Motion%20Parallax" target="_blank" class="btn-order">
+                  <svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.711.927 3.151.927 3.178 0 5.767-2.587 5.769-5.766 0-3.181-2.588-5.769-5.771-5.769zM15.474 13.982c-.179.308-.857.57-1.189.605-.331.036-.617.078-1.52-.284-1.127-.45-1.925-1.393-2.613-2.247-.687-.854-.937-1.63-.895-2.285.042-.656.368-1.02.668-1.309.158-.152.339-.191.503-.191.163 0 .327 0 .474.007.132.007.311-.052.484.368.174.42.597 1.458.649 1.58.053.121.116.273.011.484-.105.21-.158.336-.316.526-.158.189-.336.4-.474.526-.147.137-.305.284-.137.574.168.289.747 1.233 1.605 1.999.905.811 1.705 1.107 2.01 1.264.305.158.484.137.668-.074.184-.21.789-.916 1.01-1.232.21-.316.421-.263.705-.158.284.105 1.789.842 2.094 1.053.305.21.516.316.589.495.074.179.074 1.02-.105 1.327z"></path></svg>
+                  Pesan Sekarang
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Placeholder Cards -->
+          <div class="catalog-card">
+            <div class="card-thumb">
+              <div class="card-soon">
+                <svg width="28" height="28" fill="none" stroke="rgba(207,166,112,0.4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"></path></svg>
+                <span>Segera Hadir</span>
+              </div>
+            </div>
+            <div class="card-body" style="opacity:0.3">
+              <p class="card-category">Desain Baru</p>
+              <h3 class="card-name">Dalam Proses Pembuatan</h3>
+            </div>
+          </div>
+
+          <div class="catalog-card">
+            <div class="card-thumb">
+              <div class="card-soon">
+                <svg width="28" height="28" fill="none" stroke="rgba(207,166,112,0.4)" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"></path></svg>
+                <span>Segera Hadir</span>
+              </div>
+            </div>
+            <div class="card-body" style="opacity:0.3">
+              <p class="card-category">Desain Baru</p>
+              <h3 class="card-name">Dalam Proses Pembuatan</h3>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Load More -->
+      <div class="load-more-wrap">
+        <button class="btn-load-more">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          Muat Lebih Banyak
+        </button>
+      </div>
+
+      <!-- Add On Section -->
+      <section class="addon-section">
+        <div class="addon-inner">
+          <div class="addon-header">
+            <p class="label">Layanan Tambahan</p>
+            <h2>Tambah <span>Add-On</span></h2>
+            <div class="addon-divider"></div>
+          </div>
+
+          <div class="addon-list">
+            <div class="addon-item">
+              <div class="addon-item-info">
+                <p class="addon-item-name">Custom Domain Name (yourname.com)</p>
+                <p class="addon-item-desc">Contoh: romeoandjuliet.com · Masa aktif 1 tahun</p>
+              </div>
+              <span class="addon-item-price">Rp 150.000</span>
+            </div>
+            <div class="addon-item">
+              <div class="addon-item-info">
+                <p class="addon-item-name">Perpanjang Masa Aktif 1 Tahun</p>
+                <p class="addon-item-desc">Perpanjang domain & hosting undangan Anda</p>
+              </div>
+              <span class="addon-item-price">Rp 90.000</span>
+            </div>
+            <div class="addon-item">
+              <div class="addon-item-info">
+                <p class="addon-item-name">Video Invitation (60 Detik)</p>
+                <p class="addon-item-desc">Video undangan animasi untuk WhatsApp & Instagram</p>
+              </div>
+              <span class="addon-item-price">Rp 75.000</span>
+            </div>
+            <div class="addon-item">
+              <div class="addon-item-info">
+                <p class="addon-item-name">Filter Instagram AR</p>
+                <p class="addon-item-desc">Filter frame pernikahan kustom di Instagram</p>
+              </div>
+              <span class="addon-item-price">Rp 100.000</span>
+            </div>
+            <div class="addon-item">
+              <div class="addon-item-info">
+                <p class="addon-item-name">Buku Tamu dengan QR Code</p>
+                <p class="addon-item-desc">Sistem check-in digital di lokasi acara</p>
+              </div>
+              <span class="addon-item-price">Rp 200.000</span>
+            </div>
+          </div>
+
+          <div class="addon-cta">
+            <a href="https://wa.me/6285155256594?text=Halo%20Penpromedia%2C%20saya%20ingin%20tanya%20soal%20add-on." target="_blank" class="btn-wa">
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.711.927 3.151.927 3.178 0 5.767-2.587 5.769-5.766 0-3.181-2.588-5.769-5.771-5.769zM15.474 13.982c-.179.308-.857.57-1.189.605-.331.036-.617.078-1.52-.284-1.127-.45-1.925-1.393-2.613-2.247-.687-.854-.937-1.63-.895-2.285.042-.656.368-1.02.668-1.309.158-.152.339-.191.503-.191.163 0 .327 0 .474.007.132.007.311-.052.484.368.174.42.597 1.458.649 1.58.053.121.116.273.011.484-.105.21-.158.336-.316.526-.158.189-.336.4-.474.526-.147.137-.305.284-.137.574.168.289.747 1.233 1.605 1.999.905.811 1.705 1.107 2.01 1.264.305.158.484.137.668-.074.184-.21.789-.916 1.01-1.232.21-.316.421-.263.705-.158.284.105 1.789.842 2.094 1.053.305.21.516.316.589.495.074.179.074 1.02-.105 1.327z"></path></svg>
+              Konsultasi via WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/penpro.media" target="_blank">
+            <img src="/assets/img/facebook.svg" alt="Facebook" /> Facebook
+          </a>
+          <a href="https://www.tiktok.com/@penpromedia" target="_blank">
+            <img src="/assets/img/tiktok.svg" alt="TikTok" /> TikTok
+          </a>
+          <a href="https://www.instagram.com/penpromedia/" target="_blank">
+            <img src="/assets/img/instagram.svg" alt="Instagram" /> Instagram
+          </a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Penpromedia. Hak Cipta Dilindungi.</p>
+      </footer>
+
+    </div><!-- end .page-wrapper -->
+
+    <script>
+      // Header scroll effect
+      const header = document.getElementById('main-header');
+      if (header) {
+        window.addEventListener('scroll', () => {
+          header.classList.toggle('scrolled', window.scrollY > 50);
+        }, { passive: true });
+      }
+
+      // Filter tabs
+      const tabs = document.querySelectorAll<HTMLElement>('.filter-tab');
+      const cards = document.querySelectorAll<HTMLElement>('.catalog-card[data-category]');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const filter = tab.dataset.filter || '';
+          cards.forEach(card => {
+            const cats = card.dataset.category || '';
+            const show = filter === 'all' || cats.includes(filter);
+            card.style.display = show ? 'flex' : 'none';
+          });
+        });
+      });
+
+      // Mobile Menu Toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mainNav = document.querySelector('#main-header nav');
+      if (mobileBtn && mainNav) {
+        mobileBtn.addEventListener('click', () => {
+          mainNav.classList.toggle('show');
+        });
+      }
+    </script>
+  </body>
+</html>
