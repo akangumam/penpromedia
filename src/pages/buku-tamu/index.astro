@@ -274,8 +274,19 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       textarea.value = TEMPLATES[selector.value];
     }
 
+    // Secret key for signature - MUST BE THE SAME IN INVITATION PAGE
+    const SECRET_KEY = "PENPROMEDIA_SECRET_2026";
+
+    async function generateSignature(name) {
+      const msgUint8 = new TextEncoder().encode(name.trim().toLowerCase() + SECRET_KEY);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex.substring(0, 10);
+    }
+
     // Generate logic
-    function generateLinks() {
+    async function generateLinks() {
       const namesInput = document.getElementById('guest-names-input').value;
       const template = document.getElementById('message-template').value;
       const tbody = document.getElementById('results-tbody');
@@ -292,9 +303,12 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
 
       tbody.innerHTML = '';
 
-      names.forEach((name, index) => {
+      for (let index = 0; index < names.length; index++) {
+        const name = names[index];
+        const sig = await generateSignature(name);
+        
         // Generate link safely
-        const link = `${baseUrl}?to=${encodeURIComponent(name)}`;
+        const link = `${baseUrl}?to=${encodeURIComponent(name)}&sig=${sig}`;
         
         // Generate message
         let message = template.replace(/\[nama-tamu\]/gi, name);
@@ -332,7 +346,7 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
           </td>
         `;
         tbody.appendChild(tr);
-      });
+      }
 
       totalBadge.textContent = `${names.length} Tamu`;
       container.classList.remove('hidden');

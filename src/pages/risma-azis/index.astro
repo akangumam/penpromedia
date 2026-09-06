@@ -89,7 +89,7 @@
     <style is:inline>
       html,
       body {
-        background-color: #2e2218;
+        background-color: #1a1a1a;
         color: #fdf6e3;
         overflow-x: hidden;
       }
@@ -239,13 +239,18 @@
       /* Cover Interaction */
       #cover-overlay {
         position: fixed;
-        inset: 0;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
         z-index: 1000;
         background-color: var(--jawa-dark);
         transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
       }
       #cover-overlay.open {
-        transform: translateY(-100%);
+        transform: translate(-50%, -100%);
       }
       body.locked {
         overflow: hidden;
@@ -266,7 +271,10 @@
     </style>
   </head>
 
-  <body class="font-sans locked antialiased bg-batik bg-fixed">
+  <body class="font-sans locked antialiased bg-[#1a1a1a]">
+    <!-- WADAH MOBILE VIEW -->
+    <div id="mobile-app-container" class="w-full max-w-[480px] mx-auto min-h-screen relative shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-jawa-dark bg-batik bg-fixed overflow-x-hidden">
+
     <!-- Hapus trailing hash (#) jika ada -->
     <script is:inline>
       if (window.location.hash === "" && window.location.href.endsWith("#")) {
@@ -322,10 +330,10 @@
           The Wedding Of
         </p>
         <h1
-          class="font-serif text-5xl sm:text-6xl text-jawa-gold mb-2 leading-tight"
+          class="font-serif text-5xl  text-jawa-gold mb-2 leading-tight"
         >
           Risma <br />
-          <span class="font-script text-4xl sm:text-5xl text-jawa-cream mx-2"
+          <span class="font-script text-4xl  text-jawa-cream mx-2"
             >&amp;</span
           >
           <br />
@@ -388,7 +396,7 @@
         </div>
 
         <div class="max-w-2xl relative z-10 reveal">
-          <p class="font-serif text-xl sm:text-2xl text-jawa-gold mb-6 italic">
+          <p class="font-serif text-xl  text-jawa-gold mb-6 italic">
             "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
             untukmu istri-istri dari jenismu sendiri..."
           </p>
@@ -424,18 +432,18 @@
           </div>
 
           <div
-            class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-8 items-center"
+            class="grid grid-cols-1  gap-16  items-center"
           >
             <!-- Bride -->
             <div class="flex flex-col items-center reveal stagger-1">
-              <div class="w-72 sm:w-96 mb-6">
+              <div class="w-72  mb-6">
                 <div class="arch-frame">
                   <div class="arch-inner">
                     <img
                       decoding="async"
                       src="/assets/img/risma-azis/risma.avif"
                       alt="Risma"
-                      class="w-full h-[400px] sm:h-[500px] object-cover"
+                      class="w-full h-[400px] object-cover"
                     />
                   </div>
                 </div>
@@ -450,28 +458,28 @@
 
             <!-- Ampersand -->
             <div
-              class="hidden md:flex justify-center items-center reveal stagger-2"
+              class="hidden  justify-center items-center reveal stagger-2"
             >
               <span class="font-script text-6xl text-jawa-gold">&amp;</span>
             </div>
             <div
-              class="md:hidden flex justify-center items-center reveal stagger-2"
+              class=" flex justify-center items-center reveal stagger-2"
             >
               <span class="font-script text-5xl text-jawa-gold">&amp;</span>
             </div>
 
             <!-- Groom -->
             <div
-              class="flex flex-col items-center reveal stagger-3 md:-mt-0 mt-8"
+              class="flex flex-col items-center reveal stagger-3  mt-8"
             >
-              <div class="w-72 sm:w-96 mb-6">
+              <div class="w-72  mb-6">
                 <div class="arch-frame">
                   <div class="arch-inner">
                     <img
                       decoding="async"
                       src="/assets/img/risma-azis/azis.avif"
                       alt="Azis"
-                      class="w-full h-[400px] sm:h-[500px] object-cover"
+                      class="w-full h-[400px] object-cover"
                     />
                   </div>
                 </div>
@@ -499,7 +507,7 @@
             </h3>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <div class="grid grid-cols-1  gap-10">
             <!-- Akad -->
             <div class="vintage-box reveal stagger-1 text-jawa-dark shadow-2xl">
               <!-- Corner Ornaments simulated by borders -->
@@ -579,53 +587,53 @@
             <h4 class="font-serif text-xl text-jawa-gold mb-8">
               Menuju Hari Bahagia
             </h4>
-            <div class="flex justify-center gap-2 sm:gap-8">
+            <div class="flex justify-center gap-2 ">
               <div class="flex flex-col items-center">
                 <span
-                  class="font-serif text-2xl sm:text-4xl text-jawa-cream"
+                  class="font-serif text-2xl  text-jawa-cream"
                   id="days">00</span
                 >
                 <span
-                  class="font-sans text-[10px] sm:text-xs text-jawa-goldLight tracking-widest uppercase mt-2"
+                  class="font-sans text-[10px]  text-jawa-goldLight tracking-widest uppercase mt-2"
                   >Hari</span
                 >
               </div>
-              <span class="font-serif text-2xl sm:text-4xl text-jawa-gold"
+              <span class="font-serif text-2xl  text-jawa-gold"
                 >:</span
               >
               <div class="flex flex-col items-center">
                 <span
-                  class="font-serif text-2xl sm:text-4xl text-jawa-cream"
+                  class="font-serif text-2xl  text-jawa-cream"
                   id="hours">00</span
                 >
                 <span
-                  class="font-sans text-[10px] sm:text-xs text-jawa-goldLight tracking-widest uppercase mt-2"
+                  class="font-sans text-[10px]  text-jawa-goldLight tracking-widest uppercase mt-2"
                   >Jam</span
                 >
               </div>
-              <span class="font-serif text-2xl sm:text-4xl text-jawa-gold"
+              <span class="font-serif text-2xl  text-jawa-gold"
                 >:</span
               >
               <div class="flex flex-col items-center">
                 <span
-                  class="font-serif text-2xl sm:text-4xl text-jawa-cream"
+                  class="font-serif text-2xl  text-jawa-cream"
                   id="minutes">00</span
                 >
                 <span
-                  class="font-sans text-[10px] sm:text-xs text-jawa-goldLight tracking-widest uppercase mt-2"
+                  class="font-sans text-[10px]  text-jawa-goldLight tracking-widest uppercase mt-2"
                   >Menit</span
                 >
               </div>
-              <span class="font-serif text-2xl sm:text-4xl text-jawa-gold"
+              <span class="font-serif text-2xl  text-jawa-gold"
                 >:</span
               >
               <div class="flex flex-col items-center">
                 <span
-                  class="font-serif text-2xl sm:text-4xl text-jawa-cream"
+                  class="font-serif text-2xl  text-jawa-cream"
                   id="seconds">00</span
                 >
                 <span
-                  class="font-sans text-[10px] sm:text-xs text-jawa-goldLight tracking-widest uppercase mt-2"
+                  class="font-sans text-[10px]  text-jawa-goldLight tracking-widest uppercase mt-2"
                   >Detik</span
                 >
               </div>
@@ -667,9 +675,9 @@
           </div>
 
           <!-- Bento Grid Gallery 10 Photos -->
-          <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          <div class="grid grid-cols-2  gap-3 ">
             <!-- Item 1 (Mobile: Full width, Desktop: 2 cols 2 rows) -->
-            <div class="col-span-2 md:col-span-2 md:row-span-2 reveal-scale">
+            <div class="col-span-2   reveal-scale">
               <div
                 class="w-full h-full border border-jawa-gold/30 p-1 rounded-xl"
               >
@@ -677,7 +685,7 @@
                   decoding="async"
                   src="/assets/img/risma-azis/photo-1.avif"
                   alt="Gallery"
-                  class="w-full h-full object-cover rounded-lg aspect-[4/5] md:aspect-auto"
+                  class="w-full h-full object-cover rounded-lg aspect-[4/5] "
                   loading="lazy"
                 />
               </div>
@@ -744,7 +752,7 @@
             </div>
 
             <!-- Item 6 (Mobile: Full width, Desktop: 1 col) -->
-            <div class="col-span-2 md:col-span-1 reveal-scale stagger-5">
+            <div class="col-span-2  reveal-scale stagger-5">
               <div
                 class="w-full h-full border border-jawa-gold/30 p-1 rounded-xl"
               >
@@ -752,7 +760,7 @@
                   decoding="async"
                   src="/assets/img/risma-azis/photo-6.avif"
                   alt="Gallery"
-                  class="w-full h-full object-cover rounded-lg aspect-[16/9] md:aspect-square"
+                  class="w-full h-full object-cover rounded-lg aspect-[16/9] "
                   loading="lazy"
                 />
               </div>
@@ -804,7 +812,7 @@
             </div>
 
             <!-- Item 10 (Mobile: 1 col, Desktop: Full width) -->
-            <div class="col-span-1 md:col-span-3 reveal-scale stagger-4">
+            <div class="col-span-1  reveal-scale stagger-4">
               <div
                 class="w-full h-full border border-jawa-gold/30 p-1 rounded-xl"
               >
@@ -812,7 +820,7 @@
                   decoding="async"
                   src="/assets/img/risma-azis/photo-10.avif"
                   alt="Gallery"
-                  class="w-full h-full object-cover rounded-lg aspect-square md:aspect-[21/9]"
+                  class="w-full h-full object-cover rounded-lg aspect-square"
                   loading="lazy"
                 />
               </div>
@@ -837,7 +845,7 @@
             </p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="grid grid-cols-1  gap-8">
             <!-- Rekening 1 -->
             <div
               class="envelope p-6 flex flex-col items-center justify-center reveal stagger-1"
@@ -952,9 +960,9 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="grid grid-cols-1  gap-10">
             <!-- Form -->
-            <div class="vintage-box text-jawa-dark reveal stagger-1 p-6 md:p-8">
+            <div class="vintage-box text-jawa-dark reveal stagger-1 p-6 ">
               <div id="rsvp-locked-msg" class="hidden text-center py-8">
                 <div
                   class="w-12 h-12 rounded-full bg-jawa-gold/10 border border-jawa-gold/30 flex items-center justify-center mx-auto mb-4"
@@ -1226,12 +1234,12 @@
         <!-- Top Section -->
         <div class="relative z-10 max-w-2xl mx-auto pt-8 reveal">
           <p
-            class="font-script text-5xl md:text-6xl text-white mb-6 drop-shadow-md"
+            class="font-script text-5xl  text-white mb-6 drop-shadow-md"
           >
             Terima Kasih
           </p>
           <p
-            class="font-sans text-sm md:text-base font-bold text-white/95 leading-relaxed drop-shadow-md px-4"
+            class="font-sans text-sm  font-bold text-white/95 leading-relaxed drop-shadow-md px-4"
           >
             Suatu kebahagiaan & kehormatan bagi kami, apabila
             Bapak/Ibu/Saudara/i, berkenan hadir dan memberikan do'a restu kepada
@@ -1243,20 +1251,20 @@
         <div class="flex-grow"></div>
 
         <!-- Bottom Section -->
-        <div class="relative z-10 max-w-2xl mx-auto pb-28 md:pb-4 reveal">
+        <div class="relative z-10 max-w-2xl mx-auto pb-28  reveal">
           <p
-            class="font-sans text-sm md:text-base font-bold text-white mb-1 drop-shadow-md"
+            class="font-sans text-sm  font-bold text-white mb-1 drop-shadow-md"
           >
             Kami Yang Berbahagia
           </p>
           <h2
-            class="font-script text-4xl md:text-5xl text-white mb-8 drop-shadow-md"
+            class="font-script text-4xl  text-white mb-8 drop-shadow-md"
           >
             Risma & Azis
           </h2>
 
           <div class="flex flex-col items-center justify-center gap-2 mt-16">
-            <p class="font-sans text-[10px] md:text-xs font-bold text-white/80">
+            <p class="font-sans text-[10px]  font-bold text-white/80">
               Designed with 🤍 by :
             </p>
             <a
@@ -1270,7 +1278,7 @@
                 decoding="async"
                 src="/assets/img/penpromedia_logo.png"
                 alt="Penpromedia"
-                class="h-6 md:h-7 object-contain filter brightness-0 invert opacity-90"
+                class="h-6  object-contain filter brightness-0 invert opacity-90"
               />
             </a>
           </div>
@@ -1279,7 +1287,7 @@
     </main>
 
     <!-- MOBILE BOTTOM NAVIGATION (Glassmorphism) -->
-    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100] md:hidden">
+    <nav class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-sm z-[100]">
       <div class="flex justify-around items-center bg-black/40 backdrop-blur-md border border-white/20 rounded-full px-2 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
         
         <a href="#" class="nav-mobile-link flex flex-col items-center w-1/5 text-jawa-gold transition-colors duration-300">
@@ -1321,10 +1329,11 @@
     </nav>
 
     <!-- FLOATING AUDIO BUTTON -->
-    <button
-      id="audio-btn"
-      class="fixed bottom-[90px] md:bottom-6 right-6 z-50 w-12 h-12 bg-jawa-gold rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-transform hover:scale-110"
-    >
+    <div class="fixed bottom-[90px] z-50 w-full max-w-[480px] left-1/2 -translate-x-1/2 pointer-events-none">
+      <button
+        id="audio-btn"
+        class="absolute bottom-0 right-6 w-12 h-12 bg-jawa-gold rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-transform hover:scale-110 pointer-events-auto"
+      >
       <!-- Default Audio Icon -->
       <svg
         id="icon-unmute"
@@ -1357,7 +1366,8 @@
           stroke-width="2"
           d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg
       >
-    </button>
+      </button>
+    </div>
 
     <!-- YOUTUBE PLAYER CONTAINER -->
     <div
@@ -1441,18 +1451,42 @@
         });
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
+      // Secret key for signature - MUST BE THE SAME IN GENERATOR
+      const SECRET_KEY = "PENPROMEDIA_SECRET_2026";
+
+      async function generateSignature(name) {
+        const msgUint8 = new TextEncoder().encode(name.trim().toLowerCase() + SECRET_KEY);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        return hashHex.substring(0, 10);
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
         // 0. URL Parameter Logic
         const urlParams = new URLSearchParams(window.location.search);
         const guestTo = urlParams.get("to");
+        const guestSig = urlParams.get("sig");
 
         const coverGuestName = document.getElementById("cover-guest-name");
         const formContainer = document.getElementById("rsvp-form-container");
         const lockedMsg = document.getElementById("rsvp-locked-msg");
         const inputName = document.getElementById("guest-name");
 
+        let isAuthorized = false;
+
         if (guestTo) {
           if (coverGuestName) coverGuestName.textContent = guestTo;
+          
+          if (guestSig) {
+            const expectedSig = await generateSignature(guestTo);
+            if (guestSig === expectedSig) {
+              isAuthorized = true;
+            }
+          }
+        }
+
+        if (isAuthorized) {
           if (inputName) {
             inputName.value = guestTo;
             inputName.readOnly = true;
@@ -1465,7 +1499,7 @@
             inputName.classList.remove("bg-white");
           }
         } else {
-          // No 'to' parameter -> lock form
+          // No 'to' parameter or invalid 'sig' -> lock form
           if (formContainer && lockedMsg) {
             formContainer.classList.add("hidden");
             lockedMsg.classList.remove("hidden");
@@ -1916,5 +1950,6 @@
         }, 800);
       });
     </script>
+    </div> <!-- Akhir wadah mobile view -->
   </body>
 </html>
