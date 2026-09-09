@@ -1,5 +1,5 @@
 {
-	"pid": 13848,
+	"pid": 2144,
 	"port": 3000,
 	"url": "http://localhost:3000",
 	"urls": {
@@ -7,12 +7,12 @@
 			"http://localhost:3000/"
 		],
 		"network": [
-			"http://192.168.1.14:3000/"
+			"http://172.16.23.140:3000/"
 		],
 		"networkInterfaceNames": [
 			"Wi-Fi"
 		]
 	},
 	"background": false,
-	"startedAt": "2026-09-06T13:36:34.795Z"
+	"startedAt": "2026-09-08T09:13:17.491Z"
 }

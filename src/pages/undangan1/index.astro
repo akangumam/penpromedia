@@ -1,157 +1,919 @@
 ---
 /**
- * Undangan Pernikahan Digital — Motion Parallax Theme
- * Penpromedia
+ * Undangan Pernikahan Digital
  */
 ---
 
 <!doctype html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Undangan Pernikahan — Parallax</title>
-    
+    <title>The Wedding of Krisna & Anisa</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Undangan Pernikahan Krisna & Anisa, Minggu, 31 Desember 202X"
+    />
+    <meta property="og:title" content="The Wedding of Krisna & Anisa" />
+    <meta
+      property="og:description"
+      content="Kami mengundang Anda untuk hadir di acara pernikahan kami."
+    />
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Jost:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
-    
-    <style>
-      /* Base font families */
-      .font-sans { font-family: 'Jost', sans-serif; }
-      .font-serif { font-family: 'Cinzel', serif; }
-      .font-script { font-family: 'Pinyon Script', cursive; }
 
-      /* Parallax layers */
-      .parallax-wrapper {
+    <style>
+      /* CSS Reset & Variables */
+      :root {
+        --primary: #8a6c42; /* Javanese Gold */
+        --primary-dark: #664d2b;
+        --text-main: #333;
+        --text-light: #f5f5f5;
+        --bg-main: #faf8f5; /* Warm off-white */
+
+        --font-heading: "Playfair Display", serif;
+        --font-body: "Inter", sans-serif;
+        --font-script: "Great Vibes", cursive;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-body);
+        background-color: #5c4a38;
+        background-image: url("/undangan1/assets/JAWA-BACKGROUND.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed; /* Stay fixed, tidak ikut scroll */
+        color: var(--text-dark);
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+      
+      html.no-scroll, body.no-scroll {
+        overflow: hidden !important;
+        height: 100vh !important;
+      }
+
+      #app-container {
+        width: 100%;
+        max-width: 480px;
+        min-height: 100vh;
         position: relative;
+        margin: 0 auto; /* Center on desktop */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      .title,
+      .pre-title,
+      .date {
+        font-family: var(--font-heading);
+        font-weight: 600;
+      }
+
+      /* ================== PRELOADER ================== */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+      }
+
+      .preloader-content {
+        text-align: center;
+        color: #fff;
+      }
+
+      .preloader-subtitle {
+        font-family: Arial, sans-serif;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .preloader-title {
+        font-family: Arial, sans-serif;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+      }
+
+      .preloader-percentage {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 1.4rem;
+        font-weight: bold;
+      }
+
+      /* ================== COVER SECTION ================== */
+      .cover {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
         height: 100vh;
-        overflow: hidden;
+        height: 100dvh;
+        background-color: #3b2b20;
+        background-image:
+          linear-gradient(
+            to bottom,
+            rgba(59, 43, 32, 0.85) 0%,
+            rgba(59, 43, 32, 0.2) 25%,
+            rgba(59, 43, 32, 0.2) 65%,
+            rgba(59, 43, 32, 0.95) 100%
+          ),
+          url("/undangan1/assets/couple-cover.jpg");
+        background-size: 180%;
+        background-position: 60% 25%;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        padding: 6vh 2rem 8vh 2rem;
+      }
+
+      .cover.slide-up {
+        transform: translate(-50%, -100%);
+      }
+
+      .cover-pattern {
+        display: none; /* Removed pattern for clean look */
+      }
+
+      .cover-top {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        width: 100%;
+      }
+
+      .cover-top .pre-title {
+        font-family: var(--font-script);
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin-bottom: 0.2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .cover-top .title {
+        font-family: var(--font-heading);
+        font-size: clamp(1.5rem, 7vw, 2.2rem);
+        white-space: nowrap;
+        margin-bottom: 0.5rem;
+        letter-spacing: 2px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+      }
+
+      .cover-top .date-minimalist {
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+        font-weight: 300;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+      }
+
+      .cover-bottom {
+        position: relative;
+        z-index: 2;
+        color: #fff;
+        width: 100%;
+      }
+
+      .guest-info {
+        margin-bottom: 1.5rem;
+      }
+
+      .guest-info p {
+        font-family: var(--font-body);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
+      }
+
+      .guest-info h3 {
+        font-family: var(--font-heading);
+        font-size: 1.8rem;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+      }
+
+      /* Button */
+      .btn-primary {
+        background: linear-gradient(135deg, #c5a059 0%, #a67c33 100%);
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 10px 28px;
+        font-size: 0.95rem;
+        border-radius: 30px;
+        cursor: pointer;
+        font-family: var(--font-body);
+        font-weight: 600;
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: #1a1a1a;
+        margin: 0 auto;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       }
-      
-      .parallax-layer {
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #a67c33 0%, #c5a059 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      /* ================== MAIN CONTENT ================== */
+      .main-content {
+        position: relative;
+        min-height: 100vh;
+      }
+
+      .main-content.hidden {
+        display: none;
+      }
+
+      /* Video Background */
+      .video-bg-container {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
+        height: 100vh;
+        height: 100dvh;
+        z-index: -1;
+        background-color: var(--bg-main);
+        background-image: url("/undangan1/assets/JAWA-BACKGROUND.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .bg-video {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        will-change: transform;
       }
 
-      /* Content on top */
-      .parallax-content {
+      /* Hero Section */
+      .hero-section {
         position: relative;
-        z-index: 30;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         text-align: center;
-        color: white;
+        color: var(--text-light);
+        padding: 2rem;
+      }
+
+      .motif-atas,
+      .motif-bawah {
+        position: absolute;
+        width: 100%;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .motif-atas {
+        top: 0;
+      }
+
+      .motif-bawah {
+        bottom: 0;
+      }
+
+      .motif-atas img,
+      .motif-bawah img {
+        width: 100%;
+        opacity: 0.8;
+      }
+
+      .hero-content {
+        position: absolute;
+        top: 42%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        z-index: 2;
+        padding: 0 2rem;
+      }
+
+      .hero-content .pre-title {
+        font-family: var(--font-script);
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin-bottom: 0.2rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-content .title {
+        font-family: var(--font-heading);
+        font-size: 2.4rem;
+        color: #dcb36d;
+        margin-bottom: 0.8rem;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        line-height: 1.1;
+      }
+
+      .hero-content .date-minimalist {
+        font-family: var(--font-heading);
+        font-size: 0.85rem;
+        letter-spacing: 4px;
+        font-weight: 600;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+      }
+
+      .gunungan-wrapper {
+        margin-bottom: 2rem;
+      }
+
+      .gunungan-img {
+        width: 150px;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      /* ================== COUPLE SECTION ================== */
+      .couple-section {
+        padding: 4rem 1.5rem;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+      }
+
+      .couple-container {
+        background-color: #fdfbf7;
+        background-image: url("/undangan1/assets/JAWA-PATTERN.png");
+        background-size: 150px;
+        background-repeat: repeat;
+        background-blend-mode: soft-light;
+        border: 2px solid #c9a45c;
+        border-radius: 200px;
+        padding: 0 1.5rem 4rem 1.5rem;
+        text-align: center;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .couple-top-ornament {
+        width: calc(100% + 3rem);
+        max-width: none;
+        display: block;
+        margin: 0 -1.5rem 2rem -1.5rem;
+        object-fit: cover;
+      }
+
+      .couple-bottom-ornament {
+        width: calc(100% + 3rem);
+        max-width: none;
+        display: block;
+        margin: 2rem -1.5rem 0 -1.5rem;
+        object-fit: cover;
+        transform: rotate(180deg);
+      }
+
+      .couple-pretitle {
+        font-family: var(--font-script);
+        font-size: 2.2rem;
+        color: var(--text-dark);
+        margin: 0.5rem 0 1.5rem 0;
+        line-height: 1.2;
+      }
+
+      .couple-desc-new {
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 3rem;
+        line-height: 1.6;
+        padding: 0 1rem;
+      }
+
+      .couple-card-new {
+        margin-bottom: 4rem;
+        position: relative;
+      }
+
+      .couple-photo-frame {
+        position: relative;
+        width: 200px;
+        margin: 0 auto 1.5rem auto;
+      }
+
+      /* Arch frame menggunakan CSS murni */
+      .couple-photo-arch {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 120px; /* Atas dan bawah membulat (pill shape) */
+        border: 3px solid #c9a45c;
+        box-shadow: 0 6px 20px rgba(138,108,66,0.25);
+        display: block;
+        z-index: 2;
+        object-fit: cover;
+        object-position: center 20%;
+        background-color: #e8dfd0;
       }
       
-      /* Next section to allow scrolling */
-      .content-section {
-        position: relative;
-        z-index: 40;
-        background-color: #fcfaf8;
-        min-height: 100vh;
-        padding: 4rem 1rem;
+      .couple-photo-frame::before {
+          content: "";
+          display: block;
+          padding-top: 150%; /* 2:3 aspect ratio untuk portrait */
+      }
+
+      /* Wayang gunungan — sisi kiri tengah frame */
+      .deco-wayang {
+        position: absolute;
+        left: -85px;
+        top: 20%;
+        width: 140px;
+        z-index: 1; /* Di belakang frame */
+        pointer-events: none;
+      }
+
+      /* Bunga — sudut kanan bawah */
+      .deco-flower {
+        position: absolute;
+        right: -75px;
+        bottom: -45px;
+        width: 160px;
+        z-index: 3; /* Di depan frame */
+        pointer-events: none;
+        transform: rotate(-5deg);
+      }
+
+      .name-script-large {
+        font-family: var(--font-script);
+        font-size: 2.5rem;
+        color: var(--text-dark);
+        margin: 1.5rem 0 0.5rem 0;
+      }
+
+      .name-serif-full {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        color: var(--text-dark);
+        letter-spacing: 1px;
+        margin: 0 0 0.5rem 0;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .parents-new {
+        font-family: var(--font-body);
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        line-height: 1.5;
+        margin-bottom: 1rem;
+      }
+
+      .btn-instagram {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #b59864;
+        color: #fff;
+        padding: 8px 24px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        box-shadow: none;
+      }
+
+      .btn-instagram:hover {
+        background-color: #927a4d;
+        transform: translateY(-2px);
+        color: #fff;
+      }
+
+      .ampersand {
+        font-family: var(--font-heading);
+        font-size: 4rem;
+        color: var(--text-dark);
+        margin: 1rem 0 2rem 0;
+      }
+
+      /* Desktop layout dihilangkan agar tetap dalam mode mobile view */
+
+      /* ================== ANIMATIONS ================== */
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .animate-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .animate-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .delay-1 {
+        transition-delay: 0.2s;
+      }
+      .delay-2 {
+        transition-delay: 0.4s;
+      }
+      .delay-3 {
+        transition-delay: 0.6s;
+      }
+      /* ================== GALLERY SECTION ================== */
+      .gallery-section {
+        padding: 2rem 1.5rem;
+        background-color: var(--bg-main);
         text-align: center;
+      }
+
+      .gallery-slider {
+        width: 100%;
+        padding-top: 1rem;
+        padding-bottom: 3rem;
+        overflow: hidden;
+      }
+
+      .gallery-slider .swiper-slide {
+        background-position: center;
+        background-size: cover;
+        width: 80%;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      }
+
+      .gallery-slider img {
+        display: block;
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+      
+      .swiper-pagination-bullet-active {
+        background: var(--accent-gold) !important;
       }
     </style>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   </head>
-  
-  <body class="bg-[#fcfaf8] text-gray-800 antialiased overflow-x-hidden">
-    
-    <!-- PARALLAX HERO SECTION -->
-    <header class="parallax-wrapper relative bg-[#2a201b] border-[12px] border-[#4a3525]" id="hero-section">
-      
-      <!-- Layer 1: Couple Photo Background (Moves slowest) -->
-      <img 
-        src="/assets/img/undangan1/couple-cover.jpg" 
-        alt="Couple Cover" 
-        class="parallax-layer z-0 object-cover opacity-80" 
-        id="layer-photo" 
-        data-speed="0.25"
-      />
+  <body class="no-scroll">
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+      <div class="preloader-content">
+        <p class="preloader-subtitle">wedding invitation</p>
+        <h2 class="preloader-title">Krisna & Anisa</h2>
+        <div class="preloader-percentage" id="preloader-percentage">0%</div>
+      </div>
+    </div>
 
-      <!-- Gradient Overlay at bottom for text readability -->
-      <div class="absolute inset-0 z-10 bg-gradient-to-t from-[#2a201b] via-[#2a201b]/40 to-transparent pointer-events-none"></div>
+    <!-- Background Audio -->
+    <audio id="bg-music" src="" loop></audio>
 
-      <!-- Layer 2: Content (Moves medium speed) -->
-      <div class="parallax-content z-20 flex flex-col items-center justify-between h-full py-16 w-full" id="layer-text" data-speed="0.5">
-        
-        <!-- Top Section -->
-        <div class="mt-4">
-          <p class="font-script text-3xl md:text-5xl text-white mb-2 drop-shadow-md">The Wedding of</p>
-          <h1 class="font-serif text-2xl md:text-4xl text-white font-bold tracking-widest drop-shadow-md">
-            RISMA &amp; AZIS
-          </h1>
+    <div id="app-container">
+      <!-- Cover Section -->
+      <section id="cover" class="cover">
+        <div class="cover-pattern"></div>
+
+        <div class="cover-top">
+          <h4 class="pre-title">The Wedding of</h4>
+          <h1 class="title">KRISNA & ANISA</h1>
+          <p class="date-minimalist">31 . 12 . 202X</p>
         </div>
 
-        <!-- Bottom Section -->
-        <div class="mb-4">
-          <p class="font-sans text-sm text-gray-200 mb-1">Kepada Yth.</p>
-          <h2 class="font-serif text-2xl text-white font-bold mb-6 drop-shadow-md">Nama Tamu</h2>
-          
-          <button type="button" class="bg-[#b38b59] hover:bg-[#9a7649] text-white px-8 py-3 rounded-full font-sans text-sm tracking-wide transition-colors flex items-center justify-center gap-2 mx-auto shadow-lg border border-[#d4b589]">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
+        <div class="cover-bottom">
+          <div class="guest-info">
+            <p>Kepada Yth.</p>
+            <h3 id="guest-name">Nama Tamu</h3>
+          </div>
+
+          <button id="btn-open" class="btn-primary">
+            <span class="icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"
+                ></path>
+              </svg>
+            </span>
             Buka Undangan
           </button>
         </div>
+      </section>
 
-      </div>
-      
-    </header>
-
-    <!-- KONTEN SELANJUTNYA -->
-    <section class="content-section">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="font-serif text-3xl mb-6 text-[#1a1a1a]">Section Selanjutnya</h2>
-        <p class="font-sans text-gray-600">
-          Scroll ke atas dan ke bawah untuk melihat efek Parallax pada Cover Halaman. 
-        </p>
-        
-        <div class="mt-20 space-y-10">
-          <div class="h-64 bg-gray-100 rounded-lg flex items-center justify-center">Konten 1</div>
-          <div class="h-64 bg-gray-100 rounded-lg flex items-center justify-center">Konten 2</div>
-          <div class="h-64 bg-gray-100 rounded-lg flex items-center justify-center">Konten 3</div>
+      <!-- Main Content -->
+      <main id="main-content" class="main-content hidden">
+        <!-- Video Background for the main content transition (Fallback if video is not available) -->
+        <div class="video-bg-container">
+          <video class="bg-video" muted playsinline>
+            <source
+              src="https://inv.akaddigitech.id/wp-content/uploads/2026/01/JAWA-MOTION-COMPRESS-1-1-1.mp4"
+              type="video/mp4"
+            />
+          </video>
         </div>
-      </div>
-    </section>
 
-    <!-- SCRIPT UNTUK PARALLAX -->
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const photoLayer = document.getElementById("layer-photo");
-        const textLayer = document.getElementById("layer-text");
+        <section class="hero-section">
+          <div class="hero-content">
+            <p class="pre-title animate-up">The Wedding of</p>
+            <h2 class="title animate-up">
+              <span class="name">KRISNA</span><br />
+              <span class="ampersand" style="font-size: 3rem; margin: 0; line-height: 1;">&</span><br />
+              <span class="name">ANISA</span>
+            </h2>
+            <div class="date-minimalist animate-up">08 . 09 . 2026</div>
+          </div>
+        </section>
 
-        // Fungsi Update Parallax
-        const updateParallax = () => {
-          const scrollY = window.scrollY;
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+          <div class="swiper gallery-slider animate-up delay-1">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img src="/undangan1/assets/gallery-1.jpg" alt="Gallery 1" />
+              </div>
+              <div class="swiper-slide">
+                <img src="/undangan1/assets/gallery-2.jpg" alt="Gallery 2" />
+              </div>
+              <div class="swiper-slide">
+                <img src="/undangan1/assets/gallery-3.jpg" alt="Gallery 3" />
+              </div>
+              <div class="swiper-slide">
+                <img src="/undangan1/assets/gallery-4.jpg" alt="Gallery 4" />
+              </div>
+              <div class="swiper-slide">
+                <img src="/undangan1/assets/gallery-5.jpg" alt="Gallery 5" />
+              </div>
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+          </div>
+        </section>
+
+        <!-- Couple Section -->
+        <section class="couple-section" id="couple">
+          <div class="couple-container">
+            <img src="/undangan1/assets/JAWA-MOTIF-ATAS.png" alt="Motif Atas" class="couple-top-ornament" />
+            
+            <h2 class="couple-pretitle animate-up">We are<br/>Getting Married!</h2>
+            <p class="couple-desc-new animate-up delay-1">
+              Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami:
+            </p>
+
+            <div class="couple-card-new bride animate-up delay-2">
+              <div class="couple-photo-frame">
+                <img src="/undangan1/assets/JAWA-COUPLE-2-NEW.jpg" alt="Anisa" class="couple-photo-arch" />
+                <img src="/undangan1/assets/JAWA-COUPLE-1.png" alt="Dekorasi Wayang" class="deco-wayang" />
+                <img src="/undangan1/assets/JAWA-COUPLE-2.png" alt="Dekorasi Bunga" class="deco-flower" />
+              </div>
+              <div class="couple-info">
+                <h3 class="name-script-large">Anisa</h3>
+                <h4 class="name-serif-full">ANISA ZAHRA NUR</h4>
+                <p class="parents-new">Putri dari Bapak Nasrudin Hatta<br/>& Ibu Elma Muna</p>
+                <a href="https://instagram.com/anisa_l" class="btn-instagram" target="_blank" rel="noopener noreferrer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.487.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                  </svg>
+                  Instagram
+                </a>
+              </div>
+            </div>
+
+            <div class="ampersand animate-up delay-3">&</div>
+
+            <div class="couple-card-new groom animate-up delay-1">
+              <div class="couple-photo-frame">
+                <img src="/undangan1/assets/JAWA-COUPLE-3.png" alt="Krisna" class="couple-photo-arch" />
+                <img src="/undangan1/assets/JAWA-COUPLE-1.png" alt="Dekorasi Wayang" class="deco-wayang" />
+                <img src="/undangan1/assets/JAWA-COUPLE-4.png" alt="Dekorasi Bunga" class="deco-flower" />
+              </div>
+              <div class="couple-info">
+                <h3 class="name-script-large">Krisna</h3>
+                <h4 class="name-serif-full">KRISNA MAHENDARA</h4>
+                <p class="parents-new">Putra dari Bapak Sufian Jadin<br/>& Ibu Elmira Ghendis</p>
+                <a href="https://instagram.com/krisna_p" class="btn-instagram" target="_blank" rel="noopener noreferrer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.487.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                  </svg>
+                  Instagram
+                </a>
+              </div>
+            </div>
+            
+            <img src="/undangan1/assets/JAWA-MOTIF-BAWAH.png" alt="Motif Bawah" class="couple-bottom-ornament" />
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script is:inline>
+        document.addEventListener("DOMContentLoaded", () => {
+          // Preloader Logic
+          const preloader = document.getElementById("preloader");
+          const percentageEl = document.getElementById("preloader-percentage");
+          let progress = 0;
           
-          window.requestAnimationFrame(() => {
-            if (photoLayer) {
-              const speed = parseFloat(photoLayer.getAttribute("data-speed") || "0");
-              photoLayer.style.transform = `translateY(${scrollY * speed}px)`;
+          const loadingInterval = setInterval(() => {
+            progress += Math.floor(Math.random() * 4) + 1;
+            if (progress >= 100) {
+              progress = 100;
+              percentageEl.innerText = progress + "%";
+              clearInterval(loadingInterval);
+              setTimeout(() => {
+                preloader.style.opacity = "0";
+                setTimeout(() => {
+                  preloader.style.visibility = "hidden";
+                }, 800);
+              }, 400);
+            } else {
+              percentageEl.innerText = progress + "%";
             }
-            if (textLayer) {
-              const speed = parseFloat(textLayer.getAttribute("data-speed") || "0");
-              textLayer.style.transform = `translateY(${scrollY * speed}px)`;
-            }
-          });
-        };
+          }, 30); // Durasi simulasi loading sekitar 1-2 detik
 
-        // Pasang event listener untuk scroll
-        window.addEventListener("scroll", updateParallax, { passive: true });
-      });
+        const btnOpen = document.getElementById("btn-open");
+        const cover = document.getElementById("cover");
+        const mainContent = document.getElementById("main-content");
+        const guestNameEl = document.getElementById("guest-name");
+        const bgMusic = document.getElementById("bg-music");
+
+        // Parse Guest Name from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName =
+          urlParams.get("to") || urlParams.get("kepada") || urlParams.get("u");
+
+        if (guestName) {
+          guestNameEl.textContent = guestName;
+        } else {
+          guestNameEl.textContent = "Tamu Undangan";
+        }
+
+        // Open Invitation Handler
+        btnOpen.addEventListener("click", () => {
+          // Request Fullscreen
+          const elem = document.documentElement;
+          if (elem.requestFullscreen) {
+            elem.requestFullscreen().catch(err => console.log("Fullscreen error:", err));
+          } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen().catch(err => console.log("Fullscreen error:", err));
+          } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen().catch(err => console.log("Fullscreen error:", err));
+          }
+
+          // Slide up the cover
+          cover.classList.add("slide-up");
+
+          // Show main content
+          mainContent.classList.remove("hidden");
+
+          // Play background music
+          // Note: For actual deployment, you need a valid audio src in index.html
+          if (bgMusic.src && bgMusic.src !== window.location.href) {
+            bgMusic.play().catch((e) => console.log("Autoplay prevented:", e));
+          }
+
+          const bgVideo = document.querySelector(".bg-video");
+          if (bgVideo) {
+            document.documentElement.classList.add("no-scroll");
+            document.body.classList.add("no-scroll");
+            bgVideo.play().catch((e) => {
+              console.log("Video play error:", e);
+              document.documentElement.classList.remove("no-scroll");
+              document.body.classList.remove("no-scroll");
+            });
+
+            // PENGATURAN WAKTU MUNCUL TEKS (silakan ubah angka di bawah ini)
+            const WAKTU_MUNCUL_DETIK = 13.5;
+            let textShown = false;
+
+            bgVideo.addEventListener("timeupdate", () => {
+              if (bgVideo.currentTime >= WAKTU_MUNCUL_DETIK && !textShown) {
+                textShown = true;
+                document.documentElement.classList.remove("no-scroll");
+                document.body.classList.remove("no-scroll");
+                document
+                  .querySelectorAll(".hero-content .animate-up")
+                  .forEach((el) => {
+                    el.classList.add("visible");
+                  });
+              }
+            });
+          }
+
+          // Hide cover completely after transition
+          setTimeout(() => {
+            cover.style.display = "none";
+          }, 1200);
+        });
+
+          const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+          };
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("visible");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            observerOptions
+          );
+
+          // Observe elements (exclude hero-content which follows video timing)
+          document
+            .querySelectorAll(".animate-up")
+            .forEach((el) => {
+              if (!el.closest(".hero-content")) {
+                observer.observe(el);
+              }
+            });
+            
+          // Initialize Swiper
+          const swiper = new Swiper('.gallery-slider', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            observer: true,
+            observeParents: true,
+            coverflowEffect: {
+              rotate: 30,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            },
+            loop: true,
+            autoplay: {
+              delay: 3000,
+              disableOnInteraction: false,
+            },
+            pagination: {
+              el: '.swiper-pagination',
+            },
+          });
+        });
     </script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" is:inline></script>
   </body>
 </html>

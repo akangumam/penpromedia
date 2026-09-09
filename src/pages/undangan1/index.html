@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Krisna & Anisa</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Undangan Pernikahan Krisna & Anisa, Minggu, 31 Desember 202X">
+    <meta property="og:title" content="The Wedding of Krisna & Anisa">
+    <meta property="og:description" content="Kami mengundang Anda untuk hadir di acara pernikahan kami.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="no-scroll">
+    <!-- Preloader -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <p class="preloader-subtitle">wedding invitation</p>
+            <h2 class="preloader-title">Krisna & Anisa</h2>
+            <div class="preloader-percentage" id="preloader-percentage">0%</div>
+        </div>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="bg-music" src="" loop></audio>
+
+    <div id="app-container">
+    <!-- Cover Section -->
+    <section id="cover" class="cover">
+        <div class="cover-pattern"></div>
+        <div class="cover-content">
+            <h4 class="pre-title">The Wedding of</h4>
+            <h1 class="title">Krisna & Anisa</h1>
+            <h4 class="date">31 . 12 . 202X</h4>
+            
+            <div class="guest-info">
+                <p>Kepada Yth.</p>
+                <h3 id="guest-name">Nama Tamu</h3>
+            </div>
+            
+            <button id="btn-open" class="btn-primary">
+                <span class="icon">✉</span>
+                Buka Undangan
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main id="main-content" class="main-content hidden">
+        <!-- Video Background for the main content transition (Fallback if video is not available) -->
+        <div class="video-bg-container">
+            <video class="bg-video" autoplay muted playsinline>
+                <source src="https://inv.akaddigitech.id/wp-content/uploads/2026/01/JAWA-MOTION-COMPRESS-1-1-1.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <section class="hero-section">
+            <div class="hero-content">
+                <h4 class="pre-title animate-up">The Wedding of</h4>
+                <h1 class="title animate-up delay-1">
+                    KRISNA<br/>
+                    &<br/>
+                    ANISA
+                </h1>
+                <p class="date animate-up delay-2" style="font-family: var(--font-heading); font-size: 0.85rem; letter-spacing: 4px; font-weight: 600; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); margin-top: 10px;">31 . 12 . 202X</p>
+            </div>
+        </section>
+        
+        <section class="couple-section">
+             <div class="couple-container">
+                 <h2 class="section-title">Mempelai</h2>
+                 <p class="section-desc">Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan acara pernikahan putra-putri kami:</p>
+                 
+                 <div class="couple-card groom">
+                     <div class="couple-photo">
+                         <img src="./assets/JAWA-COUPLE-1.png" alt="Krisna">
+                     </div>
+                     <div class="couple-info">
+                         <h3>Krisna</h3>
+                         <p>Putra dari Bpk. Fulan & Ibu Fulanah</p>
+                     </div>
+                 </div>
+                 
+                 <div class="ampersand" style="margin: 20px 0;">&</div>
+                 
+                 <div class="couple-card bride">
+                     <div class="couple-photo">
+                         <img src="./assets/JAWA-COUPLE-2.png" alt="Anisa">
+                     </div>
+                     <div class="couple-info">
+                         <h3>Anisa</h3>
+                         <p>Putri dari Bpk. Fulan & Ibu Fulanah</p>
+                     </div>
+                 </div>
+             </div>
+        </section>
+    </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // Preloader Logic
+            const preloader = document.getElementById("preloader");
+            const percentageEl = document.getElementById("preloader-percentage");
+            let progress = 0;
+            
+            const loadingInterval = setInterval(() => {
+                progress += Math.floor(Math.random() * 4) + 1;
+                if (progress >= 100) {
+                    progress = 100;
+                    percentageEl.innerText = progress + "%";
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        preloader.style.opacity = "0";
+                        setTimeout(() => {
+                            preloader.style.visibility = "hidden";
+                        }, 800);
+                    }, 400);
+                } else {
+                    percentageEl.innerText = progress + "%";
+                }
+            }, 30); // Durasi simulasi loading sekitar 1-2 detik
+
+        });
+        
+        // Play video and trigger text animation ONLY when it ends
+        const bgVideo = document.querySelector(".bg-video");
+        if (bgVideo) {
+            document.documentElement.classList.add("no-scroll");
+            document.body.classList.add("no-scroll");
+            bgVideo.play().catch(e => {
+                console.log("Video play error:", e);
+                document.documentElement.classList.remove("no-scroll");
+                document.body.classList.remove("no-scroll");
+            });
+
+            // PENGATURAN WAKTU MUNCUL TEKS (silakan ubah angka di bawah ini)
+            const WAKTU_MUNCUL_DETIK = 12.5; 
+            let textShown = false;
+            
+            bgVideo.addEventListener('timeupdate', () => {
+                if (bgVideo.currentTime >= WAKTU_MUNCUL_DETIK && !textShown) {
+                    textShown = true;
+                    document.documentElement.classList.remove("no-scroll");
+                    document.body.classList.remove("no-scroll");
+                    document.querySelectorAll(".hero-content .animate-up").forEach((el) => {
+                        el.classList.add("visible");
+                    });
+                }
+            });
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
