@@ -9,14 +9,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Wedding of Krisna & Anisa</title>
+    <title>The Wedding of Oman & Najwa</title>
 
     <!-- SEO Meta Tags -->
     <meta
       name="description"
-      content="Undangan Pernikahan Krisna & Anisa, Minggu, 31 Desember 202X"
+      content="Undangan Pernikahan Oman & Najwa, Minggu, 31 Desember 202X"
     />
-    <meta property="og:title" content="The Wedding of Krisna & Anisa" />
+    <meta property="og:title" content="The Wedding of Oman & Najwa" />
     <meta
       property="og:description"
       content="Kami mengundang Anda untuk hadir di acara pernikahan kami."
@@ -150,9 +150,9 @@
             rgba(59, 43, 32, 0.2) 65%,
             rgba(59, 43, 32, 0.95) 100%
           ),
-          url("/undangan1/assets/undangan1 (8).webp");
-        background-size: 180%;
-        background-position: 60% 25%;
+          url("/undangan1/assets/oman_najwa2.webp");
+        background-size: 280%;
+        background-position: center 15%;
         z-index: 9999;
         display: flex;
         flex-direction: column;
@@ -391,7 +391,9 @@
         text-align: center;
         max-width: 420px;
         width: 100%;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(201, 164, 92, 0.3);
+        box-shadow:
+          0 25px 50px -12px rgba(0, 0, 0, 0.5),
+          0 0 30px rgba(201, 164, 92, 0.3);
         position: relative;
         overflow: hidden;
       }
@@ -639,6 +641,89 @@
         background: var(--accent-gold) !important;
       }
     </style>
+    <style is:global>
+      /* ================== SAVE THE DATE SECTION ================== */
+      .savethedate-section {
+        padding: 3.5rem 1.5rem;
+        margin: 2rem 1.5rem;
+        background-color: rgba(43, 31, 22, 0.95);
+        background-image: url("/undangan1/assets/JAWA-PATTERN.png");
+        background-size: 100px;
+        background-blend-mode: color-burn;
+        border-radius: 12px;
+        text-align: center;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+      .savethedate-title {
+        font-family: var(--font-heading), serif !important;
+        font-size: 1.6rem !important;
+        color: #c9a45c !important;
+        margin-bottom: 2rem !important;
+        font-weight: 500 !important;
+        letter-spacing: 1px !important;
+        text-shadow: none !important;
+      }
+      .countdown-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.8rem !important;
+        margin-bottom: 2.5rem !important;
+      }
+      .countdown-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        min-width: 50px !important;
+      }
+      .cd-num {
+        font-size: 2.2rem !important;
+        font-weight: 700 !important;
+        color: #fff !important;
+        font-family: var(--font-heading), serif !important;
+        line-height: 1.1 !important;
+      }
+      .cd-label {
+        font-size: 0.65rem !important;
+        font-weight: 600 !important;
+        color: #c9a45c !important;
+        letter-spacing: 1.5px !important;
+        margin-top: 0.4rem !important;
+        text-transform: uppercase !important;
+      }
+      .cd-separator {
+        font-size: 1.8rem !important;
+        font-weight: 600 !important;
+        color: #c9a45c !important;
+        margin-top: -1.2rem !important;
+      }
+      .calendar-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.6rem !important;
+        background-color: #c9a45c !important;
+        color: #2b1f16 !important;
+        padding: 0.8rem 1.5rem !important;
+        border-radius: 4px !important;
+        font-size: 0.85rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+        text-decoration: none !important;
+        width: 100% !important;
+        max-width: 300px !important;
+        transition: background-color 0.3s !important;
+      }
+      .calendar-btn:hover {
+        background-color: #dfb96e !important;
+      }
+    </style>
     <!-- Swiper CSS -->
     <link
       rel="stylesheet"
@@ -650,7 +735,7 @@
     <div id="preloader" class="preloader">
       <div class="preloader-content">
         <p class="preloader-subtitle">wedding invitation</p>
-        <h2 class="preloader-title">Krisna & Anisa</h2>
+        <h2 class="preloader-title">Oman & Najwa</h2>
         <div class="preloader-percentage" id="preloader-percentage">0%</div>
       </div>
     </div>
@@ -665,7 +750,7 @@
 
         <div class="cover-top">
           <h4 class="pre-title">The Wedding of</h4>
-          <h1 class="title">KRISNA & ANISA</h1>
+          <h1 class="title">Oman & Najwa</h1>
           <p class="date-minimalist">31 . 12 . 202X</p>
         </div>
 
@@ -710,12 +795,12 @@
           <div class="hero-content">
             <p class="pre-title animate-up">The Wedding of</p>
             <h2 class="title animate-up">
-              <span class="name">KRISNA</span><br />
+              <span class="name">Oman</span><br />
               <span
                 class="ampersand"
                 style="font-size: 3rem; margin: 0; line-height: 1;">&</span
               ><br />
-              <span class="name">ANISA</span>
+              <span class="name">Najwa</span>
             </h2>
             <div class="date-minimalist animate-up">08 . 09 . 2026</div>
           </div>
@@ -727,32 +812,32 @@
             <div class="swiper-wrapper">
               <div class="swiper-slide">
                 <img
-                  src="/undangan1/assets/undangan1 (3).webp"
-                  alt="Gallery 1"
+                  src="/undangan1/assets/oman_najwa2.webp"
+                  alt="Oman & Najwa - Wedding Photo 1"
                 />
               </div>
               <div class="swiper-slide">
                 <img
-                  src="/undangan1/assets/undangan1 (4).webp"
-                  alt="Gallery 2"
+                  src="/undangan1/assets/oman_najwa.webp"
+                  alt="Oman & Najwa - Wedding Photo 2"
                 />
               </div>
               <div class="swiper-slide">
                 <img
-                  src="/undangan1/assets/undangan1 (5).webp"
-                  alt="Gallery 3"
+                  src="/undangan1/assets/pose_change_1 (3).png"
+                  alt="Oman & Najwa - Wedding Photo 3"
                 />
               </div>
               <div class="swiper-slide">
                 <img
-                  src="/undangan1/assets/undangan1 (6).webp"
-                  alt="Gallery 4"
+                  src="/undangan1/assets/gallery_sitting.jpg"
+                  alt="Oman & Najwa - Wedding Photo 4"
                 />
               </div>
               <div class="swiper-slide">
                 <img
-                  src="/undangan1/assets/undangan1 (7).webp"
-                  alt="Gallery 5"
+                  src="/undangan1/assets/gallery_close.jpg"
+                  alt="Oman & Najwa - Wedding Photo 5"
                 />
               </div>
             </div>
@@ -787,32 +872,33 @@
               pernikahan kami:
             </p>
 
-            <div class="couple-card-new bride animate-up delay-2">
+            <div class="couple-card-new groom animate-up delay-1">
               <div class="couple-photo-frame">
-                <img
-                  src="/undangan1/assets/undangan1 (2).webp"
-                  alt="Anisa"
+                <div
                   class="couple-photo-arch"
-                />
+                  style="background-image: url('/undangan1/assets/oman.webp'); background-size: 300%; background-position: center 35%;"
+                  title="Oman"
+                >
+                </div>
                 <img
-                  src="/undangan1/assets/JAWA-COUPLE-1.png"
+                  src="/undangan1/assets/JAWA-COUPLE-3.png"
                   alt="Dekorasi Wayang"
                   class="deco-wayang"
                 />
                 <img
-                  src="/undangan1/assets/JAWA-COUPLE-2.png"
+                  src="/undangan1/assets/JAWA-COUPLE-4.png"
                   alt="Dekorasi Bunga"
                   class="deco-flower"
                 />
               </div>
               <div class="couple-info">
-                <h3 class="name-script-large">Anisa</h3>
-                <h4 class="name-serif-full">ANISA ZAHRA NUR</h4>
+                <h3 class="name-script-large">Oman</h3>
+                <h4 class="name-serif-full">Oman MAHENDARA</h4>
                 <p class="parents-new">
-                  Putri dari Bapak Nasrudin Hatta<br />& Ibu Elma Muna
+                  Putra dari Bapak Sufian Jadin<br />& Ibu Elmira Ghendis
                 </p>
                 <a
-                  href="https://instagram.com/anisa_l"
+                  href="https://instagram.com/Oman_p"
                   class="btn-instagram"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -836,32 +922,33 @@
 
             <div class="ampersand animate-up delay-3">&</div>
 
-            <div class="couple-card-new groom animate-up delay-1">
+            <div class="couple-card-new bride animate-up delay-2">
               <div class="couple-photo-frame">
                 <div
                   class="couple-photo-arch"
-                  style="background-image: url('/undangan1/assets/pria.webp'); background-size: 180%; background-position: center 10%;"
-                  title="Krisna"
-                ></div>
+                  style="background-image: url('/undangan1/assets/najwa.webp'); background-size: 300%; background-position: center 35%;"
+                  title="Najwa"
+                >
+                </div>
                 <img
-                  src="/undangan1/assets/JAWA-COUPLE-3.png"
+                  src="/undangan1/assets/JAWA-COUPLE-1.png"
                   alt="Dekorasi Wayang"
                   class="deco-wayang"
                 />
                 <img
-                  src="/undangan1/assets/JAWA-COUPLE-4.png"
+                  src="/undangan1/assets/JAWA-COUPLE-2.png"
                   alt="Dekorasi Bunga"
                   class="deco-flower"
                 />
               </div>
               <div class="couple-info">
-                <h3 class="name-script-large">Krisna</h3>
-                <h4 class="name-serif-full">KRISNA MAHENDARA</h4>
+                <h3 class="name-script-large">Najwa</h3>
+                <h4 class="name-serif-full">Najwa ZAHRA NUR</h4>
                 <p class="parents-new">
-                  Putra dari Bapak Sufian Jadin<br />& Ibu Elmira Ghendis
+                  Putri dari Bapak Nasrudin Hatta<br />& Ibu Elma Muna
                 </p>
                 <a
-                  href="https://instagram.com/krisna_p"
+                  href="https://instagram.com/Najwa_l"
                   class="btn-instagram"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -890,6 +977,79 @@
             />
           </div>
         </section>
+
+        <!-- Save the Date Section -->
+        <section class="savethedate-section" id="savethedate">
+          <h2 class="savethedate-title animate-up delay-1">Menuju Hari Bahagia</h2>
+          
+          <div class="countdown-wrapper animate-up delay-2">
+            <div class="countdown-item">
+              <span id="cd-days" class="cd-num">00</span>
+              <span class="cd-label">HARI</span>
+            </div>
+            <span class="cd-separator">:</span>
+            <div class="countdown-item">
+              <span id="cd-hours" class="cd-num">00</span>
+              <span class="cd-label">JAM</span>
+            </div>
+            <span class="cd-separator">:</span>
+            <div class="countdown-item">
+              <span id="cd-minutes" class="cd-num">00</span>
+              <span class="cd-label">MENIT</span>
+            </div>
+            <span class="cd-separator">:</span>
+            <div class="countdown-item">
+              <span id="cd-seconds" class="cd-num">00</span>
+              <span class="cd-label">DETIK</span>
+            </div>
+          </div>
+
+          <a href="#" class="calendar-btn animate-up delay-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+            SIMPAN KE KALENDER
+          </a>
+        </section>
+
+        <script is:inline>
+          document.addEventListener("DOMContentLoaded", () => {
+            const targetDate = new Date("2026-12-31T08:00:00").getTime(); // Sesuaikan tanggal pernikahan di sini
+            
+            const daysEl = document.getElementById("cd-days");
+            const hoursEl = document.getElementById("cd-hours");
+            const minutesEl = document.getElementById("cd-minutes");
+            const secondsEl = document.getElementById("cd-seconds");
+            
+            if (daysEl && hoursEl && minutesEl && secondsEl) {
+              const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                
+                if (distance < 0) {
+                  daysEl.innerText = "00";
+                  hoursEl.innerText = "00";
+                  minutesEl.innerText = "00";
+                  secondsEl.innerText = "00";
+                  return;
+                }
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                daysEl.innerText = days.toString().padStart(2, '0');
+                hoursEl.innerText = hours.toString().padStart(2, '0');
+                minutesEl.innerText = minutes.toString().padStart(2, '0');
+                secondsEl.innerText = seconds.toString().padStart(2, '0');
+              };
+              
+              updateCountdown();
+              setInterval(updateCountdown, 1000);
+            }
+          });
+        </script>
       </main>
     </div>
 
@@ -959,7 +1119,7 @@
 
           // Show main content
           mainContent.classList.remove("hidden");
-          
+
           // Memastikan slider langsung jalan saat undangan dibuka
           if (typeof swiper !== "undefined") {
             swiper.update();
