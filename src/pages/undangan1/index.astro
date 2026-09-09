@@ -62,8 +62,9 @@
         padding: 0;
         overflow-x: hidden;
       }
-      
-      html.no-scroll, body.no-scroll {
+
+      html.no-scroll,
+      body.no-scroll {
         overflow: hidden !important;
         height: 100vh !important;
       }
@@ -101,7 +102,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: opacity 0.8s ease, visibility 0.8s ease;
+        transition:
+          opacity 0.8s ease,
+          visibility 0.8s ease;
       }
 
       .preloader-content {
@@ -375,18 +378,20 @@
       }
 
       .couple-container {
-        background-color: #fdfbf7;
+        background-color: rgba(253, 251, 247, 0.65);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         background-image: url("/undangan1/assets/JAWA-PATTERN.png");
         background-size: 150px;
         background-repeat: repeat;
         background-blend-mode: soft-light;
-        border: 2px solid #c9a45c;
+        border: 4px solid #c9a45c;
         border-radius: 200px;
         padding: 0 1.5rem 4rem 1.5rem;
         text-align: center;
         max-width: 420px;
         width: 100%;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(201, 164, 92, 0.3);
         position: relative;
         overflow: hidden;
       }
@@ -395,17 +400,34 @@
         width: calc(100% + 3rem);
         max-width: none;
         display: block;
-        margin: 0 -1.5rem 2rem -1.5rem;
+        margin: 0 -1.5rem 1rem -1.5rem;
         object-fit: cover;
       }
 
+      .gunungan-small-wrapper {
+        margin-top: -10.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        z-index: 3;
+      }
+
+      .gunungan-small {
+        width: 60px !important;
+        max-width: 60px !important;
+        height: auto !important;
+        opacity: 0.85;
+      }
+
       .couple-bottom-ornament {
-        width: calc(100% + 3rem);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         max-width: none;
         display: block;
-        margin: 2rem -1.5rem 0 -1.5rem;
         object-fit: cover;
-        transform: rotate(180deg);
       }
 
       .couple-pretitle {
@@ -446,24 +468,24 @@
         left: 0;
         border-radius: 120px; /* Atas dan bawah membulat (pill shape) */
         border: 3px solid #c9a45c;
-        box-shadow: 0 6px 20px rgba(138,108,66,0.25);
+        box-shadow: 0 6px 20px rgba(138, 108, 66, 0.25);
         display: block;
         z-index: 2;
         object-fit: cover;
         object-position: center 20%;
         background-color: #e8dfd0;
       }
-      
+
       .couple-photo-frame::before {
-          content: "";
-          display: block;
-          padding-top: 150%; /* 2:3 aspect ratio untuk portrait */
+        content: "";
+        display: block;
+        padding-top: 150%; /* 2:3 aspect ratio untuk portrait */
       }
 
       /* Wayang gunungan — sisi kiri tengah frame */
       .deco-wayang {
         position: absolute;
-        left: -85px;
+        left: -45px;
         top: 20%;
         width: 140px;
         z-index: 1; /* Di belakang frame */
@@ -479,6 +501,18 @@
         z-index: 3; /* Di depan frame */
         pointer-events: none;
         transform: rotate(-5deg);
+      }
+
+      /* Mirror layout untuk mempelai pria */
+      .groom .deco-wayang {
+        left: auto;
+        right: -45px;
+      }
+      .groom .deco-flower {
+        right: auto;
+        left: -85px;
+        bottom: -20px;
+        transform: rotate(15deg);
       }
 
       .name-script-large {
@@ -590,7 +624,7 @@
         background-size: cover;
         width: 80%;
         border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       }
 
       .gallery-slider img {
@@ -600,13 +634,16 @@
         object-fit: cover;
         border-radius: 12px;
       }
-      
+
       .swiper-pagination-bullet-active {
         background: var(--accent-gold) !important;
       }
     </style>
     <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
   </head>
   <body class="no-scroll">
     <!-- Preloader -->
@@ -674,7 +711,10 @@
             <p class="pre-title animate-up">The Wedding of</p>
             <h2 class="title animate-up">
               <span class="name">KRISNA</span><br />
-              <span class="ampersand" style="font-size: 3rem; margin: 0; line-height: 1;">&</span><br />
+              <span
+                class="ampersand"
+                style="font-size: 3rem; margin: 0; line-height: 1;">&</span
+              ><br />
               <span class="name">ANISA</span>
             </h2>
             <div class="date-minimalist animate-up">08 . 09 . 2026</div>
@@ -686,19 +726,34 @@
           <div class="swiper gallery-slider animate-up delay-1">
             <div class="swiper-wrapper">
               <div class="swiper-slide">
-                <img src="/undangan1/assets/undangan1 (3).webp" alt="Gallery 1" />
+                <img
+                  src="/undangan1/assets/undangan1 (3).webp"
+                  alt="Gallery 1"
+                />
               </div>
               <div class="swiper-slide">
-                <img src="/undangan1/assets/undangan1 (4).webp" alt="Gallery 2" />
+                <img
+                  src="/undangan1/assets/undangan1 (4).webp"
+                  alt="Gallery 2"
+                />
               </div>
               <div class="swiper-slide">
-                <img src="/undangan1/assets/undangan1 (5).webp" alt="Gallery 3" />
+                <img
+                  src="/undangan1/assets/undangan1 (5).webp"
+                  alt="Gallery 3"
+                />
               </div>
               <div class="swiper-slide">
-                <img src="/undangan1/assets/undangan1 (6).webp" alt="Gallery 4" />
+                <img
+                  src="/undangan1/assets/undangan1 (6).webp"
+                  alt="Gallery 4"
+                />
               </div>
               <div class="swiper-slide">
-                <img src="/undangan1/assets/undangan1 (7).webp" alt="Gallery 5" />
+                <img
+                  src="/undangan1/assets/undangan1 (7).webp"
+                  alt="Gallery 5"
+                />
               </div>
             </div>
             <!-- Add Pagination -->
@@ -709,26 +764,70 @@
         <!-- Couple Section -->
         <section class="couple-section" id="couple">
           <div class="couple-container">
-            <img src="/undangan1/assets/JAWA-MOTIF-ATAS.png" alt="Motif Atas" class="couple-top-ornament" />
-            
-            <h2 class="couple-pretitle animate-up">We are<br/>Getting Married!</h2>
+            <img
+              src="/undangan1/assets/JAWA-MOTIF-ATAS.png"
+              alt="Motif Atas"
+              class="couple-top-ornament"
+            />
+
+            <div class="gunungan-small-wrapper animate-up delay-1">
+              <img
+                src="/undangan1/assets/JAWA-GUNUNGAN.png"
+                alt="Gunungan"
+                class="gunungan-small"
+              />
+            </div>
+
+            <h2 class="couple-pretitle animate-up">
+              We are<br />Getting Married!
+            </h2>
             <p class="couple-desc-new animate-up delay-1">
-              Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi pernikahan kami:
+              Maha Suci Allah yang telah menciptakan makhluk-Nya
+              berpasang-pasangan. Ya Allah semoga ridho-Mu tercurah mengiringi
+              pernikahan kami:
             </p>
 
             <div class="couple-card-new bride animate-up delay-2">
               <div class="couple-photo-frame">
-                <img src="/undangan1/assets/undangan1 (1).webp" alt="Anisa" class="couple-photo-arch" />
-                <img src="/undangan1/assets/JAWA-COUPLE-1.png" alt="Dekorasi Wayang" class="deco-wayang" />
-                <img src="/undangan1/assets/JAWA-COUPLE-2.png" alt="Dekorasi Bunga" class="deco-flower" />
+                <img
+                  src="/undangan1/assets/undangan1 (2).webp"
+                  alt="Anisa"
+                  class="couple-photo-arch"
+                />
+                <img
+                  src="/undangan1/assets/JAWA-COUPLE-1.png"
+                  alt="Dekorasi Wayang"
+                  class="deco-wayang"
+                />
+                <img
+                  src="/undangan1/assets/JAWA-COUPLE-2.png"
+                  alt="Dekorasi Bunga"
+                  class="deco-flower"
+                />
               </div>
               <div class="couple-info">
                 <h3 class="name-script-large">Anisa</h3>
                 <h4 class="name-serif-full">ANISA ZAHRA NUR</h4>
-                <p class="parents-new">Putri dari Bapak Nasrudin Hatta<br/>& Ibu Elma Muna</p>
-                <a href="https://instagram.com/anisa_l" class="btn-instagram" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.487.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                <p class="parents-new">
+                  Putri dari Bapak Nasrudin Hatta<br />& Ibu Elma Muna
+                </p>
+                <a
+                  href="https://instagram.com/anisa_l"
+                  class="btn-instagram"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    fill="currentColor"
+                    class="bi bi-instagram"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.487.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"
+                    ></path>
                   </svg>
                   Instagram
                 </a>
@@ -739,52 +838,84 @@
 
             <div class="couple-card-new groom animate-up delay-1">
               <div class="couple-photo-frame">
-                <img src="/undangan1/assets/undangan1 (2).webp" alt="Krisna" class="couple-photo-arch" />
-                <img src="/undangan1/assets/JAWA-COUPLE-1.png" alt="Dekorasi Wayang" class="deco-wayang" />
-                <img src="/undangan1/assets/JAWA-COUPLE-4.png" alt="Dekorasi Bunga" class="deco-flower" />
+                <div
+                  class="couple-photo-arch"
+                  style="background-image: url('/undangan1/assets/pria.webp'); background-size: 180%; background-position: center 10%;"
+                  title="Krisna"
+                ></div>
+                <img
+                  src="/undangan1/assets/JAWA-COUPLE-3.png"
+                  alt="Dekorasi Wayang"
+                  class="deco-wayang"
+                />
+                <img
+                  src="/undangan1/assets/JAWA-COUPLE-4.png"
+                  alt="Dekorasi Bunga"
+                  class="deco-flower"
+                />
               </div>
               <div class="couple-info">
                 <h3 class="name-script-large">Krisna</h3>
                 <h4 class="name-serif-full">KRISNA MAHENDARA</h4>
-                <p class="parents-new">Putra dari Bapak Sufian Jadin<br/>& Ibu Elmira Ghendis</p>
-                <a href="https://instagram.com/krisna_p" class="btn-instagram" target="_blank" rel="noopener noreferrer">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.487.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                <p class="parents-new">
+                  Putra dari Bapak Sufian Jadin<br />& Ibu Elmira Ghendis
+                </p>
+                <a
+                  href="https://instagram.com/krisna_p"
+                  class="btn-instagram"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    fill="currentColor"
+                    class="bi bi-instagram"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.487.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"
+                    ></path>
                   </svg>
                   Instagram
                 </a>
               </div>
             </div>
-            
-            <img src="/undangan1/assets/JAWA-MOTIF-BAWAH.png" alt="Motif Bawah" class="couple-bottom-ornament" />
+
+            <img
+              src="/undangan1/assets/JAWA-MOTIF-BAWAH.png"
+              alt="Motif Bawah"
+              class="couple-bottom-ornament"
+            />
           </div>
         </section>
       </main>
     </div>
 
     <script is:inline>
-        document.addEventListener("DOMContentLoaded", () => {
-          // Preloader Logic
-          const preloader = document.getElementById("preloader");
-          const percentageEl = document.getElementById("preloader-percentage");
-          let progress = 0;
-          
-          const loadingInterval = setInterval(() => {
-            progress += Math.floor(Math.random() * 4) + 1;
-            if (progress >= 100) {
-              progress = 100;
-              percentageEl.innerText = progress + "%";
-              clearInterval(loadingInterval);
+      document.addEventListener("DOMContentLoaded", () => {
+        // Preloader Logic
+        const preloader = document.getElementById("preloader");
+        const percentageEl = document.getElementById("preloader-percentage");
+        let progress = 0;
+
+        const loadingInterval = setInterval(() => {
+          progress += Math.floor(Math.random() * 4) + 1;
+          if (progress >= 100) {
+            progress = 100;
+            percentageEl.innerText = progress + "%";
+            clearInterval(loadingInterval);
+            setTimeout(() => {
+              preloader.style.opacity = "0";
               setTimeout(() => {
-                preloader.style.opacity = "0";
-                setTimeout(() => {
-                  preloader.style.visibility = "hidden";
-                }, 800);
-              }, 400);
-            } else {
-              percentageEl.innerText = progress + "%";
-            }
-          }, 30); // Durasi simulasi loading sekitar 1-2 detik
+                preloader.style.visibility = "hidden";
+              }, 800);
+            }, 400);
+          } else {
+            percentageEl.innerText = progress + "%";
+          }
+        }, 30); // Durasi simulasi loading sekitar 1-2 detik
 
         const btnOpen = document.getElementById("btn-open");
         const cover = document.getElementById("cover");
@@ -808,11 +939,19 @@
           // Request Fullscreen
           const elem = document.documentElement;
           if (elem.requestFullscreen) {
-            elem.requestFullscreen().catch(err => console.log("Fullscreen error:", err));
-          } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen().catch(err => console.log("Fullscreen error:", err));
-          } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen().catch(err => console.log("Fullscreen error:", err));
+            elem
+              .requestFullscreen()
+              .catch((err) => console.log("Fullscreen error:", err));
+          } else if (elem.webkitRequestFullscreen) {
+            /* Safari */
+            elem
+              .webkitRequestFullscreen()
+              .catch((err) => console.log("Fullscreen error:", err));
+          } else if (elem.msRequestFullscreen) {
+            /* IE11 */
+            elem
+              .msRequestFullscreen()
+              .catch((err) => console.log("Fullscreen error:", err));
           }
 
           // Slide up the cover
@@ -820,6 +959,12 @@
 
           // Show main content
           mainContent.classList.remove("hidden");
+          
+          // Memastikan slider langsung jalan saat undangan dibuka
+          if (typeof swiper !== "undefined") {
+            swiper.update();
+            swiper.autoplay.start();
+          }
 
           // Play background music
           // Note: For actual deployment, you need a valid audio src in index.html
@@ -861,59 +1006,56 @@
           }, 1200);
         });
 
-          const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px",
-          };
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        };
 
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  entry.target.classList.add("visible");
-                  observer.unobserve(entry.target);
-                }
-              });
-            },
-            observerOptions
-          );
-
-          // Observe elements (exclude hero-content which follows video timing)
-          document
-            .querySelectorAll(".animate-up")
-            .forEach((el) => {
-              if (!el.closest(".hero-content")) {
-                observer.observe(el);
-              }
-            });
-            
-          // Initialize Swiper
-          const swiper = new Swiper('.gallery-slider', {
-            effect: 'coverflow',
-            grabCursor: true,
-            centeredSlides: true,
-            slidesPerView: 'auto',
-            observer: true,
-            observeParents: true,
-            coverflowEffect: {
-              rotate: 30,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: true,
-            },
-            loop: true,
-            autoplay: {
-              delay: 3000,
-              disableOnInteraction: false,
-            },
-            pagination: {
-              el: '.swiper-pagination',
-            },
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
           });
+        }, observerOptions);
+
+        // Observe elements (exclude hero-content which follows video timing)
+        document.querySelectorAll(".animate-up").forEach((el) => {
+          if (!el.closest(".hero-content")) {
+            observer.observe(el);
+          }
         });
+
+        // Initialize Swiper
+        const swiper = new Swiper(".gallery-slider", {
+          effect: "coverflow",
+          grabCursor: true,
+          centeredSlides: true,
+          slidesPerView: "auto",
+          observer: true,
+          observeParents: true,
+          coverflowEffect: {
+            rotate: 30,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          },
+          loop: true,
+          autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+          },
+          pagination: {
+            el: ".swiper-pagination",
+          },
+        });
+      });
     </script>
     <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" is:inline></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
+      is:inline></script>
   </body>
 </html>
