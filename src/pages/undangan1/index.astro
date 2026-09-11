@@ -1509,7 +1509,7 @@
         color: #fff;
         text-align: center;
         position: relative;
-        min-height: 60vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -1712,14 +1712,14 @@
       .audio-btn:hover {
         transform: scale(1.1);
       }
-      .audio-btn svg {
+      .audio-btn svg, .audio-btn img {
         width: 24px;
         height: 24px;
       }
       .audio-btn.hidden {
         display: none !important;
       }
-      .audio-btn.spin-anim svg {
+      .audio-btn.spin-anim svg, .audio-btn.spin-anim img {
         animation: spin-audio 4s linear infinite !important;
       }
       @keyframes spin-audio {
@@ -1746,9 +1746,7 @@
     <!-- Background Audio (YouTube) -->
     <div class="fixed-audio">
       <button id="audio-btn" class="audio-btn hidden" aria-label="Toggle Music">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/>
-        </svg>
+        <img src="/assets/audio/player.svg" alt="Music Player" />
       </button>
     </div>
     <div id="youtube-player-container" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none;">
