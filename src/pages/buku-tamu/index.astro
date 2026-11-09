@@ -84,21 +84,35 @@
         <div id="client-badge" class="hidden px-4 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-xs font-medium tracking-wide">
           Klien: <span id="display-client-id" class="font-bold ml-1 text-white"></span>
         </div>
+        
+        <!-- Settings button (only visible when logged in) -->
         <button 
           id="btn-settings-toggle"
           type="button"
           onclick="toggleSettingsModal()"
-          class="px-3 py-1.5 rounded-lg border border-white/10 text-xs text-white/60 hover:text-white hover:border-brand-gold/50 transition-colors flex items-center gap-1.5"
+          class="hidden px-3 py-1.5 rounded-lg border border-white/10 text-xs text-white/60 hover:text-white hover:border-brand-gold/50 transition-colors flex items-center gap-1.5"
           title="Pengaturan Google Sheets API"
         >
           <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           <span class="hidden sm:inline">API</span>
         </button>
+
+        <!-- Lock / Logout button -->
+        <button 
+          id="btn-logout"
+          type="button"
+          onclick="logoutAdmin()"
+          class="hidden px-3 py-1.5 rounded-lg border border-red-500/20 text-xs text-red-400 hover:text-white hover:bg-red-500/20 transition-colors flex items-center gap-1.5"
+          title="Kunci Dashboard"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+          <span class="hidden sm:inline">Kunci</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex flex-col justify-center">
     
     <!-- State: Error ID Missing -->
     <div id="error-state" class="hidden text-center py-20">
@@ -109,7 +123,60 @@
       <p class="text-white/60 max-w-md mx-auto">Parameter ID klien pada URL diperlukan untuk mengakses buku tamu dan link generator. <br/><br/>Contoh format URL yang benar:<br/><code class="bg-brand-surface px-3 py-1 rounded text-brand-gold border border-white/10 mt-2 inline-block">/buku-tamu/?id=rian-anisha</code></p>
     </div>
 
-    <!-- State: Main Content -->
+    <!-- State: Login / Locked Screen -->
+    <div id="login-state" class="hidden max-w-md mx-auto w-full py-8 sm:py-12">
+      <div class="bg-brand-surface rounded-2xl border border-white/10 p-6 sm:p-10 shadow-2xl relative overflow-hidden text-center">
+        <!-- Decorative blur background -->
+        <div class="absolute top-0 right-0 w-48 h-48 bg-brand-gold/10 blur-[80px] pointer-events-none"></div>
+
+        <div class="w-16 h-16 rounded-full bg-brand-gold/10 text-brand-gold border border-brand-gold/20 flex items-center justify-center mx-auto mb-5 shadow-[0_0_20px_rgba(207,166,112,0.15)]">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-wide mb-1">Akses Terkunci</h2>
+        <p class="text-xs text-white/50 mb-6">Portal Manajemen Klien: <span id="login-client-id" class="text-brand-gold font-semibold font-mono"></span></p>
+
+        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+          <div class="relative text-left">
+            <label class="block text-xs font-medium text-white/70 mb-2">Kata Sandi Admin</label>
+            <div class="relative">
+              <input 
+                id="login-password-input"
+                type="password"
+                placeholder="Masukkan kata sandi..."
+                autocomplete="current-password"
+                class="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors placeholder:text-white/30"
+                required
+              />
+              <button 
+                type="button" 
+                onclick="togglePasswordVisibility('login-password-input', this)"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors p-1"
+                tabindex="-1"
+                title="Lihat / Sembunyikan Sandi"
+              >
+                <svg class="w-4 h-4 eye-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </button>
+            </div>
+            <p id="login-error-msg" class="text-xs text-red-400 mt-2 hidden flex items-center gap-1.5 font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Kata sandi tidak valid!
+            </p>
+          </div>
+
+          <button 
+            id="btn-submit-login"
+            type="submit"
+            class="w-full bg-brand-gold hover:bg-brand-goldHover text-black font-semibold py-3 px-6 rounded-xl transition-all active:scale-[0.98] flex items-center justify-center gap-2 text-sm shadow-[0_4px_20px_rgba(207,166,112,0.2)]"
+          >
+            <span id="btn-login-text">Buka Dashboard</span>
+            <svg id="btn-login-spinner" class="animate-spin w-4 h-4 text-black hidden" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- State: Main Content (Unlocked) -->
     <div id="main-state" class="hidden">
 
       <!-- Navigation Tabs -->
@@ -332,16 +399,9 @@
         <p class="italic text-white/60 line-clamp-2" id="delete-modal-message">"Isi ucapan tamu..."</p>
       </div>
 
-      <div class="mb-5">
-        <label class="block text-xs font-medium text-white/70 mb-2">Password Admin</label>
-        <input 
-          id="delete-admin-password"
-          type="password"
-          placeholder="Masukkan password admin (default: penpromedia2026)"
-          class="w-full bg-black/50 border border-white/15 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-gold"
-        />
-        <p class="text-[11px] text-white/40 mt-1.5">Sandi default di Script: <code class="text-brand-gold">penpromedia2026</code></p>
-      </div>
+      <p class="text-xs text-white/60 mb-5 leading-relaxed">
+        Apakah Anda yakin ingin menghapus ucapan ini dari buku tamu?
+      </p>
 
       <div class="flex items-center justify-end gap-3 pt-2 border-t border-white/10">
         <button 
@@ -425,10 +485,12 @@
     let activeTab = 'generator';
     let allComments = [];
     let pendingDeleteTarget = null;
+    let savedAdminPassword = '';
 
     // Master SCRIPT_URL: default or from localStorage
     const STORAGE_KEY_GAS_URL = 'penpromedia_master_gas_url';
     const DEFAULT_SCRIPT_URL = 'URL_GAS_ANDA_DISINI';
+    const DEFAULT_ADMIN_PASSWORD = 'penpromedia2026';
 
     function getScriptUrl() {
       const saved = localStorage.getItem(STORAGE_KEY_GAS_URL);
@@ -490,6 +552,9 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       return hashHex.substring(0, 10);
     }
 
+    // ==========================================
+    // INITIALIZATION & AUTH CHECK
+    // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       clientId = urlParams.get('id');
@@ -499,13 +564,115 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
         return;
       }
 
+      // Base URL with trailing slash to avoid 301 redirect
+      baseUrl = `${window.location.origin}/${clientId}/`;
+
+      // Set label ID di login card
+      const loginClientLabel = document.getElementById('login-client-id');
+      if (loginClientLabel) loginClientLabel.textContent = clientId;
+
+      // Check existing session
+      const sessionKey = `penpromedia_admin_auth_${clientId}`;
+      const cachedPass = sessionStorage.getItem(sessionKey);
+
+      if (cachedPass) {
+        savedAdminPassword = cachedPass;
+        unlockDashboard(false);
+      } else {
+        // Show login state
+        document.getElementById('login-state').classList.remove('hidden');
+        const passInput = document.getElementById('login-password-input');
+        if (passInput) passInput.focus();
+      }
+    });
+
+    // ==========================================
+    // LOGIN & LOGOUT WORKFLOW
+    // ==========================================
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"></path></svg>`;
+      } else {
+        input.type = 'password';
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>`;
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const passInput = document.getElementById('login-password-input');
+      const errorMsg = document.getElementById('login-error-msg');
+      const btnText = document.getElementById('btn-login-text');
+      const spinner = document.getElementById('btn-login-spinner');
+      const submitBtn = document.getElementById('btn-submit-login');
+
+      const pass = (passInput.value || '').trim();
+      if (!pass) return;
+
+      errorMsg.classList.add('hidden');
+      submitBtn.disabled = true;
+      btnText.textContent = 'Memverifikasi...';
+      spinner.classList.remove('hidden');
+
+      try {
+        const scriptUrl = getScriptUrl();
+
+        // 1. Validasi lokal (password standar)
+        if (pass === DEFAULT_ADMIN_PASSWORD) {
+          savedAdminPassword = pass;
+          sessionStorage.setItem(`penpromedia_admin_auth_${clientId}`, pass);
+          unlockDashboard(true);
+          return;
+        }
+
+        // 2. Jika bukan password default dan URL GAS tersedia, cek ke API GAS
+        if (scriptUrl !== DEFAULT_SCRIPT_URL) {
+          const res = await fetch(scriptUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+              action: 'delete',
+              id: clientId,
+              timestamp: 'verify-only',
+              password: pass
+            })
+          });
+          const json = await res.json();
+
+          if (json && json.message === 'Password salah!') {
+            errorMsg.classList.remove('hidden');
+            passInput.focus();
+          } else {
+            savedAdminPassword = pass;
+            sessionStorage.setItem(`penpromedia_admin_auth_${clientId}`, pass);
+            unlockDashboard(true);
+          }
+        } else {
+          errorMsg.classList.remove('hidden');
+          passInput.focus();
+        }
+      } catch (err) {
+        console.error('Error saat verifikasi login:', err);
+        errorMsg.classList.remove('hidden');
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = 'Buka Dashboard';
+        spinner.classList.add('hidden');
+      }
+    }
+
+    function unlockDashboard(showToastFeedback = true) {
+      // Hide login state, show main state
+      document.getElementById('login-state').classList.add('hidden');
       document.getElementById('main-state').classList.remove('hidden');
       document.getElementById('client-badge').classList.remove('hidden');
       document.getElementById('display-client-id').textContent = clientId;
-      
-      // Base URL with trailing slash to avoid 301 redirect
-      baseUrl = `${window.location.origin}/${clientId}/`;
-      
+      document.getElementById('btn-settings-toggle').classList.remove('hidden');
+      document.getElementById('btn-logout').classList.remove('hidden');
+
       // Initialize generator template
       document.getElementById('message-template').value = TEMPLATES.formal;
 
@@ -517,7 +684,30 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
 
       // Pre-load comments count for badge
       loadComments(false);
-    });
+
+      if (showToastFeedback) {
+        showToast('Akses dashboard berhasil dibuka!');
+      }
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem(`penpromedia_admin_auth_${clientId}`);
+      savedAdminPassword = '';
+
+      document.getElementById('main-state').classList.add('hidden');
+      document.getElementById('client-badge').classList.add('hidden');
+      document.getElementById('btn-settings-toggle').classList.add('hidden');
+      document.getElementById('btn-logout').classList.add('hidden');
+      document.getElementById('login-state').classList.remove('hidden');
+
+      const passInput = document.getElementById('login-password-input');
+      if (passInput) {
+        passInput.value = '';
+        passInput.focus();
+      }
+
+      showToast('Dashboard telah dikunci kembali');
+    }
 
     // ==========================================
     // TAB SWITCHING LOGIC
@@ -811,10 +1001,8 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
 
       document.getElementById('delete-modal-guest-name').textContent = pendingDeleteTarget.nama;
       document.getElementById('delete-modal-message').textContent = `"${pendingDeleteTarget.ucapan}"`;
-      document.getElementById('delete-admin-password').value = '';
 
       document.getElementById('modal-delete').classList.remove('hidden');
-      document.getElementById('delete-admin-password').focus();
     }
 
     function closeDeleteModal() {
@@ -825,15 +1013,8 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
     async function executeDeleteComment() {
       if (!pendingDeleteTarget) return;
 
-      const passwordInput = document.getElementById('delete-admin-password');
-      const password = (passwordInput.value || '').trim();
       const btnConfirm = document.getElementById('btn-confirm-delete');
-
-      if (!password) {
-        showToast('Masukkan password admin!', true);
-        passwordInput.focus();
-        return;
-      }
+      const pass = savedAdminPassword || DEFAULT_ADMIN_PASSWORD;
 
       btnConfirm.disabled = true;
       btnConfirm.innerHTML = `
@@ -845,14 +1026,6 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
 
       try {
         if (scriptUrl === DEFAULT_SCRIPT_URL) {
-          // Verify local password
-          if (password !== 'penpromedia2026') {
-            showToast('Password admin salah!', true);
-            btnConfirm.disabled = false;
-            btnConfirm.innerHTML = '<span>Hapus Sekarang</span>';
-            return;
-          }
-
           // Delete from local storage
           const localKey = `guestbook_${clientId}`;
           allComments = allComments.filter(item => item.timestamp !== pendingDeleteTarget.timestamp);
@@ -871,7 +1044,7 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
               action: 'delete',
               id: clientId,
               timestamp: pendingDeleteTarget.timestamp,
-              password: password
+              password: pass
             })
           });
 
