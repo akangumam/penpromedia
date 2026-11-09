@@ -14,6 +14,8 @@ RUN npm run build
 
 # Stage 2: Serve the site using Nginx Alpine
 FROM nginx:alpine
+# Copy custom nginx configuration to prevent reverse proxy HTTP redirect bug
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy the compiled output from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 

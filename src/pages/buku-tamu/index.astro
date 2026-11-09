@@ -259,8 +259,8 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
         document.getElementById('client-badge').classList.remove('hidden');
         document.getElementById('display-client-id').textContent = clientId;
         
-        // Set Base URL dynamically based on origin and id
-        baseUrl = `${window.location.origin}/${clientId}`;
+        // Set Base URL dynamically based on origin and id (with trailing slash to avoid 301 redirects)
+        baseUrl = `${window.location.origin}/${clientId}/`;
         
         // Initialize template
         document.getElementById('message-template').value = TEMPLATES.formal;
