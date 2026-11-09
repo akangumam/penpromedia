@@ -1,140 +1,93 @@
-# Panduan Deployment & Alur Kerja — Penpromedia
+# Panduan Lengkap Deployment — Penpromedia
 
-Dokumen ini menjelaskan alur kerja pengembangan lokal dan panduan deployment ke server VPS untuk website **Penpromedia** (`penpromedia.web.id`).
-
----
-
-## 1. Alur Kerja (Workflow Overview)
-
-Website ini menggunakan arsitektur **Static Site Generation (SSG)** dengan Astro. Alur pembaruan konten/undangan adalah:
-
-```
-[Komputer Lokal] 
-      │ (git push)
-      ▼
-[GitHub Repository] (main branch)
-      │ (ssh & git pull)
-      ▼
-[Server VPS / Nginx / Docker] (rebuild & serve)
-```
+Dokumen ini adalah panduan resmi alur kerja dan deployment untuk website **Penpromedia** (`penpromedia.web.id`). Simpan dan gunakan panduan ini agar proses update selalu konsisten.
 
 ---
 
-## 2. Pengembangan di Komputer Lokal
+## 1. Data Konfigurasi Server (Wajib Tahu)
 
-### Prasyarat
-* Node.js (versi 20 atau 22 disarankan)
-* npm
+Berdasarkan arsitektur VPS aktif saat ini:
 
-### Menjalankan Server Development
-```bash
-npm install
-npm run dev
-```
-Buka browser di `http://localhost:3000`.
-
-### Mengetes Build Statis
-Sebelum melakukan push ke Git, selalu pastikan build tidak mengalami error:
-```bash
-npm run build
-```
-Hasil build akan tersimpan di folder `dist/`.
+| Parameter | Nilai / Konfigurasi |
+| :--- | :--- |
+| **User VPS** | `ubuntu` |
+| **Lokasi Folder di VPS** | `/home/ubuntu/penpromedia` |
+| **Docker Image Name** | `penpromedia-app` |
+| **Docker Container Name** | `penpromedia-container` |
+| **Port Mapping** | `-p 8080:80` (Port VPS `8080` mengarah ke Nginx Container port `80`) |
+| **Reverse Proxy** | **Nginx Proxy Manager** (meneruskan `penpromedia.web.id` -> `http://localhost:8080`) |
+| **Branch Git** | `main` |
 
 ---
 
-## 3. Menambahkan Undangan Digital Baru
+## 2. Alur Update Rutin (Step-by-Step)
 
-Setiap undangan digital di Penpromedia menggunakan file-based routing di Astro:
-
-1. Buat folder baru di bawah `src/pages/`, misalnya `src/pages/nama-pasangan/index.astro`.
-2. Kloning dari template undangan yang sudah ada (misalnya dari `src/pages/undangan1/index.astro`).
-3. Sesuaikan data:
-   * **Title & Meta Tag** (nama mempelai untuk preview media sosial & WhatsApp).
-   * **Preloader & Cover** (nama pasangan dan tanggal).
-   * **Profil Mempelai Pria & Wanita** (nama lengkap, orang tua, akun media sosial).
-   * **Waktu & Lokasi Acara** (Akad & Resepsi, tautan Google Maps & Google Calendar).
-   * **Countdown Timer** (sesuaikan target tanggal di script countdown).
-   * **Amplop Digital / Hadiah** (nomor rekening & alamat pengiriman kado).
-   * **Backsound Musik** (`videoId` YouTube).
-4. Daftarkan kartu undangan baru di halaman katalog: [`src/pages/sampel-undangan.astro`](src/pages/sampel-undangan.astro).
-
----
-
-## 4. Langkah Push ke GitHub
-
-Setelah pengujian di lokal selesai:
+### Bagian A: Di Komputer Lokal (Laptop/PC)
+Jalankan di terminal project lokal setelah selesai mengubah kode/konten:
 
 ```bash
-# 1. Cek status perubahan
-git status
-
-# 2. Masukkan file ke staging
+# 1. Simpan perubahan ke Git
 git add .
+git commit -m "update: penjelasan perubahan"
 
-# 3. Buat commit pesan jelas
-git commit -m "feat: tambah sampel undangan nama-pasangan"
-
-# 4. Push ke GitHub
+# 2. Upload ke GitHub
 git push origin main
 ```
 
 ---
 
-## 5. Langkah Deployment di Server VPS
+### Bagian B: Di Server VPS
+Buka terminal SSH VPS Anda, lalu copy-paste perintah berikut:
 
-Setelah perubahan ter-push ke GitHub, lakukan langkah berikut di server VPS:
-
-### A. Masuk ke Server VPS
 ```bash
-ssh user@ip-server-vps
-```
+# 1. Masuk ke folder project
+cd /home/ubuntu/penpromedia
 
-### B. Masuk ke Folder Project & Tarik Update Terbaru
-```bash
-cd /path/ke/penpromedia
+# 2. Tarik update terbaru dari GitHub
 git pull origin main
+
+# 3. Build ulang Docker image (wajib --no-cache agar file baru terbaca)
+docker build --no-cache -t penpromedia-app .
+
+# 4. Ganti container lama dengan yang baru
+docker stop penpromedia-container && docker rm penpromedia-container && docker run -d -p 8080:80 --name penpromedia-container penpromedia-app
 ```
 
-### C. Rebuild Website
-
-Pilih salah satu metode sesuai konfigurasi yang aktif di VPS Anda:
-
-#### Opsi 1: Jika Menggunakan Docker Compose (Direkomendasikan)
-```bash
-docker compose down
-docker compose up --build -d
-```
-
-#### Opsi 2: Jika Menggunakan Docker Biasa
-```bash
-# Rebuild container image dari Dockerfile
-docker build -t penpromedia .
-
-# Restart container
-docker stop penpromedia && docker rm penpromedia
-docker run -d -p 80:80 --name penpromedia penpromedia
-```
-
-#### Opsi 3: Jika Menggunakan Node.js & Nginx Langsung di VPS (Tanpa Docker)
-```bash
-npm install
-npm run build
-# Nginx otomatis menyajikan isi folder dist/ terbaru tanpa perlu restart service
-```
+> **Shortcut Otomatis di VPS:**  
+> Jika Anda sudah berada di folder `/home/ubuntu/penpromedia`, Anda juga cukup menjalankan script:
+> ```bash
+> bash deploy.sh
+> ```
 
 ---
 
-## 6. Troubleshooting Umum
+## 3. Cara Menambahkan Undangan / Sampel Baru
 
-* **Error 404 Not Found pada Rute Baru (misal: `/rian-anisha`)**:
-  * Pastikan file sudah ter-commit dan di-push ke GitHub.
-  * Pastikan sudah menjalankan `git pull origin main` di VPS.
-  * Pastikan proses build (`docker compose up --build -d` atau `npm run build`) selesai tanpa error.
-  * Jika menggunakan Nginx langsung, pastikan konfigurasi Nginx mendukung fallback directory index:
-    ```nginx
-    try_files $uri $uri/ $uri/index.html =404;
-    ```
-* **Perubahan Tidak Muncul di Browser**:
-  * Tekan `Ctrl + Shift + R` (Hard Reload) di browser untuk membersihkan cache lokal.
-  * Jika menggunakan Cloudflare, lakukan *Purge Cache*.
+Untuk membuat undangan baru berikutnya:
 
+1. **Duplikat Template**:
+   Copy folder `src/pages/undangan1/` atau `src/pages/rian-anisha/` menjadi folder baru:
+   * Contoh: `src/pages/nama-pasangan/index.astro`
+2. **Sesuaikan Konten di File `index.astro`**:
+   * Title & Meta Tag (`<title>`, `<meta name="description">`, `<meta property="og:title">`)
+   * Cover & Hero (`The Wedding of ...`, tanggal acara)
+   * Biodata Pria & Wanita (nama lengkap, orang tua)
+   * Jadwal Acara (Akad, Resepsi, alamat, link Google Maps & Google Calendar)
+   * Countdown Timer (sesuaikan target `new Date("YYYY-MM-DDTHH:mm:ss")` di script bawah)
+   * Rekening Gift (bank, no. rekening, nama penerima, alamat kirim kado)
+3. **Daftarkan di Katalog Sampel**:
+   * Buka file `src/pages/sampel-undangan.astro`.
+   * Ganti preview link kartu menjadi `/nama-pasangan`.
+4. **Deploy**:
+   * Ikuti langkah pada **Bagian A** dan **Bagian B** di atas.
+
+---
+
+## 4. Troubleshooting Cepat
+
+* **Muncul `404 Not Found (nginx/1.31.5)`**:
+  * Artinya container baru belum dijalankan atau build terkena cache. Jalankan ulang perintah di **Bagian B**.
+* **Error `No such container: ...` saat docker restart**:
+  * Nama container harus sesuai: **`penpromedia-container`**.
+* **Port Bentrok (`bind: address already in use`)**:
+  * Pastikan container lama sudah di-stop dan di-remove terlebih dahulu (`docker stop penpromedia-container && docker rm penpromedia-container`).
