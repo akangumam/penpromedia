@@ -2336,19 +2336,6 @@
                 <input type="text" id="rsvp-guest-name" name="nama" placeholder="Nama Anda" required />
               </div>
               <div class="form-group">
-                <label>Konfirmasi Kehadiran:</label>
-                <div class="radio-group">
-                  <label class="radio-label">
-                    <input type="radio" name="kehadiran" value="Hadir" required />
-                    <span class="radio-custom">Hadir</span>
-                  </label>
-                  <label class="radio-label">
-                    <input type="radio" name="kehadiran" value="Tidak Hadir" required />
-                    <span class="radio-custom">Tidak Hadir</span>
-                  </label>
-                </div>
-              </div>
-              <div class="form-group">
                 <textarea id="guest-message" name="ucapan" rows="4" placeholder="Berikan ucapan dan doa..." maxlength="500" required></textarea>
                 <div class="char-counter" id="char-count">0 / 500</div>
               </div>
@@ -2361,18 +2348,6 @@
                 <div id="rsvp-spinner" class="spinner hidden"></div>
               </button>
             </form>
-
-            <div class="rsvp-stats-box" id="rsvp-stats">
-              <div class="stat-item">
-                <div class="stat-num" id="stat-hadir">0</div>
-                <div class="stat-label">Hadir</div>
-              </div>
-              <div class="stat-divider"></div>
-              <div class="stat-item">
-                <div class="stat-num" id="stat-tidak">0</div>
-                <div class="stat-label">Tidak Hadir</div>
-              </div>
-            </div>
             
             <div class="guestbook-container">
               <div id="guestbook-skeleton" class="skeleton-wrapper hidden">
@@ -2776,9 +2751,6 @@
         }
 
         function createEntryCard(entry) {
-          const isHadir = entry.kehadiran === "Hadir";
-          const badgeClass = isHadir ? "badge-hadir" : "badge-tidak";
-          
           const card = document.createElement("div");
           card.className = "guest-card";
           
@@ -2795,7 +2767,6 @@
           card.innerHTML = `
             <div class="guest-header">
               <div class="guest-name">${safeName}</div>
-              <div class="guest-badge ${badgeClass}">${isHadir ? "✅ Hadir" : "❌ Tidak Hadir"}</div>
             </div>
             <div class="guest-msg">${safeUcapan}</div>
             <div class="guest-time">${timeAgo(entry.timestamp)}</div>
@@ -2938,12 +2909,10 @@
             e.preventDefault();
             const namaInput = document.getElementById("rsvp-guest-name");
             const nama = namaInput ? namaInput.value.trim() : "";
-            const kehadiranElem = document.querySelector('input[name="kehadiran"]:checked');
-            const kehadiran = kehadiranElem ? kehadiranElem.value : "";
             const ucapan = messageInput ? messageInput.value.trim() : "";
 
-            if (!nama || !kehadiran || !ucapan) {
-              errorBox.textContent = "Semua field wajib diisi.";
+            if (!nama || !ucapan) {
+              errorBox.textContent = "Nama dan ucapan wajib diisi.";
               errorBox.classList.remove("hidden");
               errorBox.style.display = "block";
               return;
@@ -2966,13 +2935,11 @@
 
                 const newEntry = {
                   nama,
-                  kehadiran,
                   ucapan,
                   timestamp: new Date().toISOString(),
                 };
                 allGuestEntries.unshift(newEntry);
                 saveStoredEntries(allGuestEntries);
-                updateStatsFromEntries(allGuestEntries);
                 renderGuestPage(1);
 
                 setTimeout(() => (successBox.style.display = "none"), 4000);
@@ -2980,7 +2947,7 @@
                 const res = await fetch(SCRIPT_URL, {
                   method: "POST",
                   headers: { "Content-Type": "text/plain" },
-                  body: JSON.stringify({ nama, kehadiran, ucapan }),
+                  body: JSON.stringify({ nama, ucapan, kehadiran: "Hadir" }),
                 });
                 const json = await res.json();
 
@@ -2991,7 +2958,6 @@
 
                   const newEntry = {
                     nama,
-                    kehadiran,
                     ucapan,
                     timestamp: new Date().toISOString(),
                   };
@@ -3000,7 +2966,6 @@
                   renderGuestPage(1);
 
                   setTimeout(() => (successBox.style.display = "none"), 4000);
-                  loadStats();
                 } else {
                   errorBox.textContent = json.message || "Terjadi kesalahan. Coba lagi.";
                   errorBox.style.display = "block";
