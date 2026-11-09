@@ -2701,7 +2701,8 @@
       // ================== RSVP & GUESTBOOK LOGIC ==================
       document.addEventListener("DOMContentLoaded", () => {
         const SCRIPT_URL = "URL_GAS_ANDA_DISINI";
-        const LOCAL_STORAGE_KEY = "guestbook_rian_anisha_real";
+        const CLIENT_ID = "rian-anisha";
+        const LOCAL_STORAGE_KEY = `guestbook_${CLIENT_ID}`;
 
         function getStoredEntries() {
           try {
@@ -2849,7 +2850,7 @@
               skeleton.style.display = "flex";
             }
             if (empty) empty.classList.add("hidden");
-            const res = await fetch(`${SCRIPT_URL}?action=getAll`, { cache: "no-store" });
+            const res = await fetch(`${SCRIPT_URL}?action=getAll&id=${CLIENT_ID}`, { cache: "no-store" });
             const json = await res.json();
             allGuestEntries = json.data || [];
             if (skeleton) {
@@ -2874,7 +2875,7 @@
             return;
           }
           try {
-            const res = await fetch(`${SCRIPT_URL}?action=summary`, { cache: "no-store" });
+            const res = await fetch(`${SCRIPT_URL}?action=summary&id=${CLIENT_ID}`, { cache: "no-store" });
             const json = await res.json();
             if (json.status === "success" && json.data) {
               const el = document.getElementById("rsvp-stats");
@@ -2947,7 +2948,7 @@
                 const res = await fetch(SCRIPT_URL, {
                   method: "POST",
                   headers: { "Content-Type": "text/plain" },
-                  body: JSON.stringify({ nama, ucapan, kehadiran: "Hadir" }),
+                  body: JSON.stringify({ id: CLIENT_ID, nama, ucapan, kehadiran: "Hadir" }),
                 });
                 const json = await res.json();
 

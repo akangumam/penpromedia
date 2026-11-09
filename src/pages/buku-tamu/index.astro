@@ -1,6 +1,6 @@
 ---
 /**
- * Global Link Generator - Penpromedia
+ * Global Link Generator & Guestbook Manager - Penpromedia
  * URL: /buku-tamu/?id=klien-id
  */
 ---
@@ -9,7 +9,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Link Generator - Penpromedia</title>
+  <title>Buku Tamu & Link Generator - Penpromedia</title>
   
   <link rel="icon" type="image/png" href="/assets/img/penpromedia_favicon.png" />
 
@@ -30,6 +30,7 @@
               goldHover: '#b58f5c',
               bg: '#0a0a0a',
               surface: '#141414',
+              surfaceElevated: '#1a1a1a',
             }
           },
           fontFamily: {
@@ -45,18 +46,27 @@
     .toast-enter { transform: translateY(0); opacity: 1; }
     .toast-leave { transform: translateY(-20px); opacity: 0; }
     
-    /* Custom Scrollbar for Textarea */
+    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; height: 8px; }
     ::-webkit-scrollbar-track { background: #0a0a0a; }
     ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #cfa670; }
+
+    /* Skeleton pulse */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .animate-pulse-slow {
+      animation: pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
   </style>
 </head>
 <body class="font-sans text-white/80 min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black">
 
   <!-- Header -->
-  <header class="text-center py-12 border-b border-white/10 bg-brand-bg/50 backdrop-blur-md sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+  <header class="py-6 border-b border-white/10 bg-brand-bg/80 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-4">
         <!-- Logo -->
         <img src="/assets/img/penpromedia_logo.png" alt="Penpromedia Logo" class="h-10 sm:h-12 object-contain" />
@@ -65,17 +75,30 @@
         <div class="h-10 w-[1px] bg-white/20 hidden sm:block"></div>
         
         <div class="text-left hidden sm:block">
-          <h1 class="text-xl font-bold tracking-wider text-white uppercase">Link Generator</h1>
-          <p class="text-xs tracking-widest text-brand-gold uppercase mt-1">Sistem Penpromedia</p>
+          <h1 class="text-xl font-bold tracking-wider text-white uppercase">Portal Undangan</h1>
+          <p class="text-xs tracking-widest text-brand-gold uppercase mt-0.5">Sistem Manajemen Penpromedia</p>
         </div>
       </div>
-      <div id="client-badge" class="hidden px-4 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-xs font-medium tracking-wide">
-        Client: <span id="display-client-id" class="font-bold ml-1"></span>
+
+      <div class="flex items-center gap-3">
+        <div id="client-badge" class="hidden px-4 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 text-brand-gold text-xs font-medium tracking-wide">
+          Klien: <span id="display-client-id" class="font-bold ml-1 text-white"></span>
+        </div>
+        <button 
+          id="btn-settings-toggle"
+          type="button"
+          onclick="toggleSettingsModal()"
+          class="px-3 py-1.5 rounded-lg border border-white/10 text-xs text-white/60 hover:text-white hover:border-brand-gold/50 transition-colors flex items-center gap-1.5"
+          title="Pengaturan Google Sheets API"
+        >
+          <svg class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <span class="hidden sm:inline">API</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
+  <main class="flex-1 max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
     
     <!-- State: Error ID Missing -->
     <div id="error-state" class="hidden text-center py-20">
@@ -83,118 +106,315 @@
         <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
       </div>
       <h2 class="text-2xl font-bold text-white mb-3">ID Klien Tidak Ditemukan</h2>
-      <p class="text-white/60 max-w-md mx-auto">Parameter ID klien pada URL diperlukan untuk men-generate link undangan. <br/><br/>Format yang benar:<br/><code class="bg-brand-surface px-3 py-1 rounded text-brand-gold border border-white/10 mt-2 inline-block">?id=nama-klien</code></p>
+      <p class="text-white/60 max-w-md mx-auto">Parameter ID klien pada URL diperlukan untuk mengakses buku tamu dan link generator. <br/><br/>Contoh format URL yang benar:<br/><code class="bg-brand-surface px-3 py-1 rounded text-brand-gold border border-white/10 mt-2 inline-block">/buku-tamu/?id=rian-anisha</code></p>
     </div>
 
-    <!-- State: Main Generator -->
+    <!-- State: Main Content -->
     <div id="main-state" class="hidden">
 
-      <div class="flex flex-col lg:flex-row gap-8 items-start">
-        
-        <!-- Sidebar / Guidelines -->
-        <aside class="w-full lg:w-1/3 bg-brand-surface rounded-xl border border-white/5 p-6 shadow-2xl">
-          <h3 class="font-semibold text-white text-lg mb-6 tracking-wide flex items-center gap-2">
-            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            Panduan Penggunaan
-          </h3>
+      <!-- Navigation Tabs -->
+      <div class="flex items-center border-b border-white/10 mb-8 gap-2 sm:gap-4 overflow-x-auto pb-1">
+        <button 
+          id="tab-btn-generator" 
+          type="button" 
+          onclick="switchTab('generator')"
+          class="flex items-center gap-2 py-3 px-5 font-semibold text-sm rounded-t-lg border-b-2 border-brand-gold text-brand-gold bg-brand-surface transition-all whitespace-nowrap"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+          1. Sebar Undangan (Link Generator)
+        </button>
+
+        <button 
+          id="tab-btn-ucapan" 
+          type="button" 
+          onclick="switchTab('ucapan')"
+          class="flex items-center gap-2 py-3 px-5 font-semibold text-sm rounded-t-lg border-b-2 border-transparent text-white/50 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+          2. Kelola Ucapan Tamu
+          <span id="tab-ucapan-badge" class="text-xs bg-white/10 text-white/70 px-2 py-0.5 rounded-full font-mono">0</span>
+        </button>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 1: SEBAR UNDANGAN (LINK GENERATOR)      -->
+      <!-- ========================================== -->
+      <div id="tab-content-generator">
+        <div class="flex flex-col lg:flex-row gap-8 items-start">
           
-          <div class="space-y-4">
-            <div class="p-4 rounded-lg bg-black/40 border border-white/5">
-              <h4 class="text-sm font-medium text-brand-gold mb-2">1. Masukkan Nama Tamu</h4>
-              <p class="text-xs text-white/60 leading-relaxed">Ketik atau <i>copy-paste</i> nama tamu di kolom yang disediakan. Pastikan setiap nama berada di baris baru (dipisah dengan Enter).</p>
-            </div>
+          <!-- Sidebar / Guidelines -->
+          <aside class="w-full lg:w-1/3 bg-brand-surface rounded-xl border border-white/5 p-6 shadow-2xl">
+            <h3 class="font-semibold text-white text-lg mb-6 tracking-wide flex items-center gap-2">
+              <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Panduan Penggunaan
+            </h3>
             
-            <div class="p-4 rounded-lg bg-black/40 border border-white/5">
-              <h4 class="text-sm font-medium text-brand-gold mb-2">2. Pilih Teks Pengantar</h4>
-              <p class="text-xs text-white/60 leading-relaxed">Pilih <i>template</i> pesan yang sesuai. Sistem akan otomatis mengganti tulisan <code class="text-white bg-black px-1 rounded">[nama-tamu]</code> dan <code class="text-white bg-black px-1 rounded">[link-undangan]</code>.</p>
-            </div>
-
-            <div class="p-4 rounded-lg bg-black/40 border border-white/5">
-              <h4 class="text-sm font-medium text-brand-gold mb-2">3. Generate & Bagikan</h4>
-              <p class="text-xs text-white/60 leading-relaxed">Klik tombol Generate. Anda bisa langsung mengirim pesan ke tamu satu per satu menggunakan tombol WhatsApp yang tersedia.</p>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Main Form -->
-        <div class="w-full lg:w-2/3">
-          <div class="bg-brand-surface rounded-xl border border-white/5 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-            <!-- Decorative gradient -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 blur-[100px] pointer-events-none"></div>
-
-            <div class="mb-6 relative z-10">
-              <label class="block font-medium text-white text-sm mb-3">Daftar Nama Tamu</label>
-              <textarea 
-                id="guest-names-input" 
-                rows="6" 
-                class="w-full bg-black/50 border border-white/10 rounded-lg p-4 text-sm text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold resize-y transition-colors placeholder:text-white/20"
-                placeholder="Bapak Budi & Keluarga&#10;Siti Aisyah&#10;John Doe"
-              ></textarea>
-            </div>
-
-            <div class="mb-6 relative z-10">
-              <div class="flex items-center justify-between mb-3">
-                <label class="block font-medium text-white text-sm">Opsi Teks Pengantar</label>
-                <select id="template-selector" onchange="changeTemplate()" class="bg-black/50 border border-white/10 rounded-md py-1.5 px-3 text-xs text-white/80 focus:outline-none focus:border-brand-gold hover:border-white/30 transition-colors cursor-pointer">
-                  <option value="formal">Undangan Formal (Default)</option>
-                  <option value="santai">Undangan Santai / Akrab</option>
-                  <option value="tanpa_gelar">Undangan Tanpa Gelar</option>
-                </select>
+            <div class="space-y-4">
+              <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+                <h4 class="text-sm font-medium text-brand-gold mb-2">1. Masukkan Nama Tamu</h4>
+                <p class="text-xs text-white/60 leading-relaxed">Ketik atau <i>copy-paste</i> nama tamu di kolom yang disediakan. Pastikan setiap nama berada di baris baru (dipisah dengan Enter).</p>
+              </div>
+              
+              <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+                <h4 class="text-sm font-medium text-brand-gold mb-2">2. Pilih Teks Pengantar</h4>
+                <p class="text-xs text-white/60 leading-relaxed">Pilih <i>template</i> pesan yang sesuai. Sistem akan otomatis mengganti tulisan <code class="text-white bg-black px-1 rounded">[nama-tamu]</code> dan <code class="text-white bg-black px-1 rounded">[link-undangan]</code>.</p>
               </div>
 
-              <textarea 
-                id="message-template" 
-                rows="8" 
-                class="w-full bg-black/50 border border-white/10 rounded-lg p-4 text-sm text-white/80 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold resize-y transition-colors leading-relaxed"
-              ></textarea>
+              <div class="p-4 rounded-lg bg-black/40 border border-white/5">
+                <h4 class="text-sm font-medium text-brand-gold mb-2">3. Generate & Bagikan</h4>
+                <p class="text-xs text-white/60 leading-relaxed">Klik tombol Generate. Anda bisa langsung mengirim pesan ke tamu satu per satu menggunakan tombol WhatsApp yang tersedia.</p>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Main Generator Form -->
+          <div class="w-full lg:w-2/3">
+            <div class="bg-brand-surface rounded-xl border border-white/5 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+              <div class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 blur-[100px] pointer-events-none"></div>
+
+              <div class="mb-6 relative z-10">
+                <label class="block font-medium text-white text-sm mb-3">Daftar Nama Tamu</label>
+                <textarea 
+                  id="guest-names-input" 
+                  rows="6" 
+                  class="w-full bg-black/50 border border-white/10 rounded-lg p-4 text-sm text-white focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold resize-y transition-colors placeholder:text-white/20"
+                  placeholder="Bapak Budi & Keluarga&#10;Siti Aisyah&#10;John Doe"
+                ></textarea>
+              </div>
+
+              <div class="mb-6 relative z-10">
+                <div class="flex items-center justify-between mb-3">
+                  <label class="block font-medium text-white text-sm">Opsi Teks Pengantar</label>
+                  <select id="template-selector" onchange="changeTemplate()" class="bg-black/50 border border-white/10 rounded-md py-1.5 px-3 text-xs text-white/80 focus:outline-none focus:border-brand-gold hover:border-white/30 transition-colors cursor-pointer">
+                    <option value="formal">Undangan Formal (Default)</option>
+                    <option value="santai">Undangan Santai / Akrab</option>
+                    <option value="tanpa_gelar">Undangan Tanpa Gelar</option>
+                  </select>
+                </div>
+
+                <textarea 
+                  id="message-template" 
+                  rows="8" 
+                  class="w-full bg-black/50 border border-white/10 rounded-lg p-4 text-sm text-white/80 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold resize-y transition-colors leading-relaxed"
+                ></textarea>
+              </div>
+
+              <div class="relative z-10 pt-2 border-t border-white/5">
+                <button 
+                  type="button"
+                  onclick="generateLinks()"
+                  class="w-full sm:w-auto bg-brand-gold hover:bg-brand-goldHover text-black font-semibold py-3 px-8 rounded-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                >
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                  Generate Link Tamu
+                </button>
+              </div>
+
             </div>
 
-            <div class="relative z-10 pt-2 border-t border-white/5">
-              <button 
-                type="button"
-                onclick="generateLinks()"
-                class="w-full sm:w-auto bg-brand-gold hover:bg-brand-goldHover text-black font-semibold py-3 px-8 rounded-lg transition-all active:scale-95 flex items-center justify-center gap-2"
-              >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                Generate Link Tamu
-              </button>
+            <!-- Generated Results Table -->
+            <div id="results-container" class="mt-8 bg-brand-surface rounded-xl border border-white/5 shadow-2xl overflow-hidden hidden">
+              <div class="bg-black/40 px-6 py-4 border-b border-white/5 flex items-center justify-between">
+                <h4 class="font-semibold text-white tracking-wide">Hasil Generate</h4>
+                <span id="total-guests" class="text-xs bg-brand-gold/10 text-brand-gold px-2 py-1 rounded border border-brand-gold/20">0 Tamu</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm whitespace-nowrap">
+                  <thead>
+                    <tr class="bg-black/20 border-b border-white/5">
+                      <th class="p-4 font-medium text-white/40 w-12 text-center text-xs tracking-wider">#</th>
+                      <th class="p-4 font-medium text-white/60 text-xs tracking-wider">NAMA TAMU</th>
+                      <th class="p-4 font-medium text-white/60 text-right pr-6 text-xs tracking-wider">AKSI</th>
+                    </tr>
+                  </thead>
+                  <tbody id="results-tbody" class="divide-y divide-white/5">
+                    <!-- Generated rows -->
+                  </tbody>
+                </table>
+              </div>
             </div>
 
           </div>
-
-          <!-- Generated Results Table -->
-          <div id="results-container" class="mt-8 bg-brand-surface rounded-xl border border-white/5 shadow-2xl overflow-hidden hidden">
-            <div class="bg-black/40 px-6 py-4 border-b border-white/5 flex items-center justify-between">
-              <h4 class="font-semibold text-white tracking-wide">Hasil Generate</h4>
-              <span id="total-guests" class="text-xs bg-brand-gold/10 text-brand-gold px-2 py-1 rounded border border-brand-gold/20">0 Tamu</span>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse text-sm whitespace-nowrap">
-                <thead>
-                  <tr class="bg-black/20 border-b border-white/5">
-                    <th class="p-4 font-medium text-white/40 w-12 text-center text-xs tracking-wider">#</th>
-                    <th class="p-4 font-medium text-white/60 text-xs tracking-wider">NAMA TAMU</th>
-                    <th class="p-4 font-medium text-white/60 text-right pr-6 text-xs tracking-wider">AKSI</th>
-                  </tr>
-                </thead>
-                <tbody id="results-tbody" class="divide-y divide-white/5">
-                  <!-- Generated rows will be here -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-
         </div>
       </div>
+
+      <!-- ========================================== -->
+      <!-- TAB 2: KELOLA UCAPAN TAMU (GUESTBOOK MGR)   -->
+      <!-- ========================================== -->
+      <div id="tab-content-ucapan" class="hidden">
+        
+        <!-- Controls Bar -->
+        <div class="bg-brand-surface rounded-xl border border-white/5 p-4 sm:p-6 mb-6 shadow-xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div class="flex-1 relative">
+            <svg class="w-5 h-5 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <input 
+              id="search-comments-input"
+              type="text"
+              oninput="filterComments()"
+              placeholder="Cari nama tamu atau kata dalam ucapan..."
+              class="w-full bg-black/50 border border-white/10 rounded-lg pl-11 pr-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-gold transition-colors placeholder:text-white/30"
+            />
+          </div>
+
+          <div class="flex items-center gap-3 justify-between md:justify-end">
+            <span id="comments-stat-count" class="text-xs text-white/60 font-mono">
+              Memuat data...
+            </span>
+
+            <button 
+              type="button"
+              onclick="loadComments(true)"
+              class="px-4 py-2.5 bg-black/40 hover:bg-black/60 border border-white/10 rounded-lg text-xs font-semibold text-white/80 hover:text-white hover:border-brand-gold/40 transition-colors flex items-center gap-2"
+              title="Perbarui daftar ucapan"
+            >
+              <svg id="refresh-icon" class="w-4 h-4 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- Skeleton Loading State -->
+        <div id="comments-skeleton" class="space-y-4">
+          <div class="bg-brand-surface rounded-xl border border-white/5 p-6 animate-pulse-slow">
+            <div class="flex items-center justify-between mb-4">
+              <div class="h-4 w-32 bg-white/10 rounded"></div>
+              <div class="h-3 w-20 bg-white/10 rounded"></div>
+            </div>
+            <div class="h-3 w-full bg-white/5 rounded mb-2"></div>
+            <div class="h-3 w-3/4 bg-white/5 rounded"></div>
+          </div>
+          <div class="bg-brand-surface rounded-xl border border-white/5 p-6 animate-pulse-slow">
+            <div class="flex items-center justify-between mb-4">
+              <div class="h-4 w-40 bg-white/10 rounded"></div>
+              <div class="h-3 w-24 bg-white/10 rounded"></div>
+            </div>
+            <div class="h-3 w-5/6 bg-white/5 rounded mb-2"></div>
+            <div class="h-3 w-2/3 bg-white/5 rounded"></div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="comments-empty" class="hidden bg-brand-surface rounded-xl border border-white/5 p-12 text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-gold/10 text-brand-gold mb-4 border border-brand-gold/20">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Belum Ada Ucapan Masuk</h3>
+          <p class="text-white/50 text-sm max-w-md mx-auto">Ucapan dan doa restu dari para tamu undangan akan otomatis muncul di sini setelah tamu mengirimkannya melalui form undangan.</p>
+        </div>
+
+        <!-- Comments List Container -->
+        <div id="comments-list" class="space-y-4">
+          <!-- Dynamically populated -->
+        </div>
+
+      </div>
+
     </div>
   </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: HAPUS UCAPAN CONFIRMATION           -->
+  <!-- ========================================== -->
+  <div id="modal-delete" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-surfaceElevated border border-white/10 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-red-900/20 text-red-400 border border-red-900/40 flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </div>
+        <div>
+          <h4 class="text-base font-bold text-white">Konfirmasi Hapus Ucapan</h4>
+          <p class="text-xs text-white/50">Tindakan ini tidak dapat dibatalkan.</p>
+        </div>
+      </div>
+
+      <div class="bg-black/40 border border-white/5 rounded-lg p-3.5 mb-5 text-xs text-white/70">
+        <p class="font-medium text-brand-gold mb-1" id="delete-modal-guest-name">Nama Tamu</p>
+        <p class="italic text-white/60 line-clamp-2" id="delete-modal-message">"Isi ucapan tamu..."</p>
+      </div>
+
+      <div class="mb-5">
+        <label class="block text-xs font-medium text-white/70 mb-2">Password Admin</label>
+        <input 
+          id="delete-admin-password"
+          type="password"
+          placeholder="Masukkan password admin (default: penpromedia2026)"
+          class="w-full bg-black/50 border border-white/15 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-brand-gold"
+        />
+        <p class="text-[11px] text-white/40 mt-1.5">Sandi default di Script: <code class="text-brand-gold">penpromedia2026</code></p>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2 border-t border-white/10">
+        <button 
+          type="button"
+          onclick="closeDeleteModal()"
+          class="px-4 py-2 text-xs font-semibold text-white/60 hover:text-white rounded-lg transition-colors"
+        >
+          Batal
+        </button>
+        <button 
+          id="btn-confirm-delete"
+          type="button"
+          onclick="executeDeleteComment()"
+          class="px-5 py-2 text-xs font-semibold bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors flex items-center gap-1.5"
+        >
+          <span>Hapus Sekarang</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: SETTINGS GOOGLE APPS SCRIPT         -->
+  <!-- ========================================== -->
+  <div id="modal-settings" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-brand-surfaceElevated border border-white/10 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          <h4 class="text-base font-bold text-white">Konfigurasi Google Apps Script</h4>
+        </div>
+        <button type="button" onclick="toggleSettingsModal()" class="text-white/40 hover:text-white">&times;</button>
+      </div>
+
+      <p class="text-xs text-white/60 mb-4 leading-relaxed">
+        Masukkan URL Web App hasil deploy Google Apps Script Anda. Endpoint ini akan digunakan untuk membaca dan menghapus ucapan tamu secara realtime untuk semua klien.
+      </p>
+
+      <div class="mb-4">
+        <label class="block text-xs font-medium text-white/70 mb-2">Master Script URL (Web App)</label>
+        <input 
+          id="input-gas-url"
+          type="text"
+          placeholder="https://script.google.com/macros/s/.../exec"
+          class="w-full bg-black/50 border border-white/15 rounded-lg px-3.5 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-brand-gold"
+        />
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+        <button 
+          type="button"
+          onclick="toggleSettingsModal()"
+          class="px-4 py-2 text-xs font-semibold text-white/60 hover:text-white rounded-lg transition-colors"
+        >
+          Tutup
+        </button>
+        <button 
+          type="button"
+          onclick="saveGasUrlSettings()"
+          class="px-5 py-2 text-xs font-semibold bg-brand-gold hover:bg-brand-goldHover text-black rounded-lg transition-colors"
+        >
+          Simpan Pengaturan
+        </button>
+      </div>
+    </div>
+  </div>
 
   <footer class="mt-auto py-8 text-center border-t border-white/5 bg-brand-surface">
     <p class="text-xs text-white/40 tracking-wider">COPYRIGHT &copy; 2026 PENPROMEDIA. ALL RIGHTS RESERVED.</p>
   </footer>
 
   <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-brand-gold text-black px-6 py-3 rounded-full shadow-[0_0_20px_rgba(207,166,112,0.3)] text-sm font-semibold transition-all duration-300 toast-leave pointer-events-none flex items-center gap-2">
+  <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] bg-brand-gold text-black px-6 py-3 rounded-full shadow-[0_0_20px_rgba(207,166,112,0.3)] text-sm font-semibold transition-all duration-300 toast-leave pointer-events-none flex items-center gap-2">
     <span id="toast-msg">Copied!</span>
   </div>
 
@@ -202,6 +422,18 @@
     // State variables
     let clientId = '';
     let baseUrl = '';
+    let activeTab = 'generator';
+    let allComments = [];
+    let pendingDeleteTarget = null;
+
+    // Master SCRIPT_URL: default or from localStorage
+    const STORAGE_KEY_GAS_URL = 'penpromedia_master_gas_url';
+    const DEFAULT_SCRIPT_URL = 'URL_GAS_ANDA_DISINI';
+
+    function getScriptUrl() {
+      const saved = localStorage.getItem(STORAGE_KEY_GAS_URL);
+      return saved && saved.trim().length > 0 ? saved.trim() : DEFAULT_SCRIPT_URL;
+    }
 
     const TEMPLATES = {
       formal: `Bismillahirahmanirrahim.
@@ -247,34 +479,7 @@ Kehadiran Anda sangat berarti bagi kami. Terima kasih atas perhatian dan doa res
 Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Check URL for ?id=
-      const urlParams = new URLSearchParams(window.location.search);
-      clientId = urlParams.get('id');
-
-      if (!clientId) {
-        document.getElementById('error-state').classList.remove('hidden');
-      } else {
-        document.getElementById('main-state').classList.remove('hidden');
-        document.getElementById('client-badge').classList.remove('hidden');
-        document.getElementById('display-client-id').textContent = clientId;
-        
-        // Set Base URL dynamically based on origin and id (with trailing slash to avoid 301 redirects)
-        baseUrl = `${window.location.origin}/${clientId}/`;
-        
-        // Initialize template
-        document.getElementById('message-template').value = TEMPLATES.formal;
-      }
-    });
-
-    // Template selection logic
-    function changeTemplate() {
-      const selector = document.getElementById('template-selector');
-      const textarea = document.getElementById('message-template');
-      textarea.value = TEMPLATES[selector.value];
-    }
-
-    // Secret key for signature - MUST BE THE SAME IN INVITATION PAGE
+    // Secret key for signature
     const SECRET_KEY = "PENPROMEDIA_SECRET_2026";
 
     async function generateSignature(name) {
@@ -285,7 +490,72 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       return hashHex.substring(0, 10);
     }
 
-    // Generate logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      clientId = urlParams.get('id');
+
+      if (!clientId) {
+        document.getElementById('error-state').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('main-state').classList.remove('hidden');
+      document.getElementById('client-badge').classList.remove('hidden');
+      document.getElementById('display-client-id').textContent = clientId;
+      
+      // Base URL with trailing slash to avoid 301 redirect
+      baseUrl = `${window.location.origin}/${clientId}/`;
+      
+      // Initialize generator template
+      document.getElementById('message-template').value = TEMPLATES.formal;
+
+      // Initialize Settings input
+      const gasUrlInput = document.getElementById('input-gas-url');
+      if (gasUrlInput) {
+        gasUrlInput.value = localStorage.getItem(STORAGE_KEY_GAS_URL) || '';
+      }
+
+      // Pre-load comments count for badge
+      loadComments(false);
+    });
+
+    // ==========================================
+    // TAB SWITCHING LOGIC
+    // ==========================================
+    function switchTab(tab) {
+      activeTab = tab;
+      const tabGen = document.getElementById('tab-content-generator');
+      const tabUcp = document.getElementById('tab-content-ucapan');
+      const btnGen = document.getElementById('tab-btn-generator');
+      const btnUcp = document.getElementById('tab-btn-ucapan');
+
+      if (tab === 'generator') {
+        tabGen.classList.remove('hidden');
+        tabUcp.classList.add('hidden');
+
+        btnGen.className = 'flex items-center gap-2 py-3 px-5 font-semibold text-sm rounded-t-lg border-b-2 border-brand-gold text-brand-gold bg-brand-surface transition-all whitespace-nowrap';
+        btnUcp.className = 'flex items-center gap-2 py-3 px-5 font-semibold text-sm rounded-t-lg border-b-2 border-transparent text-white/50 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap';
+      } else {
+        tabGen.classList.add('hidden');
+        tabUcp.classList.remove('hidden');
+
+        btnUcp.className = 'flex items-center gap-2 py-3 px-5 font-semibold text-sm rounded-t-lg border-b-2 border-brand-gold text-brand-gold bg-brand-surface transition-all whitespace-nowrap';
+        btnGen.className = 'flex items-center gap-2 py-3 px-5 font-semibold text-sm rounded-t-lg border-b-2 border-transparent text-white/50 hover:text-white hover:bg-white/5 transition-all whitespace-nowrap';
+
+        // Load fresh comments when switching to Tab 2
+        loadComments(true);
+      }
+    }
+
+    // ==========================================
+    // TAB 1: GENERATOR LOGIC
+    // ==========================================
+    function changeTemplate() {
+      const selector = document.getElementById('template-selector');
+      const textarea = document.getElementById('message-template');
+      textarea.value = TEMPLATES[selector.value];
+    }
+
     async function generateLinks() {
       const namesInput = document.getElementById('guest-names-input').value;
       const template = document.getElementById('message-template').value;
@@ -293,7 +563,6 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       const container = document.getElementById('results-container');
       const totalBadge = document.getElementById('total-guests');
       
-      // Parse names (split by newline, remove empty lines)
       const names = namesInput.split('\n').map(n => n.trim()).filter(n => n.length > 0);
       
       if (names.length === 0) {
@@ -306,11 +575,8 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       for (let index = 0; index < names.length; index++) {
         const name = names[index];
         const sig = await generateSignature(name);
-        
-        // Generate link safely
         const link = `${baseUrl}?to=${encodeURIComponent(name)}&sig=${sig}`;
         
-        // Generate message
         let message = template.replace(/\[nama-tamu\]/gi, name);
         message = message.replace(/\[link-undangan\]/gi, link);
         const waLink = `https://wa.me/?text=${encodeURIComponent(message)}`;
@@ -318,7 +584,6 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-white/[0.02] transition-colors group';
         tr.id = `row-${index}`;
-        
         tr.dataset.rawLink = link;
         tr.dataset.rawMessage = message;
 
@@ -351,14 +616,12 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       totalBadge.textContent = `${names.length} Tamu`;
       container.classList.remove('hidden');
       
-      // Scroll to results smoothly
       setTimeout(() => {
         container.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 100);
       showToast('Tautan berhasil digenerate!');
     }
 
-    // Helper functions
     function removeRow(index) {
       const row = document.getElementById(`row-${index}`);
       if (row) row.remove();
@@ -382,20 +645,282 @@ Wassalamu'alaikum Warahmatullahi Wabarakatuh.`
       
       navigator.clipboard.writeText(dataToCopy).then(() => {
         showToast(type === 'link' ? 'Link berhasil disalin!' : 'Pesan berhasil disalin!');
-      }).catch(err => {
+      }).catch(() => {
         showToast('Gagal menyalin text', true);
       });
     }
 
+    // ==========================================
+    // TAB 2: GUESTBOOK MANAGEMENT LOGIC
+    // ==========================================
+    function formatTime(isoString) {
+      if (!isoString) return '';
+      try {
+        const date = new Date(isoString);
+        return date.toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (_) {
+        return isoString;
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    async function loadComments(showFeedback = false) {
+      const skeleton = document.getElementById('comments-skeleton');
+      const emptyState = document.getElementById('comments-empty');
+      const listContainer = document.getElementById('comments-list');
+      const badge = document.getElementById('tab-ucapan-badge');
+      const statCount = document.getElementById('comments-stat-count');
+      const refreshIcon = document.getElementById('refresh-icon');
+
+      if (refreshIcon) refreshIcon.classList.add('animate-spin');
+      if (skeleton && activeTab === 'ucapan') skeleton.classList.remove('hidden');
+
+      const scriptUrl = getScriptUrl();
+
+      try {
+        if (scriptUrl === DEFAULT_SCRIPT_URL) {
+          // Read from LocalStorage fallback
+          const localKey = `guestbook_${clientId}`;
+          const raw = localStorage.getItem(localKey);
+          allComments = raw ? JSON.parse(raw) : [];
+        } else {
+          // Fetch from Google Apps Script with clientId
+          const res = await fetch(`${scriptUrl}?action=getAll&id=${encodeURIComponent(clientId)}`, {
+            cache: 'no-store'
+          });
+          const json = await res.json();
+          allComments = (json && json.status === 'success' && Array.isArray(json.data)) ? json.data : [];
+        }
+
+        // Update badge
+        badge.textContent = allComments.length;
+
+        // Render comments
+        renderCommentsList(allComments);
+
+        if (showFeedback) {
+          showToast(`Berhasil memuat ${allComments.length} ucapan`);
+        }
+      } catch (err) {
+        console.warn('Gagal load dari GAS, mencoba fallback localStorage:', err);
+        const localKey = `guestbook_${clientId}`;
+        const raw = localStorage.getItem(localKey);
+        allComments = raw ? JSON.parse(raw) : [];
+        badge.textContent = allComments.length;
+        renderCommentsList(allComments);
+        if (showFeedback) {
+          showToast('Dimuat dari cache lokal', false);
+        }
+      } finally {
+        if (skeleton) skeleton.classList.add('hidden');
+        if (refreshIcon) refreshIcon.classList.remove('animate-spin');
+      }
+    }
+
+    function renderCommentsList(items) {
+      const emptyState = document.getElementById('comments-empty');
+      const listContainer = document.getElementById('comments-list');
+      const statCount = document.getElementById('comments-stat-count');
+
+      statCount.textContent = `Total: ${items.length} Ucapan`;
+
+      if (items.length === 0) {
+        emptyState.classList.remove('hidden');
+        listContainer.innerHTML = '';
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      listContainer.innerHTML = '';
+
+      items.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'bg-brand-surface rounded-xl border border-white/5 p-5 sm:p-6 shadow-xl hover:border-white/10 transition-colors flex flex-col sm:flex-row items-start justify-between gap-4 group';
+
+        const safeName = escapeHtml(item.nama);
+        const safeUcapan = escapeHtml(item.ucapan);
+        const initial = safeName.trim().charAt(0).toUpperCase() || '?';
+        const formattedDate = formatTime(item.timestamp);
+
+        card.innerHTML = `
+          <div class="flex items-start gap-4 flex-1">
+            <div class="w-10 h-10 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-brand-gold flex items-center justify-center font-bold text-sm flex-shrink-0 mt-0.5">
+              ${initial}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                <h4 class="font-bold text-white text-sm sm:text-base tracking-wide">${safeName}</h4>
+                <span class="text-[11px] px-2 py-0.5 rounded bg-white/5 text-white/50 border border-white/5 font-mono">${formattedDate}</span>
+              </div>
+              <p class="text-white/80 text-sm leading-relaxed whitespace-pre-line">${safeUcapan}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <button 
+              type="button" 
+              onclick="promptDeleteComment(${index})" 
+              class="px-3 py-1.5 rounded-lg border border-red-500/20 text-red-400 text-xs font-semibold hover:bg-red-500/10 hover:border-red-500/50 transition-colors flex items-center gap-1.5"
+              title="Hapus ucapan ini"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+              <span>Hapus</span>
+            </button>
+          </div>
+        `;
+
+        listContainer.appendChild(card);
+      });
+    }
+
+    function filterComments() {
+      const query = (document.getElementById('search-comments-input').value || '').toLowerCase().trim();
+      if (!query) {
+        renderCommentsList(allComments);
+        return;
+      }
+      const filtered = allComments.filter(item => {
+        const nameMatch = (item.nama || '').toLowerCase().includes(query);
+        const msgMatch = (item.ucapan || '').toLowerCase().includes(query);
+        return nameMatch || msgMatch;
+      });
+      renderCommentsList(filtered);
+    }
+
+    // ==========================================
+    // DELETE COMMENT WORKFLOW
+    // ==========================================
+    function promptDeleteComment(index) {
+      pendingDeleteTarget = allComments[index];
+      if (!pendingDeleteTarget) return;
+
+      document.getElementById('delete-modal-guest-name').textContent = pendingDeleteTarget.nama;
+      document.getElementById('delete-modal-message').textContent = `"${pendingDeleteTarget.ucapan}"`;
+      document.getElementById('delete-admin-password').value = '';
+
+      document.getElementById('modal-delete').classList.remove('hidden');
+      document.getElementById('delete-admin-password').focus();
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteTarget = null;
+      document.getElementById('modal-delete').classList.add('hidden');
+    }
+
+    async function executeDeleteComment() {
+      if (!pendingDeleteTarget) return;
+
+      const passwordInput = document.getElementById('delete-admin-password');
+      const password = (passwordInput.value || '').trim();
+      const btnConfirm = document.getElementById('btn-confirm-delete');
+
+      if (!password) {
+        showToast('Masukkan password admin!', true);
+        passwordInput.focus();
+        return;
+      }
+
+      btnConfirm.disabled = true;
+      btnConfirm.innerHTML = `
+        <svg class="animate-spin w-4 h-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+        <span>Menghapus...</span>
+      `;
+
+      const scriptUrl = getScriptUrl();
+
+      try {
+        if (scriptUrl === DEFAULT_SCRIPT_URL) {
+          // Verify local password
+          if (password !== 'penpromedia2026') {
+            showToast('Password admin salah!', true);
+            btnConfirm.disabled = false;
+            btnConfirm.innerHTML = '<span>Hapus Sekarang</span>';
+            return;
+          }
+
+          // Delete from local storage
+          const localKey = `guestbook_${clientId}`;
+          allComments = allComments.filter(item => item.timestamp !== pendingDeleteTarget.timestamp);
+          localStorage.setItem(localKey, JSON.stringify(allComments));
+          
+          showToast('Ucapan berhasil dihapus!');
+          closeDeleteModal();
+          renderCommentsList(allComments);
+          document.getElementById('tab-ucapan-badge').textContent = allComments.length;
+        } else {
+          // Delete from Google Apps Script
+          const res = await fetch(scriptUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify({
+              action: 'delete',
+              id: clientId,
+              timestamp: pendingDeleteTarget.timestamp,
+              password: password
+            })
+          });
+
+          const json = await res.json();
+          if (json && json.status === 'success') {
+            showToast('Ucapan berhasil dihapus!');
+            closeDeleteModal();
+            loadComments(false);
+          } else {
+            showToast(json.message || 'Gagal menghapus ucapan', true);
+          }
+        }
+      } catch (err) {
+        showToast('Terjadi kesalahan saat menghapus', true);
+      } finally {
+        btnConfirm.disabled = false;
+        btnConfirm.innerHTML = '<span>Hapus Sekarang</span>';
+      }
+    }
+
+    // ==========================================
+    // SETTINGS MODAL LOGIC
+    // ==========================================
+    function toggleSettingsModal() {
+      const modal = document.getElementById('modal-settings');
+      modal.classList.toggle('hidden');
+    }
+
+    function saveGasUrlSettings() {
+      const input = document.getElementById('input-gas-url');
+      const val = (input.value || '').trim();
+      localStorage.setItem(STORAGE_KEY_GAS_URL, val);
+      showToast('URL Google Apps Script disimpan!');
+      toggleSettingsModal();
+      loadComments(true);
+    }
+
+    // ==========================================
+    // COMMON TOAST NOTIFICATION
+    // ==========================================
     function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       const msg = document.getElementById('toast-msg');
       
       msg.textContent = message;
       if (isError) {
-        toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-red-600 text-white px-6 py-3 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] text-sm font-semibold transition-all duration-300 pointer-events-none flex items-center gap-2 toast-enter';
+        toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] bg-red-600 text-white px-6 py-3 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.3)] text-sm font-semibold transition-all duration-300 pointer-events-none flex items-center gap-2 toast-enter';
       } else {
-        toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-brand-gold text-black px-6 py-3 rounded-full shadow-[0_0_20px_rgba(207,166,112,0.3)] text-sm font-semibold transition-all duration-300 pointer-events-none flex items-center gap-2 toast-enter';
+        toast.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] bg-brand-gold text-black px-6 py-3 rounded-full shadow-[0_0_20px_rgba(207,166,112,0.3)] text-sm font-semibold transition-all duration-300 pointer-events-none flex items-center gap-2 toast-enter';
       }
 
       setTimeout(() => {
