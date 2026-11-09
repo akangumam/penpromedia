@@ -60,3 +60,4 @@ Jika ingin semua ucapan tamu tersimpan online di Google Spreadsheet master Penpr
 9. Tempelkan URL tersebut pada variabel `MASTER_SCRIPT_URL` di `src/pages/buku-tamu/index.astro` dan file undangan klien.
 
 > **Catatan:** Sistem Google Apps Script ini sudah **otomatis membuat tab sheet baru** sesuai ID klien (misal sheet `rian-anisha`, sheet `risma-azis`, dll) saat ada ucapan pertama kali masuk.
+
